@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - GameHub Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<section class="auth-page">
+    <div class="auth-card">
+        <a th:href="@{/}" class="auth-brand">🎮 GameHub Pro</a>
+        <h1>Create Account</h1>
+        <p class="auth-subtitle">Join GameHub and build your personal library.</p>
+
+        <div th:if="${error}" class="auth-message error-message" th:text="${error}"></div>
+
+        <form th:action="@{/register}" method="post" class="auth-form">
+            <div class="auth-group">
+                <label>Full Name</label>
+                <input type="text" name="fullName" placeholder="Enter your name" required>
+            </div>
+
+            <div class="auth-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="auth-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Create a password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary auth-btn">Register</button>
+        </form>
+
+        <p class="auth-switch">
+            Already have an account?
+            <a th:href="@{/login}">Login</a>
+        </p>
+    </div>
+</section>
+
+</body>
+</html>
