@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">Browse Games</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">🎮 GameHub Pro</div>
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/games}">Games</a>
+        <a href="#">Library</a>
+        <a href="#">Login</a>
+    </nav>
+</header>
+
+<section class="games-page">
+    <div class="section-header">
+        <p class="tag">GAME COLLECTION</p>
+        <h1>Browse Epic Games</h1>
+        <p class="section-text">Explore featured titles, discover genres, and build your dream gaming library.</p>
+    </div>
+
+    <div class="games-grid">
+        <div class="game-card" th:each="game : ${games}">
+            <img th:src="${game.imageUrl}" th:alt="${game.title}">
+            <div class="game-card-body">
+                <div class="game-top">
+                    <h3 th:text="${game.title}">Game Title</h3>
+                    <span class="rating" th:text="${game.rating}">4.8</span>
+                </div>
+
+                <div class="meta-row">
+                    <span th:text="${game.genre}">Genre</span>
+                    <span th:text="${game.platform}">Platform</span>
+                </div>
+
+                <p th:text="${game.description}">Game description goes here.</p>
+
+                <a th:href="@{'/games/' + ${game.id}}" class="btn btn-primary small-btn">View Details</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${game.title}">Game Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">🎮 GameHub Pro</div>
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/games}">Games</a>
+        <a href="#">Library</a>
+        <a href="#">Login</a>
+    </nav>
+</header>
+
+<section class="details-page">
+    <div class="details-hero">
+        <div class="details-image">
+            <img th:src="${game.imageUrl}" th:alt="${game.title}">
+        </div>
+
+        <div class="details-content">
+            <p class="tag">FEATURED GAME</p>
+            <h1 th:text="${game.title}">Game Title</h1>
+
+            <div class="details-meta">
+                <span th:text="${game.genre}">Genre</span>
+                <span th:text="${game.platform}">Platform</span>
+                <span>⭐ <span th:text="${game.rating}">4.8</span></span>
+            </div>
+
+            <p class="details-description" th:text="${game.description}">
+                Full game description
+            </p>
+
+            <div class="details-actions">
+                <button class="btn btn-primary trailer-btn"
+                        th:attr="data-trailer=${game.trailerUrl}">
+                    ▶ Watch Trailer
+                </button>
+                <a th:href="@{/games}" class="btn btn-secondary">← Back to Games</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="related-section">
+    <div class="section-header">
+        <p class="tag">MORE GAMES</p>
+        <h2>Related Titles</h2>
+    </div>
+
+    <div class="games-grid related-grid">
+        <div class="game-card" th:each="related : ${relatedGames}">
+            <img th:src="${related.imageUrl}" th:alt="${related.title}">
+            <div class="game-card-body">
+                <div class="game-top">
+                    <h3 th:text="${related.title}">Game Title</h3>
+                    <span class="rating" th:text="${related.rating}">4.5</span>
+                </div>
+
+                <div class="meta-row">
+                    <span th:text="${related.genre}">Genre</span>
+                    <span th:text="${related.platform}">Platform</span>
+                </div>
+
+                <a th:href="@{'/games/' + ${related.id}}" class="btn btn-primary small-btn">Open Game</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="trailer-modal" id="trailerModal">
+    <div class="trailer-overlay" id="trailerOverlay"></div>
+
+    <div class="trailer-box">
+        <button class="close-trailer" id="closeTrailer">&times;</button>
+        <iframe id="trailerFrame"
+                src=""
+                title="Game Trailer"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+    </div>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
