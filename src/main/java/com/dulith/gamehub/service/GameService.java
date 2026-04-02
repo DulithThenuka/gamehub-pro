@@ -39,4 +39,48 @@ public class GameService {
                 .limit(3)
                 .toList();
     }
+
+    public List<Game> searchGames(String keyword, String genre, String platform) {
+        boolean hasKeyword = keyword != null && !keyword.trim().isEmpty();
+        boolean hasGenre = genre != null && !genre.trim().isEmpty();
+        boolean hasPlatform = platform != null && !platform.trim().isEmpty();
+
+        if (hasKeyword && hasGenre && hasPlatform) {
+            return gameRepository.findByTitleContainingIgnoreCaseAndGenreIgnoreCaseAndPlatformIgnoreCase(
+                    keyword.trim(), genre.trim(), platform.trim()
+            );
+        }
+
+        if (hasKeyword && hasGenre) {
+            return gameRepository.findByTitleContainingIgnoreCaseAndGenreIgnoreCase(
+                    keyword.trim(), genre.trim()
+            );
+        }
+
+        if (hasKeyword && hasPlatform) {
+            return gameRepository.findByTitleContainingIgnoreCaseAndPlatformIgnoreCase(
+                    keyword.trim(), platform.trim()
+            );
+        }
+
+        if (hasGenre && hasPlatform) {
+            return gameRepository.findByGenreIgnoreCaseAndPlatformIgnoreCase(
+                    genre.trim(), platform.trim()
+            );
+        }
+
+        if (hasKeyword) {
+            return gameRepository.findByTitleContainingIgnoreCase(keyword.trim());
+        }
+
+        if (hasGenre) {
+            return gameRepository.findByGenreIgnoreCase(genre.trim());
+        }
+
+        if (hasPlatform) {
+            return gameRepository.findByPlatformIgnoreCase(platform.trim());
+        }
+
+        return gameRepository.findAll();
+    }
 }

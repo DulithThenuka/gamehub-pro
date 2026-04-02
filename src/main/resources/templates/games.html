@@ -12,10 +12,13 @@
 <body>
 
 <header class="navbar">
-    <div class="logo">🎮 GameHub Pro</div>
-    <nav>
+    <div class="logo">
+        <a th:href="@{/}" class="logo-link">🎮 GameHub Pro</a>
+    </div>
+
+    <nav class="nav-links">
         <a th:href="@{/}">Home</a>
-        <a th:href="@{/games}">Games</a>
+        <a th:href="@{/games}" class="active-link">Games</a>
         <a href="#">Library</a>
         <a href="#">Login</a>
     </nav>
@@ -25,10 +28,50 @@
     <div class="section-header">
         <p class="tag">GAME COLLECTION</p>
         <h1>Browse Epic Games</h1>
-        <p class="section-text">Explore featured titles, discover genres, and build your dream gaming library.</p>
+        <p class="section-text">Search your favorite titles, filter by genre or platform, and explore your next adventure.</p>
     </div>
 
-    <div class="games-grid">
+    <form th:action="@{/games}" method="get" class="filter-form">
+        <div class="filter-group">
+            <input type="text" name="keyword" placeholder="Search by game title..." th:value="${keyword}">
+        </div>
+
+        <div class="filter-group">
+            <select name="genre">
+                <option value="">All Genres</option>
+                <option value="Action RPG" th:selected="${genre == 'Action RPG'}">Action RPG</option>
+                <option value="Racing" th:selected="${genre == 'Racing'}">Racing</option>
+                <option value="Adventure" th:selected="${genre == 'Adventure'}">Adventure</option>
+                <option value="Shooter" th:selected="${genre == 'Shooter'}">Shooter</option>
+                <option value="Indie Platformer" th:selected="${genre == 'Indie Platformer'}">Indie Platformer</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <select name="platform">
+                <option value="">All Platforms</option>
+                <option value="PC" th:selected="${platform == 'PC'}">PC</option>
+                <option value="PlayStation 5" th:selected="${platform == 'PlayStation 5'}">PlayStation 5</option>
+                <option value="Xbox Series X" th:selected="${platform == 'Xbox Series X'}">Xbox Series X</option>
+                <option value="Nintendo Switch" th:selected="${platform == 'Nintendo Switch'}">Nintendo Switch</option>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a th:href="@{/games}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
+
+    <div class="results-bar">
+        <p>
+            Showing
+            <span th:text="${#lists.size(games)}">0</span>
+            game(s)
+        </p>
+    </div>
+
+    <div class="games-grid" th:if="${not #lists.isEmpty(games)}">
         <div class="game-card" th:each="game : ${games}">
             <img th:src="${game.imageUrl}" th:alt="${game.title}">
             <div class="game-card-body">
@@ -47,6 +90,12 @@
                 <a th:href="@{'/games/' + ${game.id}}" class="btn btn-primary small-btn">View Details</a>
             </div>
         </div>
+    </div>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(games)}">
+        <h3>No games found</h3>
+        <p>Try changing the search word, genre, or platform.</p>
+        <a th:href="@{/games}" class="btn btn-secondary">Clear Filters</a>
     </div>
 </section>
 

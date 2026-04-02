@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dulith.gamehub.entity.Game;
 import com.dulith.gamehub.service.GameService;
@@ -18,9 +19,17 @@ public class GameController {
     }
 
     @GetMapping("/games")
-    public String games(Model model) {
+    public String games(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String platform,
+            Model model
+    ) {
         model.addAttribute("pageTitle", "Browse Games");
-        model.addAttribute("games", gameService.getAllGames());
+        model.addAttribute("games", gameService.searchGames(keyword, genre, platform));
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("genre", genre);
+        model.addAttribute("platform", platform);
         return "games";
     }
 
