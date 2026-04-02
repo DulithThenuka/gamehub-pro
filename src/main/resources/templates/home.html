@@ -11,58 +11,60 @@
 </head>
 <body>
 
-    <header class="navbar">
-    <div class="logo">🎮 GameHub Pro</div>
+<header class="navbar">
+    <div class="logo">
+        <a th:href="@{/}" class="logo-link">🎮 GameHub Pro</a>
+    </div>
     <nav class="nav-links">
-    <a th:href="@{/}">Home</a>
-    <a th:href="@{/games}">Games</a>
-    <a href="#">Library</a>
-    <a th:href="@{/login}">Login</a>
-    <a th:href="@{/register}">Register</a>
-</nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/games}">Games</a>
+        <a th:href="@{/library}">My Library</a>
+        <a th:href="@{/login}">Login</a>
+        <a th:href="@{/register}">Register</a>
+    </nav>
 </header>
 
-    <main class="hero">
-        <div class="hero-content">
-            <p class="tag">NEXT LEVEL GAME DISCOVERY</p>
-            <h1>Build Your Ultimate <span>Game Library</span></h1>
-            <p class="hero-text" th:text="${subtitle}">
-                Discover, track, and explore your favorite games.
-            </p>
+<main class="hero">
+    <div class="hero-content">
+        <p class="tag">NEXT LEVEL GAME DISCOVERY</p>
+        <h1>Build Your Ultimate <span>Game Library</span></h1>
+        <p class="hero-text" th:text="${subtitle}">
+            Discover, track, and explore your favorite games.
+        </p>
 
-            <div class="hero-buttons">
-                <a th:href="@{/games}" class="btn btn-primary">Explore Games</a>
-                <a th:href="@{/library}" class="btn btn-secondary">My Library</a>
-            </div>
-
-            <div class="stats">
-                <div class="stat-card">
-                    <h2>500+</h2>
-                    <p>Games Listed</p>
-                </div>
-                <div class="stat-card">
-                    <h2>1200+</h2>
-                    <p>Reviews Shared</p>
-                </div>
-                <div class="stat-card">
-                    <h2>300+</h2>
-                    <p>Active Players</p>
-                </div>
-            </div>
+        <div class="hero-buttons">
+            <a th:href="@{/games}" class="btn btn-primary">Explore Games</a>
+            <a th:href="@{/library}" class="btn btn-secondary">My Library</a>
         </div>
 
-        <div class="hero-visual">
-            <div class="glass-card">
-                <h3>Featured Game</h3>
-                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80" alt="Gaming setup">
-                <div class="game-info">
-                    <h4>Cyber Realm</h4>
-                    <p>Action RPG • Sci-Fi • Multiplayer</p>
-                </div>
+        <div class="stats">
+            <div class="stat-card">
+                <h2>500+</h2>
+                <p>Games Listed</p>
+            </div>
+            <div class="stat-card">
+                <h2>1200+</h2>
+                <p>Reviews Shared</p>
+            </div>
+            <div class="stat-card">
+                <h2>300+</h2>
+                <p>Active Players</p>
             </div>
         </div>
-    </main>
+    </div>
 
-    <script th:src="@{/js/main.js}"></script>
+    <div class="hero-visual">
+        <div class="glass-card">
+            <h3>Featured Game</h3>
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80" alt="Gaming setup">
+            <div class="game-info">
+                <h4>Cyber Realm</h4>
+                <p>Action RPG • Sci-Fi • Multiplayer</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

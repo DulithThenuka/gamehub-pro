@@ -47,6 +47,11 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/images/**"
                         ).permitAll()
+                        .requestMatchers(
+                                "/library",
+                                "/favorites/add/*",
+                                "/favorites/remove/*"
+                        ).authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
