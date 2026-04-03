@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - GameHub Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        <a th:href="@{/}" class="logo-link">🎮 GameHub Pro</a>
+    </div>
+
+    <nav class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/games}">Games</a>
+        <a th:href="@{/library}">My Library</a>
+        <a th:href="@{/profile}" class="active-link">Profile</a>
+        <a th:href="@{/logout}">Logout</a>
+    </nav>
+</header>
+
+<section class="profile-page">
+    <div class="profile-card">
+        <div class="profile-top">
+            <div class="profile-avatar">
+                <span th:text="${#strings.substring(user.fullName,0,1)}">U</span>
+            </div>
+            <div>
+                <p class="tag">PLAYER PROFILE</p>
+                <h1 th:text="${user.fullName}">User Name</h1>
+                <p class="profile-email" th:text="${user.email}">user@email.com</p>
+            </div>
+        </div>
+
+        <div class="profile-stats">
+            <div class="profile-stat">
+                <h2 th:text="${favoriteCount}">0</h2>
+                <p>Favorite Games</p>
+            </div>
+            <div class="profile-stat">
+                <h2 th:text="${totalGames}">0</h2>
+                <p>Total Games</p>
+            </div>
+            <div class="profile-stat">
+                <h2 th:text="${user.role}">USER</h2>
+                <p>Account Role</p>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <a th:href="@{/library}" class="btn btn-primary">Open My Library</a>
+            <a th:href="@{/games}" class="btn btn-secondary">Browse Games</a>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

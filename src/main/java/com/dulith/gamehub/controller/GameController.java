@@ -108,16 +108,16 @@ public class GameController {
     }
 
     @GetMapping("/library")
-    public String library(Model model, Authentication authentication) {
-        if (authentication == null || "anonymousUser".equals(authentication.getName())) {
-            return "redirect:/login";
-        }
-
-        User user = userService.findByEmail(authentication.getName());
-
-        model.addAttribute("pageTitle", "My Library");
-        model.addAttribute("loggedUser", user);
-        model.addAttribute("games", favoriteService.getFavoriteGames(user));
-        return "library";
+public String library(Model model, Authentication authentication) {
+    if (authentication == null || "anonymousUser".equals(authentication.getName())) {
+        return "redirect:/login";
     }
+
+    User user = userService.findByEmail(authentication.getName());
+
+    model.addAttribute("pageTitle", "My Library");
+    model.addAttribute("loggedUser", user);
+    model.addAttribute("games", favoriteService.getFavoriteGames(user));
+    return "library";
+}
 }

@@ -18,46 +18,58 @@
     <nav class="nav-links">
         <a th:href="@{/}">Home</a>
         <a th:href="@{/games}">Games</a>
-        <a th:href="@{/library}">My Library</a>
-        <a th:href="@{/admin}">Admin</a>
-        <a th:href="@{/login}">Login</a>
-        <a th:href="@{/register}">Register</a>
-        <a th:href="@{/logout}">Logout</a>
+
+        <a th:if="${loggedUser != null}" th:href="@{/library}">My Library</a>
+        <a th:if="${loggedUser != null}" th:href="@{/profile}">Profile</a>
+        <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">Admin</a>
+
+        <a th:if="${loggedUser == null}" th:href="@{/login}">Login</a>
+        <a th:if="${loggedUser == null}" th:href="@{/register}">Register</a>
+        <a th:if="${loggedUser != null}" th:href="@{/logout}">Logout</a>
     </nav>
 </header>
 
 <main class="hero">
     <div class="hero-content">
         <p class="tag">NEXT LEVEL GAME DISCOVERY</p>
-        <h1>Build Your Ultimate <span>Game Library</span></h1>
+
+        <h1 th:if="${loggedUser == null}">
+            Build Your Ultimate <span>Game Library</span>
+        </h1>
+
+        <h1 th:if="${loggedUser != null}">
+            Welcome back, <span th:text="${loggedUser.fullName}">Player</span>
+        </h1>
+
         <p class="hero-text" th:text="${subtitle}">
             Discover, track, and explore your favorite games.
         </p>
 
         <div class="hero-buttons">
             <a th:href="@{/games}" class="btn btn-primary">Explore Games</a>
-            <a th:href="@{/library}" class="btn btn-secondary">My Library</a>
+            <a th:if="${loggedUser != null}" th:href="@{/library}" class="btn btn-secondary">My Library</a>
+            <a th:if="${loggedUser == null}" th:href="@{/register}" class="btn btn-secondary">Create Account</a>
         </div>
 
         <div class="stats">
             <div class="stat-card">
-                <h2>500+</h2>
+                <h2 th:text="${totalGames}">0</h2>
                 <p>Games Listed</p>
             </div>
             <div class="stat-card">
-                <h2>1200+</h2>
-                <p>Reviews Shared</p>
+                <h2 th:text="${favoriteCount}">0</h2>
+                <p>Your Favorites</p>
             </div>
             <div class="stat-card">
-                <h2>300+</h2>
-                <p>Active Players</p>
+                <h2 th:text="${loggedUser != null ? loggedUser.role : 'GUEST'}">USER</h2>
+                <p>Account Type</p>
             </div>
         </div>
     </div>
 
     <div class="hero-visual">
         <div class="glass-card">
-            <h3>Featured Game</h3>
+            <h3>Featured Experience</h3>
             <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80" alt="Gaming setup">
             <div class="game-info">
                 <h4>Cyber Realm</h4>
@@ -66,6 +78,21 @@
         </div>
     </div>
 </main>
+
+<section class="showcase-strip">
+    <div class="showcase-card">
+        <h3>Discover New Worlds</h3>
+        <p>Explore modern game pages with search, filters, trailers, and detailed descriptions.</p>
+    </div>
+    <div class="showcase-card">
+        <h3>Build Your Library</h3>
+        <p>Save your favorite games and keep your own collection inside GameHub Pro.</p>
+    </div>
+    <div class="showcase-card">
+        <h3>Manage as Admin</h3>
+        <p>Use the admin dashboard to create, edit, and manage games like a real platform.</p>
+    </div>
+</section>
 
 <script th:src="@{/js/main.js}"></script>
 </body>
