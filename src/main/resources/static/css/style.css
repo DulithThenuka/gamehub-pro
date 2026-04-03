@@ -1093,3 +1093,13 @@ a {
         font-size: 34px;
     }
 }
+.review-section {
+    margin-top: 40px;
+}
+
+.review-card {
+    padding: 16px;
+    margin-top: 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+}

@@ -4,117 +4,174 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${game.title}">Game Details</title>
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
+<!-- 🔥 NAVBAR -->
 <header class="navbar">
     <div class="logo">
         <a th:href="@{/}" class="logo-link">🎮 GameHub Pro</a>
     </div>
 
     <nav class="nav-links">
-    <a th:href="@{/}">Home</a>
-    <a th:href="@{/games}" class="active-link">Games</a>
-    <a th:if="${loggedUser != null}" th:href="@{/library}">My Library</a>
-    <a th:if="${loggedUser != null}" th:href="@{/profile}">Profile</a>
-    <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">Admin</a>
-    <a th:if="${loggedUser == null}" th:href="@{/login}">Login</a>
-    <a th:if="${loggedUser == null}" th:href="@{/register}">Register</a>
-    <a th:if="${loggedUser != null}" th:href="@{/logout}">Logout</a>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/games}" class="active-link">Games</a>
+
+        <a th:if="${loggedUser != null}" th:href="@{/library}">My Library</a>
+        <a th:if="${loggedUser != null}" th:href="@{/profile}">Profile</a>
+        <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">Admin</a>
+
+        <a th:if="${loggedUser == null}" th:href="@{/login}">Login</a>
+        <a th:if="${loggedUser == null}" th:href="@{/register}">Register</a>
+        <a th:if="${loggedUser != null}" th:href="@{/logout}">Logout</a>
     </nav>
 </header>
 
+<!-- 🎮 GAME DETAILS -->
 <section class="details-page">
+
     <div class="details-hero">
+
+        <!-- IMAGE -->
         <div class="details-image">
             <img th:src="${game.imageUrl}" th:alt="${game.title}">
         </div>
 
+        <!-- CONTENT -->
         <div class="details-content">
+
             <p class="tag">FEATURED GAME</p>
+
             <h1 th:text="${game.title}">Game Title</h1>
 
             <div class="details-meta">
                 <span th:text="${game.genre}">Genre</span>
                 <span th:text="${game.platform}">Platform</span>
-                <span>⭐ <span th:text="${game.rating}">4.8</span></span>
+                <span>⭐ <span th:text="${avgRating}">4.5</span></span>
             </div>
 
             <p class="details-description" th:text="${game.description}">
-                Full game description
+                Game description...
             </p>
 
+            <!-- ACTIONS -->
             <div class="details-actions">
                 <button class="btn btn-primary trailer-btn"
                         th:attr="data-trailer=${game.trailerUrl}">
                     ▶ Watch Trailer
                 </button>
 
-                <a th:href="@{/games}" class="btn btn-secondary">← Back to Games</a>
+                <a th:href="@{/games}" class="btn btn-secondary">← Back</a>
             </div>
 
+            <!-- ❤️ FAVORITES -->
             <div class="favorite-block" th:if="${loggedUser != null}">
+
                 <form th:if="${!isFavorite}" th:action="@{'/favorites/add/' + ${game.id}}" method="post">
-                    <button type="submit" class="btn btn-primary favorite-btn">❤ Add to Favorites</button>
+                    <button class="btn btn-primary">❤ Add to Favorites</button>
                 </form>
 
                 <form th:if="${isFavorite}" th:action="@{'/favorites/remove/' + ${game.id}}" method="post">
-                    <button type="submit" class="btn btn-secondary favorite-btn">✓ Remove from Favorites</button>
+                    <button class="btn btn-secondary">✓ Remove</button>
                 </form>
+
             </div>
 
-            <div class="favorite-block" th:if="${loggedUser == null}">
-                <a th:href="@{/login}" class="btn btn-secondary favorite-btn">Login to save this game</a>
+            <div th:if="${loggedUser == null}">
+                <a th:href="@{/login}" class="btn btn-secondary">Login to save</a>
             </div>
+
         </div>
+
     </div>
+
 </section>
 
+<!-- ⭐ REVIEWS SECTION -->
+<section class="review-section">
+
+    <h2>⭐ Player Reviews</h2>
+
+    <p>Average Rating: <strong th:text="${avgRating}">0</strong></p>
+
+    <!-- ADD REVIEW -->
+    <div th:if="${loggedUser != null}">
+        <form th:action="@{'/reviews/add/' + ${game.id}}" method="post" class="review-form">
+
+            <select name="rating">
+                <option value="5">5 ⭐</option>
+                <option value="4">4 ⭐</option>
+                <option value="3">3 ⭐</option>
+                <option value="2">2 ⭐</option>
+                <option value="1">1 ⭐</option>
+            </select>
+
+            <textarea name="comment" placeholder="Write your review..." required></textarea>
+
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+
+        </form>
+    </div>
+
+    <!-- REVIEW LIST -->
+    <div class="review-list">
+
+        <div th:each="review : ${reviews}" class="review-card">
+            <h4 th:text="${review.user.fullName}">User</h4>
+            <p>⭐ <span th:text="${review.rating}"></span></p>
+            <p th:text="${review.comment}"></p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- 🎮 RELATED GAMES -->
 <section class="related-section">
+
     <div class="section-header">
         <p class="tag">MORE GAMES</p>
         <h2>Related Titles</h2>
     </div>
 
     <div class="games-grid related-grid">
+
         <div class="game-card" th:each="related : ${relatedGames}">
-            <img th:src="${related.imageUrl}" th:alt="${related.title}">
+            <img th:src="${related.imageUrl}">
+
             <div class="game-card-body">
-                <div class="game-top">
-                    <h3 th:text="${related.title}">Game Title</h3>
-                    <span class="rating" th:text="${related.rating}">4.5</span>
-                </div>
+                <h3 th:text="${related.title}">Game</h3>
 
-                <div class="meta-row">
-                    <span th:text="${related.genre}">Genre</span>
-                    <span th:text="${related.platform}">Platform</span>
-                </div>
-
-                <a th:href="@{'/games/' + ${related.id}}" class="btn btn-primary small-btn">Open Game</a>
+                <a th:href="@{'/games/' + ${related.id}}"
+                   class="btn btn-primary small-btn">
+                    Open
+                </a>
             </div>
         </div>
+
     </div>
+
 </section>
 
+<!-- 🎬 TRAILER MODAL -->
 <div class="trailer-modal" id="trailerModal">
     <div class="trailer-overlay" id="trailerOverlay"></div>
 
     <div class="trailer-box">
-        <button class="close-trailer" id="closeTrailer">&times;</button>
+        <button id="closeTrailer">&times;</button>
+
         <iframe id="trailerFrame"
                 src=""
-                title="Game Trailer"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen>
         </iframe>
     </div>
 </div>
 
 <script th:src="@{/js/main.js}"></script>
+
 </body>
 </html>

@@ -12,6 +12,7 @@ import com.dulith.gamehub.entity.Game;
 import com.dulith.gamehub.entity.User;
 import com.dulith.gamehub.service.FavoriteService;
 import com.dulith.gamehub.service.GameService;
+import com.dulith.gamehub.service.ReviewService;
 import com.dulith.gamehub.service.UserService;
 
 @Controller
@@ -20,12 +21,14 @@ public class GameController {
     private final GameService gameService;
     private final UserService userService;
     private final FavoriteService favoriteService;
+    private final ReviewService reviewService;
 
-    public GameController(GameService gameService, UserService userService, FavoriteService favoriteService) {
-        this.gameService = gameService;
-        this.userService = userService;
-        this.favoriteService = favoriteService;
-    }
+    public GameController(GameService gameService, UserService userService, FavoriteService favoriteService, ReviewService reviewService) {
+    this.gameService = gameService;
+    this.userService = userService;
+    this.favoriteService = favoriteService;
+    this.reviewService = reviewService;
+}
 
     @GetMapping("/games")
     public String games(
@@ -72,6 +75,8 @@ public class GameController {
         model.addAttribute("relatedGames", gameService.getRelatedGames(id));
         model.addAttribute("loggedUser", loggedUser);
         model.addAttribute("isFavorite", favorite);
+        model.addAttribute("reviews", reviewService.getReviews(game));
+        model.addAttribute("avgRating", reviewService.getAverageRating(game));
         return "game-details";
     }
 
@@ -119,5 +124,20 @@ public String library(Model model, Authentication authentication) {
     model.addAttribute("loggedUser", user);
     model.addAttribute("games", favoriteService.getFavoriteGames(user));
     return "library";
+}
+@PostMapping("/reviews/add/{gameId}")
+public String addReview(@PathVariable Long gameId,
+                        @RequestParam int rating,
+                        @RequestParam String comment,
+                        Authentication authentication) {
+
+    if (authentication == null) return "redirect:/login";
+
+    User user = userService.findByEmail(authentication.getName());
+    Game game = gameService.getGameById(gameId);
+
+    reviewService.addReview(user, game, rating, comment);
+
+    return "redirect:/games/" + gameId;
 }
 }
