@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - GameHub Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        <a th:href="@{/}" class="logo-link">🎮 GameHub Pro Admin</a>
+    </div>
+
+    <nav class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/games}">Games</a>
+        <a th:href="@{/admin}" class="active-link">Admin</a>
+        <a th:href="@{/logout}">Logout</a>
+    </nav>
+</header>
+
+<section class="games-page">
+    <div class="section-header">
+        <p class="tag">ADMIN PANEL</p>
+        <h1>Manage Games</h1>
+        <p class="section-text">Total games in system: <span th:text="${totalGames}">0</span></p>
+    </div>
+
+    <div class="admin-topbar">
+        <a th:href="@{/admin/games/new}" class="btn btn-primary">+ Add New Game</a>
+    </div>
+
+    <div class="admin-table-wrap" th:if="${not #lists.isEmpty(games)}">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Platform</th>
+                <th>Rating</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="game : ${games}">
+                <td th:text="${game.id}">1</td>
+                <td>
+                    <img th:src="${game.imageUrl}" th:alt="${game.title}" class="admin-thumb">
+                </td>
+                <td th:text="${game.title}">Title</td>
+                <td th:text="${game.genre}">Genre</td>
+                <td th:text="${game.platform}">Platform</td>
+                <td th:text="${game.rating}">4.8</td>
+                <td>
+                    <div class="admin-actions">
+                        <a th:href="@{'/admin/games/edit/' + ${game.id}}" class="btn btn-primary small-btn">Edit</a>
+                        <form th:action="@{'/admin/games/delete/' + ${game.id}}" method="post">
+                            <button type="submit" class="btn btn-secondary small-btn">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(games)}">
+        <h3>No games available</h3>
+        <p>Add your first game from the admin panel.</p>
+    </div>
+</section>
+
+</body>
+</html>

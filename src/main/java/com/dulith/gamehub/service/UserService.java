@@ -34,4 +34,17 @@ public class UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }
+
+    public void createAdminIfNotExists() {
+        String adminEmail = "admin@gamehub.com";
+
+        if (!userRepository.existsByEmail(adminEmail)) {
+            User admin = new User();
+            admin.setFullName("GameHub Admin");
+            admin.setEmail(adminEmail);
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRole(Role.ADMIN);
+            userRepository.save(admin);
+        }
+    }
 }

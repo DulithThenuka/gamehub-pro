@@ -774,3 +774,202 @@ a {
 .library-actions form {
     margin: 0;
 }
+.admin-topbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 24px;
+}
+
+.admin-table-wrap {
+    overflow-x: auto;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 18px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #ffffff;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 16px 14px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    vertical-align: middle;
+}
+
+.admin-table th {
+    color: #7dd3fc;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.admin-thumb {
+    width: 90px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-actions form {
+    margin: 0;
+}
+
+.admin-form-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+}
+
+.admin-form {
+    display: grid;
+    gap: 18px;
+}
+
+.admin-form textarea {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(15, 23, 42, 0.9);
+    color: #ffffff;
+    padding: 14px 16px;
+    font-size: 15px;
+    outline: none;
+    resize: vertical;
+}
+
+.admin-form-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .admin-topbar {
+        justify-content: stretch;
+    }
+
+    .admin-topbar .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .admin-form-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+}.admin-topbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 24px;
+}
+
+.admin-table-wrap {
+    overflow-x: auto;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 18px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #ffffff;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 16px 14px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    vertical-align: middle;
+}
+
+.admin-table th {
+    color: #7dd3fc;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.admin-thumb {
+    width: 90px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-actions form {
+    margin: 0;
+}
+
+.admin-form-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+}
+
+.admin-form {
+    display: grid;
+    gap: 18px;
+}
+
+.admin-form textarea {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(15, 23, 42, 0.9);
+    color: #ffffff;
+    padding: 14px 16px;
+    font-size: 15px;
+    outline: none;
+    resize: vertical;
+}
+
+.admin-form-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .admin-topbar {
+        justify-content: stretch;
+    }
+
+    .admin-topbar .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .admin-form-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+}

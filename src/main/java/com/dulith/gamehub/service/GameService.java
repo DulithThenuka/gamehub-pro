@@ -28,6 +28,10 @@ public class GameService {
         gameRepository.save(game);
     }
 
+    public void deleteGameById(Long id) {
+        gameRepository.deleteById(id);
+    }
+
     public long countGames() {
         return gameRepository.count();
     }

@@ -5,20 +5,24 @@ import org.springframework.stereotype.Component;
 
 import com.dulith.gamehub.entity.Game;
 import com.dulith.gamehub.service.GameService;
+import com.dulith.gamehub.service.UserService;
 
 @Component
 public class DataLoader implements CommandLineRunner {
 
     private final GameService gameService;
+    private final UserService userService;
 
-    public DataLoader(GameService gameService) {
+    public DataLoader(GameService gameService, UserService userService) {
         this.gameService = gameService;
+        this.userService = userService;
     }
 
     @Override
     public void run(String... args) {
-        if (gameService.countGames() == 0) {
+        userService.createAdminIfNotExists();
 
+        if (gameService.countGames() == 0) {
             gameService.saveGame(new Game(
                     null,
                     "Cyber Realm",
