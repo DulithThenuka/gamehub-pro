@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - GameHub Pro</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:if="${_csrf != null}" th:content="${_csrf.headerName}">
+</head>
+<body class="epic-page">
+
+<div class="epic-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="epic-sidebar">
+        <div>
+            <div class="epic-logo-wrap">
+                <a th:href="@{/}" class="epic-logo">GH</a>
+            </div>
+
+            <nav class="epic-menu">
+                <a th:href="@{/}">
+                    <i class="bi bi-bag"></i>
+                    <span>Store</span>
+                </a>
+
+                <a th:if="${loggedUser != null}" th:href="@{/library}">
+                    <i class="bi bi-collection"></i>
+                    <span>Library</span>
+                </a>
+
+                <a th:href="@{/games}">
+                    <i class="bi bi-grid"></i>
+                    <span>Browse</span>
+                </a>
+
+                <a th:if="${loggedUser != null}" th:href="@{/favorites}">
+                    <i class="bi bi-heart"></i>
+                    <span>Wishlist</span>
+                </a>
+
+                <a th:href="@{/cart}" class="active">
+                    <i class="bi bi-cart3"></i>
+                    <span>Cart</span>
+                </a>
+
+                <a th:if="${loggedUser != null}" th:href="@{/profile}">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="epic-sidebar-bottom">
+            <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-side-btn">Login</a>
+            <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-side-btn secondary">Register</a>
+            <a th:if="${loggedUser != null}" th:href="@{/logout}" class="epic-side-btn">Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="epic-main">
+
+        <!-- TOP BAR -->
+        <header class="epic-topbar">
+            <div class="epic-top-left">
+                <a th:href="@{/cart}" class="epic-icon-btn checkout-back-btn">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+
+                <div class="epic-search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="Search store">
+                </div>
+
+                <nav class="epic-top-links">
+                    <a th:href="@{/}">Discover</a>
+                    <a th:href="@{/games}">Browse</a>
+                    <a th:href="@{/checkout}" class="active">Checkout</a>
+                </nav>
+            </div>
+
+            <div class="epic-top-right">
+                <button class="epic-icon-btn" type="button"><i class="bi bi-shield-lock"></i></button>
+                <button class="epic-icon-btn" type="button"><i class="bi bi-credit-card"></i></button>
+
+                <div class="epic-user-chip">
+                    <div class="epic-user-circle"
+                         th:text="${loggedUser != null ? #strings.substring(loggedUser.fullName,0,1) : 'G'}">G</div>
+                    <span th:text="${loggedUser != null ? loggedUser.fullName : 'Guest'}">Guest</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE HEAD -->
+        <section class="checkout-head">
+            <div>
+                <div class="checkout-label">SECURE PAYMENT</div>
+                <h1>Checkout</h1>
+                <p>Complete your purchase and add these games to your collection.</p>
+            </div>
+
+            <div class="checkout-secure-badge">
+                <i class="bi bi-patch-check-fill"></i>
+                <span>Protected Transaction</span>
+            </div>
+        </section>
+
+        <!-- CHECKOUT LAYOUT -->
+        <section class="checkout-layout">
+
+            <!-- LEFT FORM -->
+            <div class="checkout-form-card">
+                <form th:action="@{/order/place}" method="post" class="checkout-form">
+
+                    <div class="checkout-section">
+                        <h2>Contact Information</h2>
+
+                        <div class="checkout-field-grid two">
+                            <div class="checkout-field">
+                                <label>Full Name</label>
+                                <input type="text" name="fullName"
+                                       th:value="${loggedUser != null ? loggedUser.fullName : ''}"
+                                       placeholder="Enter your full name">
+                            </div>
+
+                            <div class="checkout-field">
+                                <label>Email Address</label>
+                                <input type="email" name="email"
+                                       th:value="${loggedUser != null ? loggedUser.email : ''}"
+                                       placeholder="Enter your email">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkout-section">
+                        <h2>Billing Address</h2>
+
+                        <div class="checkout-field-grid two">
+                            <div class="checkout-field">
+                                <label>Country</label>
+                                <input type="text" name="country" placeholder="Sri Lanka">
+                            </div>
+
+                            <div class="checkout-field">
+                                <label>City</label>
+                                <input type="text" name="city" placeholder="Colombo">
+                            </div>
+                        </div>
+
+                        <div class="checkout-field">
+                            <label>Address Line</label>
+                            <input type="text" name="address" placeholder="Street address">
+                        </div>
+                    </div>
+
+                    <div class="checkout-section">
+                        <h2>Payment Method</h2>
+
+                        <div class="checkout-payment-tabs">
+                            <button type="button" class="checkout-pay-tab active">
+                                <i class="bi bi-credit-card-2-front"></i>
+                                Card
+                            </button>
+                            <button type="button" class="checkout-pay-tab">
+                                <i class="bi bi-paypal"></i>
+                                PayPal
+                            </button>
+                        </div>
+
+                        <div class="checkout-field">
+                            <label>Card Number</label>
+                            <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456">
+                        </div>
+
+                        <div class="checkout-field-grid three">
+                            <div class="checkout-field">
+                                <label>Expiry Month</label>
+                                <input type="text" name="expMonth" placeholder="MM">
+                            </div>
+
+                            <div class="checkout-field">
+                                <label>Expiry Year</label>
+                                <input type="text" name="expYear" placeholder="YY">
+                            </div>
+
+                            <div class="checkout-field">
+                                <label>CVV</label>
+                                <input type="text" name="cvv" placeholder="123">
+                            </div>
+                        </div>
+
+                        <div class="checkout-field">
+                            <label>Name on Card</label>
+                            <input type="text" name="cardName" placeholder="Cardholder name">
+                        </div>
+                    </div>
+
+                    <div class="checkout-note-box">
+                        <i class="bi bi-info-circle"></i>
+                        <span>This is a polished demo checkout UI. Connect it to your real order logic in your controller.</span>
+                    </div>
+
+                    <button type="submit" class="checkout-place-btn">
+                        <i class="bi bi-lock-fill"></i>
+                        Place Order
+                    </button>
+                </form>
+            </div>
+
+            <!-- RIGHT SUMMARY -->
+            <aside class="checkout-summary-panel">
+                <div class="checkout-summary-card">
+                    <h2>Order Summary</h2>
+
+                    <div class="checkout-summary-list" th:if="${cartItems != null and !#lists.isEmpty(cartItems)}">
+                        <div class="checkout-summary-item" th:each="item : ${cartItems}">
+                            <div class="checkout-summary-item-left">
+                                <img th:src="${item.game.imageUrl != null and !#strings.isEmpty(item.game.imageUrl) ? item.game.imageUrl : 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80'}"
+                                     th:alt="${item.game.title}">
+                                <div>
+                                    <strong th:text="${item.game.title}">Game Title</strong>
+                                    <span th:text="${item.game.genre != null ? item.game.genre : 'Game'}">Game</span>
+                                </div>
+                            </div>
+
+                            <div class="checkout-summary-item-right">
+                                <strong th:if="${item.game.discountPercent != null and item.game.discountPercent > 0}"
+                                        th:text="'$' + ${#numbers.formatDecimal(item.game.discountedPrice,1,2)}">$19.99</strong>
+
+                                <strong th:if="${item.game.discountPercent == null or item.game.discountPercent <= 0}"
+                                        th:text="'$' + ${#numbers.formatDecimal(item.game.price,1,2)}">$19.99</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkout-summary-empty" th:if="${cartItems == null or #lists.isEmpty(cartItems)}">
+                        <p>No items in cart.</p>
+                    </div>
+
+                    <div class="checkout-summary-lines">
+                        <div class="checkout-summary-line">
+                            <span>Subtotal</span>
+                            <strong th:text="${cartTotal != null ? '$' + #numbers.formatDecimal(cartTotal,1,2) : '$0.00'}">$0.00</strong>
+                        </div>
+
+                        <div class="checkout-summary-line">
+                            <span>Discount</span>
+                            <strong th:text="${discountTotal != null ? '-$' + #numbers.formatDecimal(discountTotal,1,2) : '-$0.00'}">-$0.00</strong>
+                        </div>
+
+                        <div class="checkout-summary-line">
+                            <span>Tax</span>
+                            <strong>$0.00</strong>
+                        </div>
+
+                        <div class="checkout-summary-total">
+                            <span>Total</span>
+                            <strong th:text="${finalTotal != null ? '$' + #numbers.formatDecimal(finalTotal,1,2) : '$0.00'}">$0.00</strong>
+                        </div>
+                    </div>
+
+                    <div class="checkout-security-note">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Your order is protected with a secure checkout experience.</span>
+                    </div>
+                </div>
+            </aside>
+
+        </section>
+
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

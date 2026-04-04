@@ -1103,3 +1103,6540 @@ a {
     border-radius: 12px;
     background: rgba(255,255,255,0.05);
 }
+/* ================================
+   EPIC-STYLE HOME PAGE UI
+================================ */
+.epic-body {
+    background: #0b0b12;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.epic-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(34, 59, 255, 0.10), transparent 25%),
+        linear-gradient(180deg, #07080d 0%, #090b13 100%);
+}
+
+.epic-sidebar {
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 28px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: rgba(5, 7, 14, 0.92);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.epic-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding: 0 8px;
+}
+
+.epic-brand-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #0b0b12;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.epic-brand span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #f5f7fb;
+}
+
+.epic-side-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.epic-side-nav a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    color: #aeb4c6;
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.25s ease;
+}
+
+.epic-side-nav a i {
+    font-size: 18px;
+}
+
+.epic-side-nav a:hover,
+.epic-side-nav a.active {
+    background: rgba(255, 255, 255, 0.10);
+    color: #ffffff;
+}
+
+.epic-sidebar-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 8px;
+}
+
+.sidebar-auth-btn {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #0b0b12;
+    font-weight: 700;
+}
+
+.sidebar-auth-btn.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.epic-main-area {
+    padding: 26px 26px 40px;
+}
+
+.epic-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 26px;
+}
+
+.epic-top-left,
+.epic-top-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.icon-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    color: #f1f5f9;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+}
+
+.epic-search {
+    width: 260px;
+    height: 48px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 18px;
+}
+
+.epic-search i {
+    color: #9aa4bd;
+}
+
+.epic-search input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 14px;
+}
+
+.epic-search input::placeholder {
+    color: #8189a3;
+}
+
+.epic-top-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: 6px;
+}
+
+.epic-top-links a {
+    color: #979fb4;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.epic-top-links a:hover,
+.epic-top-links a.active {
+    color: #ffffff;
+}
+
+.epic-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 8px;
+}
+
+.user-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.10);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 18px;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.epic-user span {
+    color: #f8fafc;
+    font-weight: 600;
+}
+
+.epic-home-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 20px;
+    align-items: start;
+}
+
+.epic-hero-card {
+    position: relative;
+    min-height: 620px;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #11131b;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+
+.epic-hero-card > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.epic-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(10, 10, 12, 0.72) 0%, rgba(10, 10, 12, 0.38) 45%, rgba(10, 10, 12, 0.08) 100%);
+}
+
+.epic-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 560px;
+    padding: 72px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 620px;
+}
+
+.hero-badge {
+    display: inline-block;
+    width: fit-content;
+    margin-bottom: 18px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.10);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.epic-hero-content h1 {
+    font-size: 54px;
+    line-height: 1.02;
+    margin-bottom: 18px;
+    font-weight: 800;
+    max-width: 520px;
+}
+
+.epic-hero-content h1 span {
+    color: #ffffff;
+}
+
+.epic-hero-content p {
+    color: #d6d9e3;
+    line-height: 1.7;
+    font-size: 17px;
+    max-width: 500px;
+    margin-bottom: 28px;
+}
+
+.epic-hero-buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.hero-btn {
+    padding: 15px 24px;
+    border-radius: 14px;
+    font-weight: 700;
+    transition: 0.25s ease;
+}
+
+.hero-btn.primary {
+    background: #ffffff;
+    color: #0b0b12;
+}
+
+.hero-btn.secondary {
+    background: rgba(255, 255, 255, 0.10);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hero-btn:hover {
+    transform: translateY(-2px);
+}
+
+.epic-stats-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.epic-stat-box {
+    min-width: 145px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.epic-stat-box strong {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 6px;
+}
+
+.epic-stat-box span {
+    color: #dbe1ee;
+    font-size: 13px;
+}
+
+.epic-side-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.feature-mini-card {
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    gap: 14px;
+    align-items: center;
+    padding: 14px;
+    border-radius: 18px;
+    background: transparent;
+    color: #f3f4f6;
+    transition: 0.25s ease;
+}
+
+.feature-mini-card img {
+    width: 62px;
+    height: 62px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.feature-mini-card span {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #dfe5f3;
+}
+
+.feature-mini-card:hover,
+.feature-mini-card.active {
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.epic-discover-section {
+    margin-top: 34px;
+}
+
+.discover-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.discover-head h2 {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.discover-head a {
+    color: #cfd5e6;
+    font-weight: 600;
+}
+
+.discover-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.discover-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: 0.25s ease;
+}
+
+.discover-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.discover-thumb img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.discover-content {
+    padding: 20px;
+}
+
+.discover-content small {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #98a2bb;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.discover-content h3 {
+    font-size: 20px;
+    line-height: 1.35;
+    margin-bottom: 10px;
+}
+
+.discover-content p {
+    color: #bcc5d8;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+@media (max-width: 1200px) {
+    .epic-home-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .epic-side-feature-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .epic-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .epic-sidebar {
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .epic-topbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .epic-top-left,
+    .epic-top-right {
+        flex-wrap: wrap;
+    }
+
+    .epic-search {
+        width: 100%;
+    }
+
+    .epic-hero-content {
+        padding: 48px 30px;
+    }
+
+    .epic-hero-content h1 {
+        font-size: 42px;
+    }
+
+    .discover-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .epic-main-area {
+        padding: 18px 14px 28px;
+    }
+
+    .epic-side-feature-list {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-mini-card {
+        grid-template-columns: 56px 1fr;
+    }
+
+    .epic-hero-card,
+    .epic-hero-content {
+        min-height: 520px;
+    }
+
+    .epic-hero-content h1 {
+        font-size: 32px;
+    }
+
+    .epic-hero-buttons {
+        flex-direction: column;
+    }
+
+    .hero-btn {
+        text-align: center;
+        width: 100%;
+    }
+
+    .epic-top-links {
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+}
+/* =========================================
+   EPIC STYLE HOME PAGE
+========================================= */
+.epic-page {
+    background: #0c0f1a;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.epic-shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    background:
+        radial-gradient(circle at top left, rgba(60, 80, 255, 0.08), transparent 18%),
+        linear-gradient(180deg, #070912 0%, #090b14 100%);
+}
+
+.epic-sidebar {
+    background: #0b0e17;
+    border-right: 1px solid rgba(255,255,255,0.04);
+    padding: 24px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.epic-logo-wrap {
+    padding: 8px 10px 22px;
+}
+
+.epic-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #090b14;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.epic-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.epic-menu a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    color: #9ca3af;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.epic-menu a:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+}
+
+.epic-menu a.active {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+}
+
+.epic-menu a i {
+    font-size: 18px;
+}
+
+.epic-menu a:hover,
+.epic-menu a.active {
+    background: rgba(255, 255, 255, 0.13);
+    color: #ffffff;
+}
+
+.epic-sidebar-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.epic-side-btn {
+    display: block;
+    text-align: center;
+    padding: 13px 16px;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #090b14;
+    font-weight: 700;
+}
+
+.epic-side-btn.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.epic-main {
+    padding: 24px 28px 38px;
+}
+
+.epic-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 26px;
+}
+
+.epic-top-left,
+.epic-top-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.epic-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    color: #cbd5e1;
+    transition: 0.2s ease;
+}
+
+.epic-icon-btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+}
+
+.epic-search {
+    width: 260px;
+    height: 42px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.epic-search i {
+    color: #9fa8bf;
+}
+
+.epic-search input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.epic-search input::placeholder {
+    color: #9aa3b8;
+}
+
+.epic-top-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-left: 8px;
+}
+
+.epic-top-links a {
+    color: #969db0;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.epic-top-links a:hover,
+.epic-top-links a.active {
+    color: #ffffff;
+}
+
+.epic-user-chip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 6px;
+}
+
+.epic-user-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: #fff;
+}
+
+.epic-user-chip span {
+    color: #f7f8fb;
+    font-weight: 600;
+}
+
+.epic-hero-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 20px;
+    align-items: start;
+    margin-bottom: 34px;
+}
+
+.epic-hero-banner {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    min-height: 520px;
+}
+
+.epic-hero-banner img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.epic-hero-overlay {
+    background: linear-gradient(
+        90deg,
+        rgba(10,10,15,0.9) 0%,
+        rgba(10,10,15,0.6) 40%,
+        rgba(10,10,15,0.1) 100%
+    );
+}
+
+.epic-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 520px;
+    min-height: 620px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 56px 44px;
+}
+
+.epic-badge {
+    display: inline-block;
+    width: fit-content;
+    background: rgba(255, 255, 255, 0.10);
+    padding: 8px 12px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+}
+
+.epic-hero-content h1 {
+    font-size: 48px;
+    font-weight: 800;
+}
+
+.epic-hero-content h1 span {
+    color: #ffffff;
+}
+
+.epic-hero-content p {
+    color: #d9dde8;
+    font-size: 17px;
+    line-height: 1.75;
+    margin-bottom: 28px;
+    max-width: 470px;
+}
+
+.epic-hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.epic-white-btn,
+.epic-ghost-btn {
+    padding: 15px 22px;
+    border-radius: 14px;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.epic-white-btn {
+    background: #ffffff;
+    color: #090b14;
+}
+
+.epic-ghost-btn {
+    background: rgba(255, 255, 255, 0.10);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.epic-white-btn:hover,
+.epic-ghost-btn:hover {
+    transform: translateY(-2px);
+}
+
+.epic-right-rail {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.epic-rail-card {
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    gap: 14px;
+    align-items: center;
+    padding: 14px;
+    border-radius: 18px;
+    color: #f2f4fa;
+    transition: 0.25s ease;
+}
+
+.epic-rail-card img {
+    width: 62px;
+    height: 62px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.epic-rail-card span {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #dce2ef;
+}
+
+.epic-rail-card:hover,
+.epic-rail-card.active {
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.epic-section {
+    margin-top: 12px;
+}
+
+.epic-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.epic-section-head h2 {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.epic-section-head a {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.epic-card-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.epic-game-card {
+    transition: 0.25s ease;
+}
+
+.epic-game-card:hover {
+    transform: translateY(-5px);
+}
+
+.epic-game-thumb {
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    background: #11141d;
+}
+
+.epic-game-thumb img {
+    height: 280px;
+}
+
+.epic-game-card:hover {
+    transform: translateY(-6px);
+}
+
+.epic-game-thumb {
+    transition: 0.3s;
+}
+
+.epic-game-card:hover .epic-game-thumb {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.epic-game-meta {
+    color: #a8afc1;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.epic-game-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    line-height: 1.35;
+}
+
+.epic-game-card p {
+    color: #f5f7fb;
+    font-weight: 500;
+}
+
+.epic-stats-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 34px;
+}
+
+.epic-mini-stat {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.epic-mini-stat h4 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.epic-mini-stat span {
+    color: #b8c1d5;
+    font-size: 14px;
+}
+
+@media (max-width: 1300px) {
+    .epic-card-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1100px) {
+    .epic-hero-row {
+        grid-template-columns: 1fr;
+    }
+
+    .epic-right-rail {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .epic-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .epic-sidebar {
+        position: relative;
+        min-height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .epic-topbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .epic-top-left,
+    .epic-top-right {
+        flex-wrap: wrap;
+    }
+
+    .epic-search {
+        width: 100%;
+    }
+
+    .epic-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .epic-stats-section {
+        grid-template-columns: 1fr;
+    }
+
+    .epic-hero-content h1 {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 576px) {
+    .epic-main {
+        padding: 18px 14px 28px;
+    }
+
+    .epic-right-rail,
+    .epic-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .epic-hero-banner,
+    .epic-hero-content {
+        min-height: 500px;
+    }
+
+    .epic-hero-content {
+        padding: 34px 24px;
+    }
+
+    .epic-hero-content h1 {
+        font-size: 32px;
+    }
+
+    .epic-hero-actions {
+        flex-direction: column;
+    }
+
+    .epic-white-btn,
+    .epic-ghost-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+.epic-white-btn {
+    background: #ffffff;
+    color: #000;
+    font-weight: 700;
+}
+
+.epic-white-btn:hover {
+    background: #e5e7eb;
+}
+
+.epic-ghost-btn {
+    background: rgba(255,255,255,0.08);
+}
+
+.epic-ghost-btn:hover {
+    background: rgba(255,255,255,0.15);
+}
+/* =========================================
+   HERO SLIDER + UPGRADED GAME CARDS
+========================================= */
+
+.epic-page {
+    background: #050814;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.epic-shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    background:
+        radial-gradient(circle at top left, rgba(38, 56, 140, 0.10), transparent 20%),
+        linear-gradient(180deg, #050814 0%, #070b17 100%);
+}
+
+.epic-sidebar {
+    background: #060811;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 22px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.epic-menu a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    color: #aeb5c7;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.epic-menu a:hover,
+.epic-menu a.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+.epic-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 26px;
+    padding: 4px 0;
+}
+
+.epic-icon-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #dce2ef;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.epic-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.epic-search {
+    width: 255px;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.epic-hero-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 20px;
+    align-items: start;
+    margin-bottom: 34px;
+}
+
+.epic-slider {
+    position: relative;
+    min-height: 620px;
+    border-radius: 26px;
+    overflow: hidden;
+    background: #10141f;
+    box-shadow: 0 26px 80px rgba(0, 0, 0, 0.38);
+}
+
+.epic-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.55s ease, visibility 0.55s ease;
+}
+
+.epic-slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+.epic-slide img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.epic-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(8, 9, 14, 0.92) 0%,
+        rgba(8, 9, 14, 0.65) 36%,
+        rgba(8, 9, 14, 0.22) 62%,
+        rgba(8, 9, 14, 0.04) 100%
+    );
+}
+
+.epic-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 540px;
+    min-height: 620px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 58px 48px;
+}
+
+.epic-badge {
+    display: inline-block;
+    width: fit-content;
+    background: rgba(255, 255, 255, 0.10);
+    padding: 8px 12px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+}
+
+.epic-hero-content h1 {
+    font-size: 54px;
+    line-height: 1.02;
+    margin-bottom: 16px;
+    font-weight: 900;
+    max-width: 500px;
+}
+
+.epic-hero-content p {
+    color: #d9dde8;
+    font-size: 17px;
+    line-height: 1.75;
+    margin-bottom: 28px;
+    max-width: 470px;
+}
+
+.epic-hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.epic-white-btn,
+.epic-ghost-btn {
+    padding: 15px 22px;
+    border-radius: 14px;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.epic-white-btn {
+    background: #ffffff;
+    color: #090b14;
+}
+
+.epic-white-btn:hover {
+    background: #e7eaf1;
+    transform: translateY(-2px);
+}
+
+.epic-ghost-btn {
+    background: rgba(255, 255, 255, 0.10);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.epic-ghost-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-2px);
+}
+
+.slider-arrow {
+    position: absolute;
+    bottom: 24px;
+    z-index: 5;
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(10, 10, 16, 0.55);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: 0.25s ease;
+}
+
+.slider-arrow:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.slider-arrow-left {
+    right: 78px;
+}
+
+.slider-arrow-right {
+    right: 24px;
+}
+
+.slider-dots {
+    position: absolute;
+    left: 48px;
+    bottom: 34px;
+    display: flex;
+    gap: 10px;
+    z-index: 5;
+}
+
+.slider-dot {
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.28);
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.slider-dot.active {
+    width: 28px;
+    border-radius: 999px;
+    background: #ffffff;
+}
+
+.epic-right-rail {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.epic-rail-card {
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    gap: 14px;
+    align-items: center;
+    padding: 14px;
+    border-radius: 18px;
+    color: #f2f4fa;
+    transition: 0.25s ease;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+}
+
+.epic-rail-card img {
+    width: 62px;
+    height: 62px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.epic-rail-card span {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #dce2ef;
+}
+
+.epic-rail-card:hover,
+.epic-rail-card.active {
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.upgraded-card {
+    transition: transform 0.28s ease;
+}
+
+.upgraded-card:hover {
+    transform: translateY(-6px);
+}
+
+.video-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #0f131d;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+}
+
+.thumb-image,
+.thumb-video {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.thumb-video {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.video-card:hover .thumb-video {
+    opacity: 1;
+}
+
+.video-card:hover .thumb-image {
+    opacity: 0;
+}
+
+.video-card:hover .thumb-video,
+.video-card:hover .thumb-image {
+    transform: scale(1.04);
+}
+
+.card-top-actions {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 4;
+}
+
+.wishlist-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(10, 12, 18, 0.7);
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: 0.25s ease;
+}
+
+.wishlist-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: scale(1.06);
+}
+
+.wishlist-btn.active {
+    background: rgba(255, 70, 95, 0.18);
+    color: #ff5a74;
+}
+
+.discount-badge {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    z-index: 4;
+    background: #1ea7ff;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 7px 12px;
+    border-radius: 999px;
+}
+
+.free-badge {
+    background: #1f9d55;
+}
+
+.game-tags-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0 12px;
+}
+
+.game-tags-row span {
+    font-size: 12px;
+    color: #d8dceb;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 6px 10px;
+}
+
+.price-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.old-price {
+    color: #8f98ad;
+    text-decoration: line-through;
+    font-size: 15px;
+}
+
+.new-price {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.free-price {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.epic-card-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.epic-game-meta {
+    color: #a8afc1;
+    font-size: 14px;
+    margin-bottom: 8px;
+    margin-top: 2px;
+}
+
+.epic-game-card h3 {
+    font-size: 18px;
+    margin-bottom: 2px;
+    line-height: 1.35;
+}
+
+@media (max-width: 1300px) {
+    .epic-card-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1100px) {
+    .epic-hero-row {
+        grid-template-columns: 1fr;
+    }
+
+    .epic-right-rail {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .epic-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .epic-sidebar {
+        position: relative;
+        min-height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .epic-topbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .epic-top-left,
+    .epic-top-right {
+        flex-wrap: wrap;
+    }
+
+    .epic-search {
+        width: 100%;
+    }
+
+    .epic-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .epic-hero-content h1 {
+        font-size: 42px;
+    }
+
+    .thumb-image,
+    .thumb-video {
+        height: 280px;
+    }
+}
+
+@media (max-width: 576px) {
+    .epic-main {
+        padding: 18px 14px 28px;
+    }
+
+    .epic-right-rail,
+    .epic-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .epic-slider,
+    .epic-slide,
+    .epic-hero-content {
+        min-height: 520px;
+    }
+
+    .epic-hero-content {
+        padding: 34px 24px 88px;
+    }
+
+    .epic-hero-content h1 {
+        font-size: 32px;
+    }
+
+    .epic-hero-actions {
+        flex-direction: column;
+    }
+
+    .epic-white-btn,
+    .epic-ghost-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .slider-dots {
+        left: 24px;
+        bottom: 24px;
+    }
+
+    .slider-arrow-left {
+        right: 74px;
+    }
+
+    .slider-arrow-right {
+        right: 22px;
+    }
+}
+/* =========================================
+   GAMES PAGE - EPIC BROWSE STYLE
+========================================= */
+
+.browse-categories {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.browse-category-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.25s ease;
+}
+
+.browse-category-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.browse-category-card img {
+    width: 100%;
+    height: 115px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin-bottom: 14px;
+}
+
+.browse-category-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f5f7fb;
+    text-align: center;
+}
+
+.browse-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 24px;
+    align-items: start;
+}
+
+.browse-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.browse-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.browse-label {
+    color: #aeb7cb;
+    font-size: 16px;
+}
+
+.browse-select {
+    background: transparent;
+    border: none;
+    color: #f5f7fb;
+    font-size: 16px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+}
+
+.browse-select option {
+    background: #0c1019;
+    color: #ffffff;
+}
+
+.browse-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.10);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.browse-game-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.game-card-link {
+    display: block;
+}
+
+.browse-filters,
+.library-filters {
+    position: sticky;
+    top: 24px;
+}
+
+.filter-panel {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+}
+
+.filter-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.filter-panel-head h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.filter-panel-head a {
+    color: #28b4ff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.filter-search-box {
+    margin: 16px 18px;
+    height: 46px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+}
+
+.filter-search-box i {
+    color: #b1bad0;
+}
+
+.filter-search-box input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.filter-search-box input::placeholder {
+    color: #9aa3b8;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    color: #f4f7fb;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.filter-item-open {
+    display: block;
+}
+
+.filter-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.filter-count {
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+
+.filter-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    color: #d6ddec;
+    font-size: 15px;
+}
+
+.filter-check input {
+    width: 16px;
+    height: 16px;
+}
+
+/* =========================================
+   LIBRARY PAGE - EPIC STYLE
+========================================= */
+
+.library-page-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 24px;
+    align-items: start;
+}
+
+.library-title-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.library-title-row h1 {
+    font-size: 54px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.library-refresh-btn,
+.library-plus-btn,
+.library-view-btn,
+.library-dots-btn,
+.library-page-btn {
+    border: none;
+    background: transparent;
+    color: #eef2fb;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.library-refresh-btn {
+    font-size: 24px;
+}
+
+.library-refresh-btn:hover,
+.library-plus-btn:hover,
+.library-view-btn:hover,
+.library-dots-btn:hover,
+.library-page-btn:hover {
+    color: #28b4ff;
+}
+
+.library-tabs-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.library-tab {
+    position: relative;
+    color: #cfd7e7;
+    font-size: 18px;
+    font-weight: 500;
+    padding-bottom: 10px;
+}
+
+.library-tab.active {
+    color: #ffffff;
+}
+
+.library-tab.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 20px;
+    height: 2px;
+    background: #28b4ff;
+    border-radius: 999px;
+}
+
+.library-plus-btn {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.library-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.library-sort {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #cfd7e7;
+    font-size: 16px;
+}
+
+.library-view-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.library-view-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.library-view-btn.active {
+    color: #28b4ff;
+}
+
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px 18px;
+}
+
+.library-game-card {
+    transition: 0.25s ease;
+}
+
+.library-game-card:hover {
+    transform: translateY(-4px);
+}
+
+.library-game-thumb-link {
+    display: block;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    background: #11141d;
+}
+
+.library-game-thumb-link img {
+    width: 100%;
+    height: 290px;
+    object-fit: cover;
+    display: block;
+}
+
+.library-game-meta-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.library-game-meta-row h3 {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #ffffff;
+}
+
+.library-dots-btn {
+    font-size: 18px;
+    line-height: 1;
+    padding-top: 2px;
+}
+
+.library-achievements {
+    color: #aeb7cb;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.library-install-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #dce3f0;
+    font-size: 15px;
+}
+
+.library-footer-bar {
+    margin-top: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    color: #cfd7e7;
+    font-size: 16px;
+}
+
+.library-pagination {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.library-page-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.library-page-btn.active,
+.library-page-btn.next {
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.library-grid-size {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1400px) {
+    .browse-game-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .library-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1100px) {
+    .browse-layout,
+    .library-page-wrap {
+        grid-template-columns: 1fr;
+    }
+
+    .browse-filters,
+    .library-filters {
+        position: relative;
+        top: 0;
+    }
+
+    .browse-categories {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .browse-game-grid,
+    .library-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .library-title-row h1 {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 576px) {
+    .browse-categories,
+    .browse-game-grid,
+    .library-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .library-toolbar,
+    .library-footer-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .library-title-row h1 {
+        font-size: 34px;
+    }
+}
+/* GAME DETAILS EPIC STYLE */
+
+.details-epic-hero {
+    display: grid;
+    grid-template-columns: 500px 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.details-left img {
+    width: 100%;
+    border-radius: 16px;
+}
+
+.details-right h1 {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.details-meta {
+    display: flex;
+    gap: 14px;
+    color: #aeb7cb;
+    margin-bottom: 18px;
+}
+
+.details-description {
+    color: #d6ddec;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.details-price .price {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.details-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.details-section {
+    margin-top: 40px;
+}
+
+.review-card {
+    background: rgba(255,255,255,0.05);
+    padding: 16px;
+    border-radius: 14px;
+    margin-top: 12px;
+}
+/* VIDEO HERO */
+
+.details-video-hero {
+    position: relative;
+    height: 70vh;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.details-bg-video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.details-video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(0,0,0,0.85) 0%,
+        rgba(0,0,0,0.5) 40%,
+        rgba(0,0,0,0.1) 100%
+    );
+}
+
+.details-video-content {
+    position: relative;
+    z-index: 2;
+    padding: 60px;
+    max-width: 600px;
+}
+.wishlist-btn.active {
+    color: #ff4d6d;
+}
+/* =========================================
+   WISHLIST PAGE - EPIC SAVED GAMES STYLE
+========================================= */
+
+.wishlist-page-wrap {
+    display: block;
+}
+
+.wishlist-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+}
+
+.wishlist-kicker {
+    color: #8ea0c5;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.wishlist-hero h1 {
+    font-size: 52px;
+    line-height: 1;
+    margin-bottom: 12px;
+    font-weight: 900;
+}
+
+.wishlist-subtitle {
+    color: #b8c3d9;
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 600px;
+}
+
+.wishlist-stats-card {
+    min-width: 180px;
+    padding: 22px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.wishlist-stats-card span {
+    display: block;
+    color: #aab6ce;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.wishlist-stats-card strong {
+    font-size: 34px;
+    color: #ffffff;
+    font-weight: 900;
+}
+
+.wishlist-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.wishlist-count {
+    color: #dce3f2;
+    font-size: 15px;
+}
+
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.wishlist-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.25s ease;
+}
+
+.wishlist-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.wishlist-thumb-link {
+    display: block;
+    background: #10141f;
+}
+
+.wishlist-thumb-link img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+}
+
+.wishlist-card-body {
+    padding: 18px;
+}
+
+.wishlist-meta {
+    color: #9fb0d1;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.wishlist-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.wishlist-title-row h3 {
+    font-size: 20px;
+    line-height: 1.35;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.wishlist-price-row {
+    margin: 14px 0 18px;
+}
+
+.wishlist-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.wishlist-empty {
+    text-align: center;
+    padding: 80px 20px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.wishlist-empty-icon {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 30px;
+    color: #ff5c7a;
+}
+
+.wishlist-empty h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.wishlist-empty p {
+    color: #b6c1d8;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 1200px) {
+    .wishlist-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .wishlist-hero h1 {
+        font-size: 40px;
+    }
+
+    .wishlist-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* WISHLIST PAGE */
+.wishlist-page-wrap {
+    display: block;
+}
+
+.wishlist-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+}
+
+.wishlist-kicker {
+    color: #8ea0c5;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.wishlist-hero h1 {
+    font-size: 52px;
+    line-height: 1;
+    margin-bottom: 12px;
+    font-weight: 900;
+}
+
+.wishlist-subtitle {
+    color: #b8c3d9;
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 600px;
+}
+
+.wishlist-stats-card {
+    min-width: 180px;
+    padding: 22px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.wishlist-stats-card span {
+    display: block;
+    color: #aab6ce;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.wishlist-stats-card strong {
+    font-size: 34px;
+    color: #ffffff;
+    font-weight: 900;
+}
+
+.wishlist-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.wishlist-count {
+    color: #dce3f2;
+    font-size: 15px;
+}
+
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.wishlist-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.25s ease;
+}
+
+.wishlist-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.wishlist-thumb-link {
+    display: block;
+    background: #10141f;
+}
+
+.wishlist-thumb-link img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+}
+
+.wishlist-card-body {
+    padding: 18px;
+}
+
+.wishlist-meta {
+    color: #9fb0d1;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.wishlist-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.wishlist-title-row h3 {
+    font-size: 20px;
+    line-height: 1.35;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.wishlist-price-row {
+    margin: 14px 0 18px;
+}
+
+.wishlist-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.wishlist-empty {
+    text-align: center;
+    padding: 80px 20px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.wishlist-empty-icon {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 30px;
+    color: #ff5c7a;
+}
+
+.wishlist-empty h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.wishlist-empty p {
+    color: #b6c1d8;
+    margin-bottom: 20px;
+}
+
+.details-wishlist-btn {
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.10);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.details-wishlist-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.wishlist-btn.active,
+.details-wishlist-btn.active {
+    color: #ff4d6d;
+}
+
+@media (max-width: 1200px) {
+    .wishlist-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .wishlist-hero h1 {
+        font-size: 40px;
+    }
+
+    .wishlist-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================
+   LIBRARY PAGE POLISH
+========================= */
+
+.library-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.library-empty-state {
+    text-align: center;
+    padding: 70px 20px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.library-empty-state h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.library-empty-state p {
+    color: #b8c3d9;
+    margin-bottom: 20px;
+}
+
+.library-list-view {
+    display: flex !important;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.library-list-view .library-game-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: rgba(255,255,255,0.04);
+    padding: 14px;
+    border-radius: 18px;
+}
+
+.library-list-view .library-game-thumb-link {
+    min-width: 170px;
+    max-width: 170px;
+    margin-bottom: 0;
+}
+
+.library-list-view .library-game-thumb-link img {
+    height: 110px;
+    border-radius: 12px;
+}
+
+.library-list-view .library-game-meta-row {
+    flex: 1;
+    margin-bottom: 8px;
+}
+
+.library-list-view .library-achievements,
+.library-list-view .library-install-row {
+    margin-left: 0;
+}
+
+.library-search-sync-note {
+    display: none;
+}
+
+.library-game-card .wishlist-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    color: #ff4d6d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.library-game-card .wishlist-btn:hover {
+    background: rgba(255,255,255,0.12);
+}
+
+@media (max-width: 900px) {
+    .library-list-view .library-game-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .library-list-view .library-game-thumb-link {
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .library-list-view .library-game-thumb-link img {
+        width: 100%;
+        height: 220px;
+    }
+}
+/* =========================
+   WISHLIST PAGE - EPIC STYLE
+========================= */
+
+.wishlist-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 24px;
+    align-items: start;
+}
+
+.wishlist-page-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.wishlist-page-title-row h1 {
+    font-size: 58px;
+    line-height: 1;
+    font-weight: 900;
+}
+
+.wishlist-balance-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.wishlist-balance-chip {
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.18);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #d7deed;
+}
+
+.wishlist-balance-chip strong {
+    color: #fff;
+}
+
+.wishlist-alert-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.07);
+    margin-bottom: 26px;
+    border-left: 4px solid #18b6ff;
+}
+
+.wishlist-alert-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #dce3f2;
+}
+
+.wishlist-alert-left i {
+    color: #18b6ff;
+    font-size: 20px;
+}
+
+.wishlist-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 28px;
+    min-width: 48px;
+}
+
+.wishlist-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.wishlist-switch-slider {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.18);
+    border-radius: 999px;
+    transition: 0.2s ease;
+}
+
+.wishlist-switch-slider::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 4px;
+    top: 4px;
+    background: #fff;
+    border-radius: 50%;
+    transition: 0.2s ease;
+}
+
+.wishlist-switch input:checked + .wishlist-switch-slider {
+    background: #18b6ff;
+}
+
+.wishlist-switch input:checked + .wishlist-switch-slider::before {
+    transform: translateX(20px);
+}
+
+.wishlist-sort-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.wishlist-sort-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #d7deed;
+}
+
+.wishlist-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.wishlist-row-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: 20px;
+    padding: 22px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.wishlist-row-left {
+    display: flex;
+    gap: 22px;
+}
+
+.wishlist-row-image-link img {
+    width: 140px;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+}
+
+.wishlist-row-info h3 {
+    font-size: 22px;
+    margin: 10px 0 14px;
+    font-weight: 800;
+}
+
+.wishlist-row-badge {
+    display: inline-block;
+    font-size: 13px;
+    color: #dce3f2;
+    background: rgba(255,255,255,0.12);
+    padding: 6px 10px;
+    border-radius: 10px;
+}
+
+.wishlist-row-meta-box {
+    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 16px;
+    margin-bottom: 16px;
+}
+
+.wishlist-row-meta-main {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    color: #fff;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.wishlist-row-meta-sub {
+    color: #aeb7cb;
+}
+
+.wishlist-reward-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #d8c84f;
+}
+
+.wishlist-row-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 18px;
+}
+
+.wishlist-price-block {
+    text-align: right;
+}
+
+.wishlist-sale-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.wishlist-sale-date {
+    margin-top: 8px;
+    color: #aeb7cb;
+    font-size: 14px;
+}
+
+.wishlist-row-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.wishlist-remove-text {
+    border: none;
+    background: transparent;
+    color: #dce3f2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.wishlist-cart-btn {
+    border: none;
+    background: #18b6ff;
+    color: #05101a;
+    font-weight: 700;
+    border-radius: 14px;
+    padding: 13px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.wishlist-cart-btn:hover {
+    filter: brightness(1.06);
+}
+
+@media (max-width: 1100px) {
+    .wishlist-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .wishlist-row-card {
+        grid-template-columns: 1fr;
+    }
+
+    .wishlist-row-right {
+        align-items: flex-start;
+    }
+
+    .wishlist-price-block {
+        text-align: left;
+    }
+
+    .wishlist-sale-line,
+    .wishlist-row-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 650px) {
+    .wishlist-page-title-row h1 {
+        font-size: 40px;
+    }
+
+    .wishlist-row-left {
+        flex-direction: column;
+    }
+
+    .wishlist-row-image-link img {
+        width: 100%;
+        height: 240px;
+    }
+
+    .wishlist-alert-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+/* =========================
+   CART PAGE - EPIC STYLE
+========================= */
+
+.cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.cart-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.cart-title-row h1 {
+    font-size: 58px;
+    line-height: 1;
+    font-weight: 900;
+}
+
+.cart-empty-state {
+    min-height: 62vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+}
+
+.cart-empty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.12);
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    color: #dfe7f5;
+}
+
+.cart-empty-state h2 {
+    font-size: 62px;
+    line-height: 1.05;
+    font-weight: 900;
+    max-width: 720px;
+}
+
+.cart-empty-note {
+    width: 100%;
+    margin-top: 90px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.10);
+    color: #b6c0d6;
+    text-align: left;
+    font-size: 14px;
+}
+
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cart-item-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 20px;
+    padding: 22px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.cart-item-left {
+    display: flex;
+    gap: 18px;
+}
+
+.cart-item-left img {
+    width: 170px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+}
+
+.cart-item-info h3 {
+    font-size: 24px;
+    margin: 10px 0 10px;
+    font-weight: 800;
+}
+
+.cart-item-info p {
+    color: #b3bdd2;
+    margin-bottom: 10px;
+}
+
+.cart-item-meta {
+    color: #dbe3f2;
+    font-size: 14px;
+}
+
+.cart-item-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.cart-price-block {
+    text-align: right;
+}
+
+.cart-remove-btn {
+    border: none;
+    background: transparent;
+    color: #dce3f2;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.cart-remove-btn:hover {
+    color: #ff5f7a;
+}
+
+.cart-summary-card {
+    padding: 22px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+    position: sticky;
+    top: 24px;
+}
+
+.cart-summary-card h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+.cart-summary-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    color: #dfe7f5;
+}
+
+.cart-summary-line strong {
+    font-size: 28px;
+    color: #fff;
+}
+
+.cart-checkout-btn {
+    width: 100%;
+    justify-content: center;
+}
+
+@media (max-width: 1100px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-summary-card {
+        position: static;
+    }
+}
+
+@media (max-width: 800px) {
+    .cart-title-row h1 {
+        font-size: 42px;
+    }
+
+    .cart-item-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-item-right {
+        align-items: flex-start;
+    }
+
+    .cart-price-block {
+        text-align: left;
+    }
+
+    .cart-empty-state h2 {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 600px) {
+    .cart-item-left {
+        flex-direction: column;
+    }
+
+    .cart-item-left img {
+        width: 100%;
+        height: 220px;
+    }
+}
+/* =========================
+   HOME / STORE POLISH
+========================= */
+
+.home-hero-price-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.home-card-cart-form {
+    margin-top: 14px;
+}
+
+.home-news-section {
+    margin-top: 42px;
+}
+
+.home-news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.home-news-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.25s ease;
+}
+
+.home-news-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,0.07);
+}
+
+.home-news-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.home-news-content {
+    padding: 18px;
+}
+
+.home-news-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #8fbfff;
+    margin-bottom: 10px;
+}
+
+.home-news-content h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.home-news-content p {
+    color: #b7c1d7;
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+
+.home-news-link {
+    color: #18b6ff;
+    font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+    .home-news-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .home-news-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.epic-admin-form-wrap {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 24px;
+    padding: 28px;
+    max-width: 1000px;
+}
+
+.epic-admin-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.auth-group-full {
+    grid-column: 1 / -1;
+}
+
+.epic-admin-form input,
+.epic-admin-form textarea {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.04);
+    color: #fff;
+    padding: 14px 16px;
+}
+
+.epic-admin-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #d9e1f0;
+    font-weight: 600;
+}
+/* =========================
+   ADMIN DASHBOARD POLISH
+========================= */
+
+.admin-dashboard-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.admin-hero-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 24px;
+    align-items: stretch;
+}
+
+.admin-hero-card {
+    padding: 28px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.admin-hero-card h1 {
+    font-size: 42px;
+    margin-bottom: 12px;
+    font-weight: 900;
+}
+
+.admin-hero-text {
+    color: #b8c3d9;
+    line-height: 1.7;
+    max-width: 700px;
+}
+
+.admin-stats-grid {
+    display: grid;
+    gap: 16px;
+}
+
+.admin-stat-card {
+    padding: 24px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.admin-stat-card span {
+    display: block;
+    color: #b8c3d9;
+    margin-bottom: 10px;
+}
+
+.admin-stat-card strong {
+    font-size: 40px;
+    font-weight: 900;
+    color: #fff;
+}
+
+.admin-table-card {
+    padding: 24px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.admin-table-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.admin-table-head h2 {
+    font-size: 28px;
+    margin-bottom: 6px;
+    font-weight: 800;
+}
+
+.admin-table-head p {
+    color: #b8c3d9;
+}
+
+.admin-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.admin-table-wrap {
+    overflow-x: auto;
+}
+
+.admin-games-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-games-table thead th {
+    text-align: left;
+    font-size: 14px;
+    color: #9fb0d1;
+    font-weight: 700;
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.admin-games-table tbody td {
+    padding: 16px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: #e5ebf7;
+    vertical-align: middle;
+}
+
+.admin-game-cell {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 220px;
+}
+
+.admin-game-cell img {
+    width: 68px;
+    height: 68px;
+    object-fit: cover;
+    border-radius: 14px;
+}
+
+.admin-game-cell strong {
+    display: block;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.admin-game-cell span {
+    color: #aeb7cb;
+    font-size: 13px;
+}
+
+.admin-table-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-action-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.admin-action-btn.edit {
+    background: rgba(24,182,255,0.14);
+    color: #7ed8ff;
+}
+
+.admin-action-btn.delete {
+    background: rgba(255,95,122,0.14);
+    color: #ff6f86;
+}
+
+.admin-action-btn:hover {
+    filter: brightness(1.08);
+}
+
+@media (max-width: 1100px) {
+    .admin-hero-row {
+        grid-template-columns: 1fr;
+    }
+}
+/* CHECKOUT FLOW POLISH */
+
+.checkout-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.checkout-card {
+    padding: 24px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.checkout-card h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+.checkout-method-box {
+    margin-bottom: 24px;
+}
+
+.checkout-method {
+    padding: 16px 18px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.04);
+    color: #fff;
+    font-weight: 600;
+}
+
+.checkout-method.active {
+    border-color: rgba(24,182,255,0.6);
+    background: rgba(24,182,255,0.08);
+}
+
+.checkout-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.checkout-summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.checkout-summary-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    color: #dfe7f5;
+}
+
+.checkout-success-wrap {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkout-success-card {
+    max-width: 620px;
+    width: 100%;
+    text-align: center;
+    padding: 40px 28px;
+    border-radius: 28px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.checkout-success-icon {
+    width: 82px;
+    height: 82px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: rgba(30,160,80,0.18);
+    color: #7dffb0;
+    display: grid;
+    place-items: center;
+    font-size: 34px;
+    font-weight: 900;
+}
+
+.checkout-success-card h1 {
+    font-size: 44px;
+    margin-bottom: 10px;
+    font-weight: 900;
+}
+
+.checkout-success-card p {
+    color: #b8c3d9;
+    margin-bottom: 24px;
+}
+
+.checkout-success-total {
+    margin-bottom: 24px;
+}
+
+.checkout-success-total span {
+    display: block;
+    color: #aeb7cb;
+    margin-bottom: 8px;
+}
+
+.checkout-success-total strong {
+    font-size: 34px;
+    color: #fff;
+    font-weight: 900;
+}
+
+.checkout-success-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 1000px) {
+    .checkout-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .checkout-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout-success-card h1 {
+        font-size: 34px;
+    }
+}
+/* ===============================
+   GAME CARD UPGRADE (EPIC STYLE)
+================================ */
+
+.upgraded-card {
+    position: relative;
+    transition: 0.3s ease;
+}
+
+.upgraded-card:hover {
+    transform: translateY(-6px);
+}
+
+/* VIDEO CARD */
+.video-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+/* IMAGE */
+.thumb-image {
+    width: 100%;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+/* VIDEO */
+.thumb-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* HOVER EFFECT */
+.video-card:hover .thumb-video {
+    opacity: 1;
+}
+
+.video-card:hover .thumb-image {
+    opacity: 0;
+}
+
+/* DISCOUNT BADGE */
+/* FIX DISCOUNT BADGE */
+.discount-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 5;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: auto;
+    min-width: 58px;
+    height: 32px;
+    padding: 0 12px;
+
+    background: #22c7ff;
+    color: #07131c;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+    border-radius: 8px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.epic-game-thumb {
+    position: relative;
+    overflow: hidden;
+}
+
+/* WISHLIST BUTTON */
+.card-top-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.wishlist-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.wishlist-btn:hover {
+    background: #ff4d6d;
+}
+
+/* TAGS */
+.game-tags-row {
+    display: flex;
+    gap: 8px;
+    margin: 6px 0;
+}
+
+.game-tags-row span {
+    font-size: 11px;
+    background: rgba(255,255,255,0.08);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* PRICE */
+.price-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.new-price {
+    color: #00ff9c;
+    font-weight: 700;
+}
+/* =========================================
+   EPIC BROWSE PAGE
+========================================= */
+
+.browse-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 290px;
+    gap: 26px;
+    align-items: start;
+    margin-top: 26px;
+}
+
+.browse-main-content {
+    min-width: 0;
+}
+
+.browse-categories {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.browse-category-card {
+    display: block;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: 0.25s ease;
+    color: #ffffff;
+}
+
+.browse-category-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.browse-category-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    height: 78px;
+    overflow: hidden;
+}
+
+.browse-category-images img {
+    width: 100%;
+    height: 78px;
+    object-fit: cover;
+    display: block;
+}
+
+.browse-category-card span {
+    display: block;
+    padding: 16px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #edf2ff;
+}
+
+.browse-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.browse-toolbar-left,
+.browse-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.browse-toolbar-label {
+    color: #aeb7cb;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.browse-filter-chip-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.browse-chip {
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: #e8edfa;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.browse-chip.active,
+.browse-chip:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.browse-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: #dce3f2;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.browse-sort select {
+    background: transparent;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.browse-sort option {
+    background: #11141d;
+    color: #ffffff;
+}
+
+.browse-game-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.browse-store-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.browse-store-card .epic-game-thumb {
+    margin-bottom: 14px;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.browse-store-card .thumb-image,
+.browse-store-card .thumb-video {
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+    display: block;
+}
+
+.browse-game-title-link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.browse-game-title-link:hover {
+    color: #9cc8ff;
+}
+
+.browse-card-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+.browse-add-cart-form {
+    flex: 1;
+}
+
+.browse-card-btn {
+    height: 44px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+    width: 100%;
+}
+
+.browse-card-btn.primary {
+    background: #ffffff;
+    color: #0c0f1a;
+}
+
+.browse-card-btn.primary:hover {
+    background: #dfe5ef;
+}
+
+.browse-card-btn.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    min-width: 140px;
+}
+
+.browse-card-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.browse-filters {
+    position: sticky;
+    top: 24px;
+}
+
+.browse-filter-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+.browse-filter-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 22px 20px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.browse-filter-head h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin: 0;
+}
+
+.browse-filter-head a {
+    color: #4ec3ff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.browse-filter-search {
+    margin: 16px 20px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+}
+
+.browse-filter-search i {
+    color: #9aa4b8;
+}
+
+.browse-filter-search input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.browse-filter-search input::placeholder {
+    color: #8e99b1;
+}
+
+.browse-filter-group {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.browse-filter-toggle {
+    width: 100%;
+    padding: 18px 20px;
+    background: transparent;
+    border: none;
+    color: #eef2fb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.browse-filter-badge {
+    min-width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    padding: 0 8px;
+    background: rgba(255, 255, 255, 0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.browse-filter-options {
+    padding: 0 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.browse-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #dce3f1;
+    font-size: 14px;
+}
+
+.browse-check input {
+    accent-color: #4ec3ff;
+}
+
+.browse-news-strip {
+    margin-top: 32px;
+    padding: 20px 22px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.browse-news-head h2 {
+    margin-bottom: 8px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.browse-news-head p {
+    color: #bfc8da;
+    max-width: 720px;
+    line-height: 1.7;
+}
+
+@media (max-width: 1400px) {
+    .browse-game-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1100px) {
+    .browse-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .browse-filters {
+        position: relative;
+        top: 0;
+    }
+
+    .browse-categories {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .browse-game-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .browse-categories,
+    .browse-game-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .browse-card-actions {
+        flex-direction: column;
+    }
+}
+/* =========================================
+   EPIC GAME DETAILS PAGE
+========================================= */
+
+.details-back-btn {
+    text-decoration: none;
+}
+
+.details-page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.details-label {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    color: #cfd7ea;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.details-page-head h1 {
+    font-size: 44px;
+    line-height: 1.05;
+    margin: 0;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.details-head-badges {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.details-head-badges span {
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.07);
+    color: #e8edf9;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.details-hero-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 26px;
+    align-items: start;
+}
+
+.details-media-panel {
+    min-width: 0;
+}
+
+.details-hero-media {
+    position: relative;
+    min-height: 560px;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #121520;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+
+.details-hero-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.details-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(10,12,18,0.88) 0%, rgba(10,12,18,0.58) 45%, rgba(10,12,18,0.18) 100%);
+}
+
+.details-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 560px;
+    min-height: 560px;
+    padding: 54px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.details-hero-badge {
+    display: inline-block;
+    width: fit-content;
+    padding: 9px 13px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.10);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 18px;
+    letter-spacing: 0.8px;
+}
+
+.details-hero-content h2 {
+    font-size: 52px;
+    line-height: 1.02;
+    margin-bottom: 16px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.details-hero-content p {
+    max-width: 500px;
+    color: #d8deeb;
+    font-size: 16px;
+    line-height: 1.75;
+    margin-bottom: 24px;
+}
+
+.details-hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.details-main-btn {
+    padding: 15px 22px;
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.details-main-btn.white {
+    background: #ffffff;
+    color: #0b0f18;
+}
+
+.details-main-btn.white:hover {
+    background: #dfe5ef;
+}
+
+.details-main-btn.ghost {
+    background: rgba(255,255,255,0.10);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.details-main-btn.ghost:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.details-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.details-gallery-card {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #121520;
+}
+
+.details-gallery-card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    display: block;
+}
+
+.details-buy-panel {
+    position: sticky;
+    top: 24px;
+}
+
+.details-buy-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px;
+    padding: 20px;
+}
+
+.details-cover-wrap {
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.details-cover-wrap img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.details-game-type {
+    color: #9fabc4;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.details-buy-card h3 {
+    font-size: 28px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: #ffffff;
+}
+
+.details-price-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.details-discount-badge {
+    background: #00c2ff;
+    color: #051018;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.details-old-price {
+    color: #8a93aa;
+    text-decoration: line-through;
+    font-size: 15px;
+}
+
+.details-new-price {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.details-reward-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #d7dfef;
+    background: rgba(255,255,255,0.05);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+}
+
+.details-reward-line i {
+    color: #d9f05b;
+}
+
+.details-action-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.details-action-stack form {
+    margin: 0;
+}
+
+.details-buy-btn,
+.details-buy-btn.ghost-link {
+    width: 100%;
+    height: 48px;
+    border-radius: 14px;
+    border: none;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.details-buy-btn.primary {
+    background: #ffffff;
+    color: #0b0f18;
+}
+
+.details-buy-btn.primary:hover {
+    background: #dfe5ef;
+}
+
+.details-buy-btn.secondary {
+    background: rgba(255,255,255,0.10);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.details-buy-btn.secondary:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.details-buy-btn.ghost-link {
+    background: transparent;
+    color: #dce3f1;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.details-buy-btn.ghost-link:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.details-meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.details-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.details-meta-row span {
+    color: #98a3bc;
+    font-size: 14px;
+}
+
+.details-meta-row strong {
+    color: #ffffff;
+    font-size: 14px;
+    text-align: right;
+}
+
+.details-info-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 26px;
+    margin-top: 28px;
+    align-items: start;
+}
+
+.details-description-card,
+.details-spec-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px;
+    padding: 26px;
+}
+
+.details-description-card h2,
+.details-spec-card h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.details-description-card p {
+    color: #c9d2e5;
+    line-height: 1.8;
+    font-size: 15px;
+    margin-bottom: 22px;
+}
+
+.details-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.details-feature-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 18px;
+    padding: 18px;
+}
+
+.details-feature-box i {
+    font-size: 22px;
+    color: #62c8ff;
+    margin-bottom: 12px;
+    display: inline-block;
+}
+
+.details-feature-box h4 {
+    font-size: 17px;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.details-feature-box p {
+    margin: 0;
+    color: #b9c5db;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.details-spec-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.details-spec-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.details-spec-item span {
+    color: #97a3bc;
+    font-size: 14px;
+}
+
+.details-spec-item strong {
+    color: #ffffff;
+    font-size: 14px;
+    text-align: right;
+}
+
+.details-related-section {
+    margin-top: 32px;
+}
+
+.details-section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.details-section-head h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+}
+
+.details-section-head a {
+    color: #d8dfef;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.details-related-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.static-badge {
+    position: static;
+    top: auto;
+    left: auto;
+}
+
+.details-empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.details-empty-card {
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    padding: 34px 28px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.details-empty-card i {
+    font-size: 46px;
+    color: #65c9ff;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.details-empty-card h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.details-empty-card p {
+    color: #bfc8da;
+    margin-bottom: 18px;
+}
+
+@media (max-width: 1300px) {
+    .details-related-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .details-feature-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1100px) {
+    .details-hero-layout,
+    .details-info-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .details-buy-panel {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .details-related-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .details-gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .details-page-head h1 {
+        font-size: 34px;
+    }
+
+    .details-hero-content h2 {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .details-related-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .details-hero-media,
+    .details-hero-content {
+        min-height: 440px;
+    }
+
+    .details-hero-content {
+        padding: 28px 22px;
+    }
+
+    .details-hero-content h2 {
+        font-size: 30px;
+    }
+
+    .details-main-btn {
+        width: 100%;
+    }
+
+    .details-hero-actions {
+        flex-direction: column;
+    }
+}
+/* =========================================
+   EPIC LIBRARY PAGE
+========================================= */
+
+.library-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.library-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.library-title-row h1 {
+    font-size: 64px;
+    line-height: 1;
+    margin: 0;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.library-refresh-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #dce3f1;
+    cursor: pointer;
+    transition: 0.2s ease;
+    display: grid;
+    place-items: center;
+}
+
+.library-refresh-btn:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.library-tabs {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.library-tab,
+.library-add-btn {
+    border: none;
+    background: transparent;
+    color: #b9c3d8;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s ease;
+    padding: 0;
+}
+
+.library-tab.active,
+.library-tab:hover,
+.library-add-btn:hover {
+    color: #ffffff;
+}
+
+.library-tab.active {
+    position: relative;
+}
+
+.library-tab.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 3px;
+    border-radius: 999px;
+    background: #4ec3ff;
+}
+
+.library-head-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.library-sort-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #d7deed;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.library-sort-wrap select {
+    background: transparent;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.library-sort-wrap option {
+    background: #11141d;
+    color: #ffffff;
+}
+
+.library-view-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.library-view-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: #c6d0e4;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.library-view-btn:hover,
+.library-view-btn.active {
+    background: rgba(255,255,255,0.10);
+    color: #4ec3ff;
+}
+
+.library-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 28px;
+    align-items: start;
+}
+
+.library-main {
+    min-width: 0;
+}
+
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 26px;
+}
+
+.library-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.library-card-top {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.library-thumb-link {
+    display: block;
+    text-decoration: none;
+}
+
+.library-thumb {
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+    border-radius: 18px;
+    display: block;
+    transition: 0.25s ease;
+}
+
+.library-card:hover .library-thumb {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 34px rgba(0,0,0,0.35);
+}
+
+.library-more-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(8,10,16,0.72);
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.2s ease;
+    opacity: 0;
+}
+
+.library-card:hover .library-more-btn {
+    opacity: 1;
+}
+
+.library-more-btn:hover {
+    background: rgba(255,255,255,0.14);
+}
+
+.library-title-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.35;
+    transition: 0.2s ease;
+}
+
+.library-title-link:hover {
+    color: #9cc8ff;
+}
+
+.library-meta-row {
+    margin-top: 8px;
+}
+
+.library-meta-row span {
+    color: #aeb8ce;
+    font-size: 14px;
+}
+
+.library-action-row {
+    margin-top: 8px;
+}
+
+.library-install-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #dfe6f5;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.library-install-link:hover {
+    color: #4ec3ff;
+}
+
+.library-footer-row {
+    margin-top: 24px;
+    color: #9ca8c1;
+    font-size: 14px;
+}
+
+.library-filters {
+    position: sticky;
+    top: 24px;
+}
+
+.library-filter-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+.library-filter-search {
+    margin: 18px;
+    height: 46px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+}
+
+.library-filter-search i {
+    color: #9aa4b8;
+}
+
+.library-filter-search input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.library-filter-search input::placeholder {
+    color: #8e99b1;
+}
+
+.library-filter-group {
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.library-filter-toggle {
+    width: 100%;
+    padding: 18px 20px;
+    background: transparent;
+    border: none;
+    color: #eef2fb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media (max-width: 1400px) {
+    .library-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1100px) {
+    .library-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .library-filters {
+        position: relative;
+        top: 0;
+    }
+
+    .library-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .library-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .library-title-row h1 {
+        font-size: 46px;
+    }
+}
+
+@media (max-width: 576px) {
+    .library-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .library-title-row h1 {
+        font-size: 34px;
+    }
+
+    .library-head-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+/* =========================================
+   EPIC FAVORITES / WISHLIST PAGE
+========================================= */
+
+.wishlist-head {
+    margin-bottom: 18px;
+}
+
+.wishlist-head h1 {
+    font-size: 64px;
+    line-height: 1;
+    margin: 0;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.wishlist-notice-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-left: 4px solid #37b8ff;
+    border-radius: 18px;
+    padding: 18px 20px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+}
+
+.wishlist-notice-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #e8eefb;
+    max-width: 920px;
+}
+
+.wishlist-notice-left i {
+    color: #37b8ff;
+    font-size: 20px;
+}
+
+.wishlist-switch {
+    position: relative;
+    width: 52px;
+    height: 30px;
+    display: inline-block;
+}
+
+.wishlist-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.wishlist-slider {
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+    background: rgba(255,255,255,0.14);
+    border-radius: 999px;
+    transition: 0.2s ease;
+}
+
+.wishlist-slider::before {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    left: 4px;
+    top: 4px;
+    background: #ffffff;
+    border-radius: 50%;
+    transition: 0.2s ease;
+}
+
+.wishlist-switch input:checked + .wishlist-slider {
+    background: #37b8ff;
+}
+
+.wishlist-switch input:checked + .wishlist-slider::before {
+    transform: translateX(22px);
+}
+
+.wishlist-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 28px;
+    align-items: start;
+}
+
+.wishlist-main {
+    min-width: 0;
+}
+
+.wishlist-toolbar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.wishlist-sort-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #d7deed;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.wishlist-sort-wrap select {
+    background: transparent;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.wishlist-sort-wrap option {
+    background: #11141d;
+    color: #ffffff;
+}
+
+.wishlist-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.wishlist-card {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 22px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px;
+    padding: 20px;
+}
+
+.wishlist-card-image-wrap {
+    min-width: 0;
+}
+
+.wishlist-card-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    border-radius: 16px;
+}
+
+.wishlist-card-body {
+    min-width: 0;
+}
+
+.wishlist-card-topline {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.wishlist-game-type {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    color: #dbe3f3;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.wishlist-title-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+    transition: 0.2s ease;
+}
+
+.wishlist-title-link:hover {
+    color: #9cc8ff;
+}
+
+.wishlist-price-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.wishlist-discount-badge {
+    background: #00c2ff;
+    color: #07131c;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.wishlist-old-price {
+    color: #8c95ab;
+    text-decoration: line-through;
+    font-size: 15px;
+}
+
+.wishlist-new-price {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.wishlist-rating-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 16px 0 18px;
+    padding: 16px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.wishlist-age-badge {
+    min-width: 54px;
+    height: 62px;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.wishlist-rating-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wishlist-rating-text strong {
+    color: #ffffff;
+    font-size: 15px;
+}
+
+.wishlist-rating-text span {
+    color: #aeb8ce;
+    font-size: 14px;
+}
+
+.wishlist-reward-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #d8dfef;
+    margin-bottom: 18px;
+}
+
+.wishlist-reward-line i {
+    color: #d9f05b;
+}
+
+.wishlist-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.wishlist-remove-link {
+    min-width: 92px;
+    height: 46px;
+    border: none;
+    background: transparent;
+    color: #cfd8ea;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+    border-radius: 12px;
+}
+
+.wishlist-remove-link:hover {
+    background: rgba(255,255,255,0.08);
+    color: #ff6b81;
+}
+
+.wishlist-remove-link.active {
+    background: rgba(255,255,255,0.06);
+}
+
+.wishlist-cart-form {
+    margin: 0;
+}
+
+.wishlist-cart-btn {
+    min-width: 170px;
+    height: 46px;
+    border: none;
+    border-radius: 12px;
+    background: #37b8ff;
+    color: #07131c;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    padding: 0 18px;
+}
+
+.wishlist-cart-btn:hover {
+    background: #7fd5ff;
+}
+
+.wishlist-filters {
+    position: sticky;
+    top: 24px;
+}
+
+.wishlist-filter-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+.wishlist-filter-head {
+    padding: 22px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.wishlist-filter-head h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.wishlist-filter-group {
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.wishlist-filter-toggle {
+    width: 100%;
+    padding: 18px 20px;
+    background: transparent;
+    border: none;
+    color: #eef2fb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.wishlist-empty-state {
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wishlist-empty-card {
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px;
+    padding: 42px 28px;
+}
+
+.wishlist-empty-card i {
+    font-size: 48px;
+    color: #37b8ff;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.wishlist-empty-card h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.wishlist-empty-card p {
+    color: #bfc8da;
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+
+.wishlist-browse-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    height: 48px;
+    border-radius: 14px;
+    background: #37b8ff;
+    color: #07131c;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.wishlist-browse-btn:hover {
+    background: #7fd5ff;
+}
+
+.wishlist-balance-chip {
+    min-width: 118px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.16);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: #e7edf8;
+    font-size: 14px;
+}
+
+.wishlist-balance-chip strong {
+    color: #ffffff;
+    font-size: 16px;
+}
+
+@media (max-width: 1100px) {
+    .wishlist-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .wishlist-filters {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .wishlist-card {
+        grid-template-columns: 1fr;
+    }
+
+    .wishlist-card-image {
+        height: 260px;
+    }
+
+    .wishlist-head h1 {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 576px) {
+    .wishlist-card-actions {
+        justify-content: stretch;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .wishlist-cart-btn,
+    .wishlist-remove-link {
+        width: 100%;
+    }
+
+    .wishlist-notice-bar {
+        align-items: flex-start;
+    }
+}
+/* =========================================
+   EPIC CART PAGE
+========================================= */
+
+.cart-back-btn {
+    text-decoration: none;
+}
+
+.active-cart-icon {
+    background: rgba(255,255,255,0.10);
+}
+
+.cart-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+}
+
+.cart-head h1 {
+    font-size: 60px;
+    line-height: 1;
+    margin: 0 0 10px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.cart-head p {
+    margin: 0;
+    color: #b8c3d9;
+    font-size: 16px;
+}
+
+.cart-head-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    color: #e5ecfb;
+    font-weight: 600;
+}
+
+.cart-head-badge i {
+    color: #62d26f;
+}
+
+.cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 28px;
+    align-items: start;
+}
+
+.cart-main {
+    min-width: 0;
+}
+
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.cart-item-card {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 22px;
+    padding: 22px;
+    border-radius: 24px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.cart-item-image-wrap {
+    min-width: 0;
+}
+
+.cart-item-image {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+    border-radius: 18px;
+}
+
+.cart-item-body {
+    min-width: 0;
+}
+
+.cart-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.cart-game-type {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    color: #dbe3f3;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.cart-title-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.2;
+    transition: 0.2s ease;
+}
+
+.cart-title-link:hover {
+    color: #9cc8ff;
+}
+
+.cart-price-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cart-discount-badge {
+    background: #00c2ff;
+    color: #07131c;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.cart-old-price {
+    color: #8c95ab;
+    text-decoration: line-through;
+    font-size: 15px;
+}
+
+.cart-new-price {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.cart-item-description {
+    color: #c3cde1;
+    line-height: 1.75;
+    margin-bottom: 16px;
+    max-width: 760px;
+}
+
+.cart-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.cart-meta-row span {
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    color: #d9e1f1;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.cart-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.cart-action-btn {
+    min-width: 150px;
+    height: 46px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    padding: 0 16px;
+}
+
+.cart-action-btn.secondary {
+    background: rgba(255,255,255,0.08);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.cart-action-btn.secondary:hover {
+    background: rgba(255,255,255,0.14);
+}
+
+.cart-action-btn.danger {
+    background: rgba(255,255,255,0.06);
+    color: #ff8c9b;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.cart-action-btn.danger:hover {
+    background: rgba(255, 77, 109, 0.16);
+    color: #ffd6dd;
+}
+
+.cart-summary-panel {
+    position: sticky;
+    top: 24px;
+}
+
+.cart-summary-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px;
+    padding: 22px;
+}
+
+.cart-summary-card h2 {
+    font-size: 24px;
+    margin: 0 0 20px;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.cart-summary-line,
+.cart-summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.cart-summary-line span,
+.cart-summary-total span {
+    color: #b6c0d6;
+    font-size: 15px;
+}
+
+.cart-summary-line strong {
+    color: #ffffff;
+    font-size: 15px;
+}
+
+.cart-summary-total {
+    margin-top: 4px;
+    padding-top: 18px;
+}
+
+.cart-summary-total strong {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.cart-checkout-form {
+    margin-top: 22px;
+}
+
+.cart-checkout-btn {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 14px;
+    background: #37b8ff;
+    color: #07131c;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.cart-checkout-btn:hover {
+    background: #7fd5ff;
+}
+
+.cart-continue-link {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 14px;
+    color: #dfe7f6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cart-continue-link:hover {
+    color: #9cc8ff;
+}
+
+.cart-summary-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 18px;
+    padding: 14px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.04);
+    color: #d5ddef;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.cart-summary-note i {
+    color: #62d26f;
+    margin-top: 2px;
+}
+
+.cart-empty-state {
+    min-height: 440px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-empty-card {
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px;
+    padding: 42px 28px;
+}
+
+.cart-empty-card i {
+    font-size: 48px;
+    color: #37b8ff;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.cart-empty-card h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.cart-empty-card p {
+    color: #bfc8da;
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+
+.cart-browse-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    height: 48px;
+    border-radius: 14px;
+    background: #37b8ff;
+    color: #07131c;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.cart-browse-btn:hover {
+    background: #7fd5ff;
+}
+
+@media (max-width: 1100px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-summary-panel {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .cart-item-card {
+        grid-template-columns: 1fr;
+    }
+
+    .cart-item-image {
+        height: 260px;
+    }
+
+    .cart-head h1 {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 576px) {
+    .cart-item-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cart-action-btn {
+        width: 100%;
+    }
+}
+/* ADMIN DASHBOARD */
+
+.admin-head h1 {
+    font-size: 48px;
+    font-weight: 800;
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.admin-card {
+    background: rgba(255,255,255,0.05);
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.admin-card i {
+    font-size: 30px;
+    color: #4ec3ff;
+}
+
+.admin-card h2 {
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+.admin-table-card {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.admin-table-card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table-card th,
+.admin-table-card td {
+    padding: 12px;
+    text-align: left;
+}
+
+.status.success {
+    color: #00ff9c;
+}
+/* CHECKOUT */
+
+.checkout-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.checkout-form {
+    background: rgba(255,255,255,0.05);
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.checkout-form input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+}
+
+.checkout-summary {
+    background: rgba(255,255,255,0.05);
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.checkout-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.checkout-total {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 15px;
+    background: #37b8ff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    margin-top: 20px;
+}
+.top-nav-link {
+    text-decoration: none;
+}
+
+.epic-profile-dropdown {
+    position: relative;
+}
+
+.epic-profile-trigger {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.epic-profile-trigger .epic-user-circle {
+    transition: 0.2s ease;
+}
+
+.epic-profile-trigger:hover .epic-user-circle {
+    box-shadow: 0 0 0 3px rgba(78, 195, 255, 0.15);
+}
+
+.epic-profile-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 280px;
+    background: #121722;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    display: none;
+    z-index: 1000;
+}
+
+.epic-profile-menu.show {
+    display: block;
+}
+
+.epic-profile-menu-head {
+    padding: 12px 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 8px;
+}
+
+.epic-profile-menu-head strong {
+    display: block;
+    color: #ffffff;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.epic-profile-menu-head span {
+    color: #9aa6bf;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.epic-profile-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 12px;
+    color: #e8edf8;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.epic-profile-menu a:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.epic-profile-menu a i {
+    color: #9fcfff;
+    width: 18px;
+}
+
+.epic-profile-menu .logout-link {
+    margin-top: 6px;
+    color: #ffb3c1;
+}
+
+.epic-profile-menu .logout-link i {
+    color: #ff8fa3;
+}
+
+.guest-chip {
+    text-decoration: none;
+}
+.gifts-page-head {
+    margin-bottom: 28px;
+}
+
+.gifts-page-head h1 {
+    font-size: 56px;
+    margin: 0 0 18px;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.gifts-tabs {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.gifts-tab {
+    border: none;
+    background: transparent;
+    color: #b8c3d8;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 0 8px;
+}
+
+.gifts-tab.active {
+    color: #ffffff;
+    border-bottom: 3px solid #37b8ff;
+}
+
+.gifts-empty-state {
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gifts-empty-card {
+    width: 100%;
+    max-width: 620px;
+    text-align: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px;
+    padding: 46px 28px;
+}
+
+.gifts-empty-card i {
+    font-size: 54px;
+    color: #6fcfff;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.gifts-empty-card h2 {
+    color: #ffffff;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.gifts-empty-card p {
+    color: #bfc8da;
+    margin-bottom: 18px;
+}
+
+.gifts-browse-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    height: 48px;
+    border-radius: 14px;
+    background: #37b8ff;
+    color: #07131c;
+    font-weight: 800;
+    text-decoration: none;
+}
+/* =========================================
+   TOP RIGHT ICON FUNCTIONS
+========================================= */
+
+.epic-icon-nav {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    padding-bottom: 12px;
+}
+
+.epic-icon-nav::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 4px;
+    border-radius: 999px;
+    background: #21a8ff;
+    transform: translateX(-50%);
+    transition: 0.2s ease;
+}
+
+.epic-icon-nav.active::after,
+.epic-icon-nav:hover::after {
+    width: 28px;
+}
+
+.epic-icon-nav .epic-icon-btn {
+    text-decoration: none;
+}
+
+.epic-profile-dropdown {
+    position: relative;
+}
+
+.epic-profile-trigger {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 0 12px;
+    position: relative;
+}
+
+.epic-profile-trigger::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 46px;
+    height: 4px;
+    border-radius: 999px;
+    background: #21a8ff;
+    transform: translateX(-50%);
+}
+
+.epic-profile-trigger .epic-user-circle {
+    transition: 0.2s ease;
+}
+
+.epic-profile-trigger:hover .epic-user-circle {
+    box-shadow: 0 0 0 3px rgba(33, 168, 255, 0.14);
+}
+
+.epic-profile-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 290px;
+    background: #111722;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    display: none;
+    z-index: 1000;
+}
+
+.epic-profile-menu.show {
+    display: block;
+}
+
+.epic-profile-menu-head {
+    padding: 12px 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 8px;
+}
+
+.epic-profile-menu-head strong {
+    display: block;
+    color: #ffffff;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.epic-profile-menu-head span {
+    color: #9aa6bf;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.epic-profile-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 12px;
+    color: #e8edf8;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.epic-profile-menu a:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.epic-profile-menu a i {
+    color: #9fcfff;
+    width: 18px;
+}
+
+.epic-profile-menu .logout-link {
+    margin-top: 6px;
+    color: #ffb3c1;
+}
+
+.epic-profile-menu .logout-link i {
+    color: #ff8fa3;
+}
+
+.guest-chip {
+    text-decoration: none;
+}
+
+/* =========================================
+   GIFTS PAGE
+========================================= */
+
+.gifts-page-head {
+    margin-bottom: 28px;
+}
+
+.gifts-page-head h1 {
+    font-size: 56px;
+    margin: 0 0 18px;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.gifts-tabs {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.gifts-tab {
+    border: none;
+    background: transparent;
+    color: #b8c3d8;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 0 8px;
+}
+
+.gifts-tab.active {
+    color: #ffffff;
+    border-bottom: 3px solid #37b8ff;
+}
+
+.gifts-empty-state {
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gifts-empty-card {
+    width: 100%;
+    max-width: 620px;
+    text-align: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px;
+    padding: 46px 28px;
+}
+
+.gifts-empty-card i {
+    font-size: 54px;
+    color: #6fcfff;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.gifts-empty-card h2 {
+    color: #ffffff;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.gifts-empty-card p {
+    color: #bfc8da;
+    margin-bottom: 18px;
+}
+
+.gifts-browse-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    height: 48px;
+    border-radius: 14px;
+    background: #37b8ff;
+    color: #07131c;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.gifts-browse-btn:hover {
+    background: #7fd5ff;
+}
+
+/* EPIC PRIMARY BUTTON (BLUE) */
+.epic-btn {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.epic-btn-primary {
+    background: #26bbff;
+    color: #001018;
+}
+
+.epic-btn-primary:hover {
+    background: #1aa7e6;
+}

@@ -1,6 +1,7 @@
 package com.dulith.gamehub.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -43,4 +44,19 @@ public class FavoriteService {
                 .map(Favorite::getGame)
                 .collect(Collectors.toList());
     }
+
+    public boolean toggleFavorite(User user, Game game) {
+    Optional<Favorite> existing = favoriteRepository.findByUserAndGame(user, game);
+
+    if (existing.isPresent()) {
+        favoriteRepository.delete(existing.get());
+        return false;
+    } else {
+        Favorite favorite = new Favorite();
+        favorite.setUser(user);
+        favorite.setGame(game);
+        favoriteRepository.save(favorite);
+        return true;
+    }
+}
 }

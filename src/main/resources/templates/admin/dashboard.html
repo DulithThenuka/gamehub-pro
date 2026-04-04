@@ -4,78 +4,249 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - GameHub Pro</title>
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-<body>
+<body class="epic-page">
 
-<header class="navbar">
-    <div class="logo">
-        <a th:href="@{/}" class="logo-link">🎮 GameHub Pro Admin</a>
-    </div>
+<div class="epic-shell">
 
-    <nav class="nav-links">
-        <a th:href="@{/}">Home</a>
-        <a th:href="@{/games}">Games</a>
-        <a th:href="@{/admin}" class="active-link">Admin</a>
-        <a th:href="@{/logout}">Logout</a>
-    </nav>
-</header>
+    <!-- SIDEBAR -->
+    <aside class="epic-sidebar">
+        <div>
+            <div class="epic-logo-wrap">
+                <a th:href="@{/}" class="epic-logo">GH</a>
+            </div>
 
-<section class="games-page">
-    <div class="section-header">
-        <p class="tag">ADMIN PANEL</p>
-        <h1>Manage Games</h1>
-        <p class="section-text">Total games in system: <span th:text="${totalGames}">0</span></p>
-    </div>
+            <nav class="epic-menu">
+                <a th:href="@{/}">
+                    <i class="bi bi-bag"></i>
+                    <span>Store</span>
+                </a>
 
-    <div class="admin-topbar">
-        <a th:href="@{/admin/games/new}" class="btn btn-primary">+ Add New Game</a>
-    </div>
+                <a th:if="${loggedUser != null}" th:href="@{/library}">
+                    <i class="bi bi-collection"></i>
+                    <span>Library</span>
+                </a>
 
-    <div class="admin-table-wrap" th:if="${not #lists.isEmpty(games)}">
-        <table class="admin-table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Genre</th>
-                <th>Platform</th>
-                <th>Rating</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="game : ${games}">
-                <td th:text="${game.id}">1</td>
-                <td>
-                    <img th:src="${game.imageUrl}" th:alt="${game.title}" class="admin-thumb">
-                </td>
-                <td th:text="${game.title}">Title</td>
-                <td th:text="${game.genre}">Genre</td>
-                <td th:text="${game.platform}">Platform</td>
-                <td th:text="${game.rating}">4.8</td>
-                <td>
-                    <div class="admin-actions">
-                        <a th:href="@{'/admin/games/edit/' + ${game.id}}" class="btn btn-primary small-btn">Edit</a>
-                        <form th:action="@{'/admin/games/delete/' + ${game.id}}" method="post">
-                            <button type="submit" class="btn btn-secondary small-btn">Delete</button>
-                        </form>
+                <a th:href="@{/games}">
+                    <i class="bi bi-grid"></i>
+                    <span>Browse</span>
+                </a>
+
+                <a th:if="${loggedUser != null}" th:href="@{/favorites}">
+                    <i class="bi bi-heart"></i>
+                    <span>Wishlist</span>
+                </a>
+
+                <a th:href="@{/admin}" class="active">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Admin</span>
+                </a>
+
+                <a th:if="${loggedUser != null}" th:href="@{/profile}">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="epic-sidebar-bottom">
+            <a th:if="${loggedUser != null}" th:href="@{/logout}" class="epic-side-btn">Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="epic-main">
+
+        <!-- TOP BAR -->
+        <header class="epic-topbar">
+            <div class="epic-top-left">
+                <a th:href="@{/}" class="epic-icon-btn admin-back-btn">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+
+                <div class="epic-search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="Search dashboard">
+                </div>
+
+                <nav class="epic-top-links">
+                    <a th:href="@{/}">Discover</a>
+                    <a th:href="@{/games}">Browse</a>
+                    <a th:href="@{/admin}" class="active">Admin</a>
+                </nav>
+            </div>
+
+            <div class="epic-top-right">
+                <button class="epic-icon-btn" type="button"><i class="bi bi-bell"></i></button>
+                <button class="epic-icon-btn" type="button"><i class="bi bi-gear"></i></button>
+
+                <div class="epic-user-chip">
+                    <div class="epic-user-circle"
+                         th:text="${loggedUser != null ? #strings.substring(loggedUser.fullName,0,1) : 'A'}">A</div>
+                    <span th:text="${loggedUser != null ? loggedUser.fullName : 'Admin'}">Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE HEAD -->
+        <section class="admin-page-head">
+            <div>
+                <div class="admin-page-label">ADMIN PANEL</div>
+                <h1>Dashboard Overview</h1>
+                <p>Monitor your GameHub platform, users, games, and recent activity.</p>
+            </div>
+
+            <div class="admin-head-actions">
+                <a th:href="@{/admin/games}" class="admin-head-btn secondary">
+                    <i class="bi bi-grid"></i>
+                    Manage Games
+                </a>
+                <a th:href="@{/admin/users}" class="admin-head-btn primary">
+                    <i class="bi bi-people"></i>
+                    Manage Users
+                </a>
+            </div>
+        </section>
+
+        <!-- STAT CARDS -->
+        <section class="admin-stats-grid">
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon"><i class="bi bi-controller"></i></div>
+                <div class="admin-stat-content">
+                    <span>Total Games</span>
+                    <h3 th:text="${totalGames != null ? totalGames : 0}">0</h3>
+                </div>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon"><i class="bi bi-people"></i></div>
+                <div class="admin-stat-content">
+                    <span>Total Users</span>
+                    <h3 th:text="${totalUsers != null ? totalUsers : 0}">0</h3>
+                </div>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon"><i class="bi bi-cart-check"></i></div>
+                <div class="admin-stat-content">
+                    <span>Total Orders</span>
+                    <h3 th:text="${totalOrders != null ? totalOrders : 0}">0</h3>
+                </div>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="admin-stat-icon"><i class="bi bi-cash-stack"></i></div>
+                <div class="admin-stat-content">
+                    <span>Revenue</span>
+                    <h3 th:text="${revenue != null ? '$' + #numbers.formatDecimal(revenue,1,2) : '$0.00'}">$0.00</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUICK CARDS -->
+        <section class="admin-quick-grid">
+            <div class="admin-panel-card">
+                <div class="admin-panel-head">
+                    <h2>Platform Status</h2>
+                    <span class="admin-status-pill online">Online</span>
+                </div>
+
+                <div class="admin-mini-list">
+                    <div class="admin-mini-row">
+                        <span>Storefront</span>
+                        <strong>Running</strong>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+                    <div class="admin-mini-row">
+                        <span>Cart System</span>
+                        <strong>Active</strong>
+                    </div>
+                    <div class="admin-mini-row">
+                        <span>Wishlist</span>
+                        <strong>Active</strong>
+                    </div>
+                    <div class="admin-mini-row">
+                        <span>Admin Access</span>
+                        <strong>Secured</strong>
+                    </div>
+                </div>
+            </div>
 
-    <div class="empty-state" th:if="${#lists.isEmpty(games)}">
-        <h3>No games available</h3>
-        <p>Add your first game from the admin panel.</p>
-    </div>
-</section>
+            <div class="admin-panel-card">
+                <div class="admin-panel-head">
+                    <h2>Quick Actions</h2>
+                </div>
 
+                <div class="admin-action-grid">
+                    <a th:href="@{/admin/games}" class="admin-action-box">
+                        <i class="bi bi-plus-square"></i>
+                        <span>Add / Edit Games</span>
+                    </a>
+
+                    <a th:href="@{/admin/users}" class="admin-action-box">
+                        <i class="bi bi-person-lines-fill"></i>
+                        <span>Manage Users</span>
+                    </a>
+
+                    <a th:href="@{/games}" class="admin-action-box">
+                        <i class="bi bi-eye"></i>
+                        <span>View Store</span>
+                    </a>
+
+                    <a th:href="@{/admin/orders}" class="admin-action-box">
+                        <i class="bi bi-receipt"></i>
+                        <span>View Orders</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- RECENT ORDERS -->
+        <section class="admin-table-section">
+            <div class="admin-table-card">
+                <div class="admin-panel-head">
+                    <h2>Recent Orders</h2>
+                    <a th:href="@{/admin/orders}" class="admin-table-link">View All</a>
+                </div>
+
+                <div class="admin-table-wrap" th:if="${recentOrders != null and !#lists.isEmpty(recentOrders)}">
+                    <table class="admin-table">
+                        <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Game</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order : ${recentOrders}">
+                            <td th:text="${order.user != null ? order.user.fullName : 'User'}">User</td>
+                            <td th:text="${order.game != null ? order.game.title : 'Game'}">Game</td>
+                            <td th:text="${order.price != null ? '$' + #numbers.formatDecimal(order.price,1,2) : '$0.00'}">$0.00</td>
+                            <td>
+                                <span class="admin-status-pill success">Completed</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="admin-empty-box" th:if="${recentOrders == null or #lists.isEmpty(recentOrders)}">
+                    <i class="bi bi-inbox"></i>
+                    <p>No recent orders found.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

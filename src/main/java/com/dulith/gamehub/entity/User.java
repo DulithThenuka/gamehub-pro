@@ -30,6 +30,9 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    @Column(nullable = false)
+    private Double balance = 0.0;
+
     public User() {
     }
 
@@ -80,4 +83,11 @@ public class User {
     public Role getRole() {
         return role;
     }
+    public Double getBalance() {
+    return balance;
+}
+
+public void setBalance(Double balance) {
+    this.balance = balance;
+}
 }

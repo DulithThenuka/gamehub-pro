@@ -4,95 +4,387 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${title}">GameHub Pro</title>
+
+    <meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:if="${_csrf != null}" th:content="${_csrf.headerName}">
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-<body>
+<body class="epic-page">
 
-<header class="navbar">
-    <div class="logo">
-        <a th:href="@{/}" class="logo-link">🎮 GameHub Pro</a>
-    </div>
-    <nav class="nav-links">
-        <a th:href="@{/}">Home</a>
-        <a th:href="@{/games}">Games</a>
+<div class="epic-shell">
 
-        <a th:if="${loggedUser != null}" th:href="@{/library}">My Library</a>
-        <a th:if="${loggedUser != null}" th:href="@{/profile}">Profile</a>
-        <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">Admin</a>
+    <aside class="epic-sidebar">
+        <div>
+            <div class="epic-logo-wrap">
+                <a th:href="@{/}" class="epic-logo">GH</a>
+            </div>
 
-        <a th:if="${loggedUser == null}" th:href="@{/login}">Login</a>
-        <a th:if="${loggedUser == null}" th:href="@{/register}">Register</a>
-        <a th:if="${loggedUser != null}" th:href="@{/logout}">Logout</a>
-    </nav>
-</header>
+            <nav class="epic-menu">
+                <a th:href="@{/}" class="active">
+                    <i class="bi bi-bag"></i>
+                    <span>Store</span>
+                </a>
 
-<main class="hero">
-    <div class="hero-content">
-        <p class="tag">NEXT LEVEL GAME DISCOVERY</p>
+                <a th:if="${loggedUser != null}" th:href="@{/library}">
+                    <i class="bi bi-collection"></i>
+                    <span>Library</span>
+                </a>
 
-        <h1 th:if="${loggedUser == null}">
-            Build Your Ultimate <span>Game Library</span>
-        </h1>
+                <a th:href="@{/games}">
+                    <i class="bi bi-grid"></i>
+                    <span>Browse</span>
+                </a>
 
-        <h1 th:if="${loggedUser != null}">
-            Welcome back, <span th:text="${loggedUser.fullName}">Player</span>
-        </h1>
+                <a th:if="${loggedUser != null}" th:href="@{/profile}">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
 
-        <p class="hero-text" th:text="${subtitle}">
-            Discover, track, and explore your favorite games.
-        </p>
-
-        <div class="hero-buttons">
-            <a th:href="@{/games}" class="btn btn-primary">Explore Games</a>
-            <a th:if="${loggedUser != null}" th:href="@{/library}" class="btn btn-secondary">My Library</a>
-            <a th:if="${loggedUser == null}" th:href="@{/register}" class="btn btn-secondary">Create Account</a>
+                <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Admin</span>
+                </a>
+            </nav>
         </div>
 
-        <div class="stats">
-            <div class="stat-card">
-                <h2 th:text="${totalGames}">0</h2>
-                <p>Games Listed</p>
+        <div class="epic-sidebar-bottom">
+            <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-side-btn">Login</a>
+            <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-side-btn secondary">Register</a>
+            <a th:if="${loggedUser != null}" th:href="@{/logout}" class="epic-side-btn">Logout</a>
+        </div>
+    </aside>
+
+    <main class="epic-main">
+
+        <header class="epic-topbar">
+            <div class="epic-top-left">
+                <button class="epic-icon-btn" type="button">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+                <div class="epic-search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="Search store">
+                </div>
+
+                <nav class="epic-top-links">
+                    <a th:href="@{/}" class="active">Discover</a>
+                    <a th:href="@{/games}">Browse</a>
+                    <a href="#storeNews">News</a>
+                </nav>
             </div>
-            <div class="stat-card">
-                <h2 th:text="${favoriteCount}">0</h2>
-                <p>Your Favorites</p>
+
+            <div class="epic-top-right">
+
+    <a th:href="@{/favorites}" class="epic-icon-btn top-nav-link" title="Wishlist">
+        <i class="bi bi-bookmark"></i>
+    </a>
+
+    <a th:href="@{/gifts}" class="epic-icon-btn top-nav-link" title="Gifts">
+        <i class="bi bi-gift"></i>
+    </a>
+
+    <a th:href="@{/cart}" class="epic-icon-btn top-nav-link" title="Cart">
+        <i class="bi bi-cart3"></i>
+    </a>
+
+    <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
+        <button class="epic-profile-trigger" type="button" id="profileDropdownBtn">
+            <div class="epic-user-circle"
+                 th:text="${#strings.substring(loggedUser.fullName,0,1)}">U</div>
+        </button>
+
+        <div class="epic-profile-menu" id="profileDropdownMenu">
+            <div class="epic-profile-menu-head">
+                <strong th:text="${loggedUser.fullName}">User Name</strong>
+                <span th:text="${loggedUser.email}">user@email.com</span>
             </div>
-            <div class="stat-card">
-                <h2 th:text="${loggedUser != null ? loggedUser.role : 'GUEST'}">USER</h2>
-                <p>Account Type</p>
-            </div>
+
+            <a th:href="@{/profile}">
+                <i class="bi bi-person"></i>
+                My Profile
+            </a>
+
+            <a th:href="@{/library}">
+                <i class="bi bi-collection"></i>
+                My Library
+            </a>
+
+            <a th:href="@{/favorites}">
+                <i class="bi bi-heart"></i>
+                Wishlist
+            </a>
+
+            <a th:href="@{/cart}">
+                <i class="bi bi-cart3"></i>
+                Cart
+            </a>
+
+            <a th:if="${loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
+                <i class="bi bi-speedometer2"></i>
+                Admin Dashboard
+            </a>
+
+            <a th:href="@{/logout}" class="logout-link">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </a>
         </div>
     </div>
 
-    <div class="hero-visual">
-        <div class="glass-card">
-            <h3>Featured Experience</h3>
-            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=900&q=80" alt="Gaming setup">
-            <div class="game-info">
-                <h4>Cyber Realm</h4>
-                <p>Action RPG • Sci-Fi • Multiplayer</p>
-            </div>
-        </div>
-    </div>
-</main>
+    <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-user-chip guest-chip">
+        <div class="epic-user-circle">G</div>
+        <span>Guest</span>
+    </a>
 
-<section class="showcase-strip">
-    <div class="showcase-card">
-        <h3>Discover New Worlds</h3>
-        <p>Explore modern game pages with search, filters, trailers, and detailed descriptions.</p>
-    </div>
-    <div class="showcase-card">
-        <h3>Build Your Library</h3>
-        <p>Save your favorite games and keep your own collection inside GameHub Pro.</p>
-    </div>
-    <div class="showcase-card">
-        <h3>Manage as Admin</h3>
-        <p>Use the admin dashboard to create, edit, and manage games like a real platform.</p>
-    </div>
-</section>
+</div>
+        </header>
+
+        <section class="epic-hero-row" th:if="${featuredGames != null and !#lists.isEmpty(featuredGames)}">
+            <div class="epic-hero-banner epic-slider" id="heroSlider">
+
+                <div class="epic-slide"
+                     th:each="game, stat : ${featuredGames}"
+                     th:classappend="${stat.index == 0} ? ' active' : ''">
+                    <img th:src="${game.imageUrl}" th:alt="${game.title}">
+                    <div class="epic-hero-overlay"></div>
+
+                    <div class="epic-hero-content">
+                        <div class="epic-badge" th:text="${game.discountPercent > 0 ? 'ON SALE' : 'FEATURED'}">FEATURED</div>
+                        <h1 th:text="${game.title}">Game Title</h1>
+                        <p th:text="${game.description}">Game description...</p>
+
+                        <div class="epic-hero-actions">
+                            <a th:href="@{/games/{id}(id=${game.id})}" class="epic-white-btn">View Game</a>
+
+                            <form th:if="${loggedUser != null}" th:action="@{/cart/add/{id}(id=${game.id})}" method="post">
+                                <button type="submit" class="epic-ghost-btn">Add To Cart</button>
+                            </form>
+
+                            <button class="wishlist-btn details-wishlist-btn"
+                                    th:if="${loggedUser != null}"
+                                    type="button"
+                                    th:attr="data-game-id=${game.id}">
+                                <i class="bi" th:classappend="${game.favorite} ? ' bi-heart-fill' : ' bi-heart'"></i>
+                            </button>
+                        </div>
+
+                        <div class="home-hero-price-row">
+                            <span class="old-price"
+                                  th:if="${game.discountPercent > 0}"
+                                  th:text="'$' + ${#numbers.formatDecimal(game.price,1,2)}">$59.99</span>
+                            <span class="new-price"
+                                  th:text="${game.price == 0 ? 'Free' : '$' + #numbers.formatDecimal(game.discountedPrice,1,2)}">$39.99</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="slider-arrow slider-arrow-left" type="button" id="heroPrev">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+
+                <button class="slider-arrow slider-arrow-right" type="button" id="heroNext">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+
+                <div class="slider-dots" id="sliderDots">
+                    <button class="slider-dot"
+                            th:each="game, stat : ${featuredGames}"
+                            th:classappend="${stat.index == 0} ? ' active' : ''"
+                            type="button"
+                            th:attr="data-slide=${stat.index}"></button>
+                </div>
+            </div>
+
+            <aside class="epic-right-rail">
+                <button class="epic-rail-card"
+                        th:each="game, stat : ${featuredGames}"
+                        th:classappend="${stat.index == 0} ? ' active' : ''"
+                        type="button"
+                        th:attr="data-hero-target=${stat.index}">
+                    <img th:src="${game.imageUrl}" th:alt="${game.title}">
+                    <span th:text="${game.title}">Game</span>
+                </button>
+            </aside>
+        </section>
+
+        <section class="epic-section">
+            <div class="epic-section-head">
+                <h2>Discover Something New</h2>
+                <a th:href="@{/games}"><i class="bi bi-chevron-right"></i></a>
+            </div>
+
+            <div class="epic-card-grid">
+                <article class="epic-game-card upgraded-card" th:each="game : ${discoverGames}">
+                    <a th:href="@{/games/{id}(id=${game.id})}">
+                        <div class="epic-game-thumb video-card">
+                            <img class="thumb-image" th:src="${game.imageUrl}" th:alt="${game.title}">
+                            <video class="thumb-video" muted loop preload="none" th:poster="${game.imageUrl}">
+                                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+                            </video>
+
+                            <div class="card-top-actions">
+                                <button class="wishlist-btn"
+                                        th:if="${loggedUser != null}"
+                                        type="button"
+                                        th:attr="data-game-id=${game.id}">
+                                    <i class="bi" th:classappend="${game.favorite} ? ' bi-heart-fill' : ' bi-heart'"></i>
+                                </button>
+                            </div>
+
+                            <div class="discount-badge"
+                                 th:if="${game.discountPercent > 0}"
+                                 th:text="'-' + ${game.discountPercent} + '%'">-40%</div>
+
+                            <div class="discount-badge free-badge" th:if="${game.price == 0}">FREE</div>
+                        </div>
+                    </a>
+
+                    <div class="epic-game-meta">Base Game</div>
+                    <h3 th:text="${game.title}">Game Title</h3>
+
+                    <div class="game-tags-row">
+                        <span th:text="${game.genre}">Action</span>
+                        <span th:text="${game.platform}">PC</span>
+                    </div>
+
+                    <div class="price-row">
+                        <span class="old-price"
+                              th:if="${game.discountPercent > 0}"
+                              th:text="'$' + ${#numbers.formatDecimal(game.price,1,2)}">$59.99</span>
+
+                        <span class="new-price"
+                              th:text="${game.price == 0 ? 'Free' : '$' + #numbers.formatDecimal(game.discountedPrice,1,2)}">$39.99</span>
+                    </div>
+
+                    <form th:if="${loggedUser != null}" th:action="@{/cart/add/{id}(id=${game.id})}" method="post" class="home-card-cart-form">
+                        <button type="submit" class="wishlist-cart-btn">Add To Cart</button>
+                    </form>
+                </article>
+            </div>
+        </section>
+
+        <section class="home-news-section" id="storeNews">
+            <div class="epic-section-head">
+                <h2>News & Updates</h2>
+                <a th:href="@{/games}"><i class="bi bi-chevron-right"></i></a>
+            </div>
+
+            <div class="home-news-grid" th:if="${discoverGames != null and !#lists.isEmpty(discoverGames)}">
+                <article class="home-news-card" th:each="game : ${discoverGames}">
+                    <img th:src="${game.imageUrl}" th:alt="${game.title}">
+                    <div class="home-news-content">
+                        <span class="home-news-tag">GAME NEWS</span>
+                        <h3 th:text="${game.title}">Game Title</h3>
+                        <p th:text="${game.description}">Game description...</p>
+                        <a th:href="@{/games/{id}(id=${game.id})}" class="home-news-link">Read More</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="epic-stats-section">
+            <div class="epic-mini-stat">
+                <h4 th:text="${totalGames}">0</h4>
+                <span>Games Listed</span>
+            </div>
+
+            <div class="epic-mini-stat">
+                <h4 th:text="${favoriteCount}">0</h4>
+                <span>Your Favorites</span>
+            </div>
+
+            <div class="epic-mini-stat">
+                <h4 th:text="${loggedUser != null ? loggedUser.role : 'GUEST'}">GUEST</h4>
+                <span>Account Type</span>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const slides = document.querySelectorAll('.epic-slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        const railItems = document.querySelectorAll('.epic-rail-card[data-hero-target]');
+        const prevBtn = document.getElementById('heroPrev');
+        const nextBtn = document.getElementById('heroNext');
+
+        let currentSlide = 0;
+        let autoSlide;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+            railItems.forEach((item, i) => item.classList.toggle('active', i === index));
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            showSlide((currentSlide + 1) % slides.length);
+        }
+
+        function prevSlide() {
+            showSlide((currentSlide - 1 + slides.length) % slides.length);
+        }
+
+        function startAutoSlide() {
+            if (slides.length > 1) {
+                autoSlide = setInterval(nextSlide, 5000);
+            }
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlide);
+            startAutoSlide();
+        }
+
+        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetAutoSlide(); });
+        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetAutoSlide(); });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+                resetAutoSlide();
+            });
+        });
+
+        railItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                showSlide(index);
+                resetAutoSlide();
+            });
+        });
+
+        if (slides.length > 0) {
+            showSlide(0);
+            startAutoSlide();
+        }
+
+        const videoCards = document.querySelectorAll('.video-card');
+        videoCards.forEach(card => {
+            const video = card.querySelector('.thumb-video');
+            card.addEventListener('mouseenter', () => {
+                if (video) {
+                    video.currentTime = 0;
+                    video.play().catch(() => {});
+                }
+            });
+            card.addEventListener('mouseleave', () => {
+                if (video) {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+            });
+        });
+    });
+</script>
 
 <script th:src="@{/js/main.js}"></script>
 </body>

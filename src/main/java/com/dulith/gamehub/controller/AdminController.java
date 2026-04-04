@@ -59,9 +59,22 @@ public class AdminController {
             @RequestParam Double rating,
             @RequestParam String description,
             @RequestParam String imageUrl,
-            @RequestParam String trailerUrl
+            @RequestParam String trailerUrl,
+            @RequestParam(defaultValue = "0.0") Double price,
+            @RequestParam(defaultValue = "0") Integer discountPercent
     ) {
-        Game game = new Game(id, title, genre, platform, rating, description, imageUrl, trailerUrl);
+        Game game = new Game();
+        game.setId(id);
+        game.setTitle(title);
+        game.setGenre(genre);
+        game.setPlatform(platform);
+        game.setRating(rating);
+        game.setDescription(description);
+        game.setImageUrl(imageUrl);
+        game.setTrailerUrl(trailerUrl);
+        game.setPrice(price);
+        game.setDiscountPercent(discountPercent);
+
         gameService.saveGame(game);
         return "redirect:/admin";
     }

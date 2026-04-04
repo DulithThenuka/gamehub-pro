@@ -18,6 +18,10 @@ public class ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
+    public List<Review> getReviewsByGame(Game game) {
+        return reviewRepository.findByGame(game);
+    }
+
     public void addReview(User user, Game game, int rating, String comment) {
         Review review = new Review();
         review.setUser(user);
@@ -25,19 +29,5 @@ public class ReviewService {
         review.setRating(rating);
         review.setComment(comment);
         reviewRepository.save(review);
-    }
-
-    public List<Review> getReviews(Game game) {
-        return reviewRepository.findByGame(game);
-    }
-
-    public double getAverageRating(Game game) {
-        List<Review> reviews = reviewRepository.findByGame(game);
-        if (reviews.isEmpty()) return 0;
-
-        return reviews.stream()
-                .mapToInt(Review::getRating)
-                .average()
-                .orElse(0);
     }
 }
