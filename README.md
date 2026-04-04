@@ -75,7 +75,7 @@ GameHub Pro allows users to explore games, watch trailers, save favorites, and m
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/DulithThenuka/gamehub-pro.git
+git clone https://github.com/YOUR_USERNAME/gamehub-pro.git
 ```
 
 2. Open project in IntelliJ or VS Code
