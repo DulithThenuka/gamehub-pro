@@ -4,61 +4,384 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - GameHub Pro</title>
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-<body>
+<body class="epic-page">
 
-<header class="navbar">
-    <div class="logo">
-        <a th:href="@{/}" class="logo-link">🎮 GameHub Pro</a>
-    </div>
+<div class="epic-shell">
 
-    <nav class="nav-links">
-        <a th:href="@{/}">Home</a>
-        <a th:href="@{/games}">Games</a>
-        <a th:href="@{/library}">My Library</a>
-        <a th:href="@{/profile}" class="active-link">Profile</a>
-        <a th:href="@{/logout}">Logout</a>
-    </nav>
-</header>
-
-<section class="profile-page">
-    <div class="profile-card">
-        <div class="profile-top">
-            <div class="profile-avatar">
-                <span th:text="${#strings.substring(user.fullName,0,1)}">U</span>
+    <!-- SIDEBAR -->
+    <aside class="epic-sidebar">
+        <div>
+            <div class="epic-logo-wrap">
+                <a th:href="@{/}" class="epic-logo">GH</a>
             </div>
+
+            <nav class="epic-menu">
+                <a th:href="@{/}">
+                    <i class="bi bi-bag"></i>
+                    <span>Store</span>
+                </a>
+
+                <a th:if="${loggedUser != null}" th:href="@{/library}">
+                    <i class="bi bi-collection"></i>
+                    <span>Library</span>
+                </a>
+
+                <a th:href="@{/games}">
+                    <i class="bi bi-grid"></i>
+                    <span>Browse</span>
+                </a>
+
+                <a th:if="${loggedUser != null}" th:href="@{/profile}" class="active">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+
+                <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Admin</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="epic-sidebar-bottom">
+            <a th:if="${loggedUser != null}" th:href="@{/logout}" class="epic-side-btn">Logout</a>
+            <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-side-btn">Login</a>
+            <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-side-btn secondary">Register</a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="epic-main">
+
+        <!-- TOPBAR -->
+        <header class="epic-topbar">
+            <div class="epic-top-left">
+                <a th:href="@{/}" class="epic-icon-btn">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+
+                <div class="epic-search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" placeholder="Search store">
+                </div>
+
+                <nav class="epic-top-links">
+                    <a th:href="@{/}">Discover</a>
+                    <a th:href="@{/games}">Browse</a>
+                    <a th:href="@{/profile}" class="active">Profile</a>
+                </nav>
+            </div>
+
+            <div class="epic-top-right">
+                <a th:href="@{/gifts}" class="epic-icon-nav">
+                    <div class="epic-icon-btn" title="Gifts">
+                        <i class="bi bi-gift"></i>
+                    </div>
+                </a>
+
+                <a th:href="@{/cart}" class="epic-icon-nav">
+                    <div class="epic-icon-btn" title="Cart">
+                        <i class="bi bi-cart3"></i>
+                    </div>
+                </a>
+
+                <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
+                    <button class="epic-profile-trigger epic-icon-nav" type="button" id="profileDropdownBtn">
+                        <div class="epic-user-circle"
+                             th:text="${#strings.substring(loggedUser.fullName,0,1)}">U</div>
+                    </button>
+
+                    <div class="epic-profile-menu" id="profileDropdownMenu">
+                        <div class="epic-profile-menu-head">
+                            <strong th:text="${loggedUser.fullName}">User Name</strong>
+                            <span th:text="${loggedUser.email}">user@email.com</span>
+                        </div>
+
+                        <a th:href="@{/profile}">
+                            <i class="bi bi-person"></i>
+                            My Profile
+                        </a>
+
+                        <a th:href="@{/library}">
+                            <i class="bi bi-collection"></i>
+                            My Library
+                        </a>
+
+                        <a th:href="@{/favorites}">
+                            <i class="bi bi-heart"></i>
+                            Wishlist
+                        </a>
+
+                        <a th:href="@{/cart}">
+                            <i class="bi bi-cart3"></i>
+                            Cart
+                        </a>
+
+                        <a th:href="@{/gifts}">
+                            <i class="bi bi-gift"></i>
+                            Gifts
+                        </a>
+
+                        <a th:if="${loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
+                            <i class="bi bi-speedometer2"></i>
+                            Admin Dashboard
+                        </a>
+
+                        <a th:href="@{/logout}" class="logout-link">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+
+                <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-user-chip guest-chip">
+                    <div class="epic-user-circle">G</div>
+                    <span>Guest</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- PAGE HEAD -->
+        <section class="profile-head">
             <div>
-                <p class="tag">PLAYER PROFILE</p>
-                <h1 th:text="${user.fullName}">User Name</h1>
-                <p class="profile-email" th:text="${user.email}">user@email.com</p>
+                <div class="profile-label">ACCOUNT</div>
+                <h1>My Profile</h1>
+                <p>Manage your GameHub identity, account details, and activity.</p>
             </div>
-        </div>
+        </section>
 
-        <div class="profile-stats">
-            <div class="profile-stat">
-                <h2 th:text="${favoriteCount}">0</h2>
-                <p>Favorite Games</p>
-            </div>
-            <div class="profile-stat">
-                <h2 th:text="${totalGames}">0</h2>
-                <p>Total Games</p>
-            </div>
-            <div class="profile-stat">
-                <h2 th:text="${user.role}">USER</h2>
-                <p>Account Role</p>
-            </div>
-        </div>
+        <!-- PROFILE LAYOUT -->
+        <section class="profile-layout">
 
-        <div class="profile-actions">
-            <a th:href="@{/library}" class="btn btn-primary">Open My Library</a>
-            <a th:href="@{/games}" class="btn btn-secondary">Browse Games</a>
-        </div>
-    </div>
-</section>
+            <!-- LEFT -->
+            <div class="profile-main">
 
+                <div class="profile-hero-card">
+                    <div class="profile-hero-left">
+                        <div class="profile-avatar-xl"
+                             th:text="${loggedUser != null ? #strings.substring(loggedUser.fullName,0,1) : 'G'}">G</div>
+
+                        <div class="profile-hero-info">
+                            <span class="profile-role-badge"
+                                  th:text="${loggedUser != null ? loggedUser.role : 'GUEST'}">USER</span>
+                            <h2 th:text="${loggedUser != null ? loggedUser.fullName : 'Guest User'}">Guest User</h2>
+                            <p th:text="${loggedUser != null ? loggedUser.email : 'guest@gamehub.com'}">guest@gamehub.com</p>
+
+                            <div class="profile-status-row">
+                                <span class="profile-status-pill online">Active</span>
+                                <span class="profile-status-pill blue">GameHub Member</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-hero-right">
+                        <a th:href="@{/library}" class="profile-hero-btn secondary">
+                            <i class="bi bi-collection"></i>
+                            Library
+                        </a>
+                        <a th:href="@{/favorites}" class="profile-hero-btn primary">
+                            <i class="bi bi-heart"></i>
+                            Wishlist
+                        </a>
+                    </div>
+                </div>
+
+                <div class="profile-stats-grid">
+                    <div class="profile-stat-card">
+                        <i class="bi bi-heart"></i>
+                        <div>
+                            <span>Wishlist Items</span>
+                            <h3 th:text="${favoriteCount != null ? favoriteCount : 0}">0</h3>
+                        </div>
+                    </div>
+
+                    <div class="profile-stat-card">
+                        <i class="bi bi-controller"></i>
+                        <div>
+                            <span>Library Games</span>
+                            <h3 th:text="${libraryCount != null ? libraryCount : 0}">0</h3>
+                        </div>
+                    </div>
+
+                    <div class="profile-stat-card">
+                        <i class="bi bi-cart-check"></i>
+                        <div>
+                            <span>Orders</span>
+                            <h3 th:text="${orderCount != null ? orderCount : 0}">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section-card">
+                    <div class="profile-section-head">
+                        <h2>Edit Profile</h2>
+                    </div>
+
+                    <div class="profile-alert success" th:if="${success != null}">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span th:text="${success}">Profile updated successfully.</span>
+                    </div>
+
+                    <div class="profile-alert error" th:if="${error != null}">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <span th:text="${error}">Something went wrong.</span>
+                    </div>
+
+                    <form th:action="@{/profile/update}" method="post" class="profile-edit-form">
+                        <div class="profile-avatar-upload-box">
+                            <div class="profile-avatar-preview"
+                                 th:text="${loggedUser != null ? #strings.substring(loggedUser.fullName,0,1) : 'G'}">G</div>
+
+                            <div class="profile-avatar-upload-text">
+                                <h3>Avatar Style</h3>
+                                <p>This is a clean Epic-style avatar block. Later, real image upload can be added.</p>
+                            </div>
+                        </div>
+
+                        <div class="profile-form-grid">
+                            <div class="profile-form-field">
+                                <label>Full Name</label>
+                                <input type="text" name="fullName"
+                                       th:value="${loggedUser != null ? loggedUser.fullName : ''}"
+                                       placeholder="Enter your full name" required>
+                            </div>
+
+                            <div class="profile-form-field">
+                                <label>Email Address</label>
+                                <input type="email" name="email"
+                                       th:value="${loggedUser != null ? loggedUser.email : ''}"
+                                       placeholder="Enter your email" required>
+                            </div>
+                        </div>
+
+                        <div class="profile-form-actions">
+                            <button type="submit" class="profile-save-btn">
+                                <i class="bi bi-check2-circle"></i>
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="profile-section-card">
+                    <div class="profile-section-head">
+                        <h2>Account Information</h2>
+                    </div>
+
+                    <div class="profile-info-grid">
+                        <div class="profile-info-box">
+                            <span>Full Name</span>
+                            <strong th:text="${loggedUser != null ? loggedUser.fullName : 'Guest User'}">Guest User</strong>
+                        </div>
+
+                        <div class="profile-info-box">
+                            <span>Email Address</span>
+                            <strong th:text="${loggedUser != null ? loggedUser.email : 'guest@gamehub.com'}">guest@gamehub.com</strong>
+                        </div>
+
+                        <div class="profile-info-box">
+                            <span>Role</span>
+                            <strong th:text="${loggedUser != null ? loggedUser.role : 'GUEST'}">USER</strong>
+                        </div>
+
+                        <div class="profile-info-box">
+                            <span>Status</span>
+                            <strong>Active</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section-card">
+                    <div class="profile-section-head">
+                        <h2>Quick Access</h2>
+                    </div>
+
+                    <div class="profile-quick-grid">
+                        <a th:href="@{/library}" class="profile-quick-card">
+                            <i class="bi bi-collection"></i>
+                            <span>Open Library</span>
+                        </a>
+
+                        <a th:href="@{/favorites}" class="profile-quick-card">
+                            <i class="bi bi-heart"></i>
+                            <span>Open Wishlist</span>
+                        </a>
+
+                        <a th:href="@{/cart}" class="profile-quick-card">
+                            <i class="bi bi-cart3"></i>
+                            <span>Open Cart</span>
+                        </a>
+
+                        <a th:href="@{/games}" class="profile-quick-card">
+                            <i class="bi bi-grid"></i>
+                            <span>Browse Games</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <aside class="profile-side">
+
+                <div class="profile-side-card">
+                    <div class="profile-section-head">
+                        <h2>Account Actions</h2>
+                    </div>
+
+                    <div class="profile-action-list">
+                        <a th:href="@{/favorites}" class="profile-action-link">
+                            <i class="bi bi-heart"></i>
+                            Wishlist
+                        </a>
+
+                        <a th:href="@{/library}" class="profile-action-link">
+                            <i class="bi bi-collection"></i>
+                            Library
+                        </a>
+
+                        <a th:href="@{/cart}" class="profile-action-link">
+                            <i class="bi bi-cart3"></i>
+                            Cart
+                        </a>
+
+                        <a th:href="@{/gifts}" class="profile-action-link">
+                            <i class="bi bi-gift"></i>
+                            Gifts
+                        </a>
+
+                        <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}"
+                           th:href="@{/admin}" class="profile-action-link">
+                            <i class="bi bi-speedometer2"></i>
+                            Admin Dashboard
+                        </a>
+                    </div>
+                </div>
+
+                <div class="profile-side-card">
+                    <div class="profile-section-head">
+                        <h2>Profile Notes</h2>
+                    </div>
+
+                    <div class="profile-note-box">
+                        <i class="bi bi-info-circle"></i>
+                        <p>Your profile page now matches the Epic-style layout used across the rest of GameHub.</p>
+                    </div>
+                </div>
+
+            </aside>
+
+        </section>
+
+    </main>
+</div>
+
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>
