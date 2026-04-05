@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Games - GameHub Pro</title>
-
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,373 +14,93 @@
 
 <div class="epic-shell">
 
-    <aside class="epic-sidebar">
-        <div>
-            <div class="epic-logo-wrap">
-                <a th:href="@{/}" class="epic-logo">GH</a>
-            </div>
-
-            <nav class="epic-menu">
-                <a th:href="@{/}">
-                    <i class="bi bi-bag"></i>
-                    <span>Store</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/library}">
-                    <i class="bi bi-collection"></i>
-                    <span>Library</span>
-                </a>
-
-                <a th:href="@{/games}" class="active">
-                    <i class="bi bi-grid"></i>
-                    <span>Browse</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/profile}">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
-                </a>
-
-                <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Admin</span>
-                </a>
-            </nav>
-        </div>
-
-        <div class="epic-sidebar-bottom">
-            <form th:if="${loggedUser != null}" th:action="@{/logout}" method="post" style="margin:0;">
-                <button type="submit" class="epic-side-btn logout-btn-reset">Logout</button>
-            </form>
-
-            <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-side-btn">Login</a>
-            <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-side-btn secondary">Register</a>
-        </div>
-    </aside>
+    <aside th:replace="fragments/sidebar :: sidebar('games', ${loggedUser})"></aside>
 
     <main class="epic-main">
+        <header th:replace="fragments/topbar :: topbar('games', ${loggedUser}, 'Search games')"></header>
 
-        <header class="epic-topbar">
-            <div class="epic-top-left">
-                <button class="epic-icon-btn" type="button">
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-
-                <div class="epic-search">
-                    <i class="bi bi-search"></i>
-                    <input type="text" placeholder="Search store">
-                </div>
-
-                <nav class="epic-top-links">
-                    <a th:href="@{/}">Discover</a>
-                    <a th:href="@{/games}" class="active">Browse</a>
-                    <a th:href="@{/news}">News</a>
-                </nav>
-            </div>
-
-            <div class="epic-top-right">
-                <a th:href="@{/favorites}" class="epic-icon-nav">
-                    <div class="epic-icon-btn" title="Wishlist">
-                        <i class="bi bi-bookmark"></i>
+        <div class="browse-layout">
+            <section class="browse-main">
+                <div class="section-head browse-head">
+                    <div>
+                        <p class="section-kicker">Store</p>
+                        <h2>Browse Games</h2>
+                        <p class="section-subtext">Find your next favorite title by genre, platform, and price.</p>
                     </div>
-                </a>
-
-                <a th:href="@{/gifts}" class="epic-icon-nav">
-                    <div class="epic-icon-btn" title="Gifts">
-                        <i class="bi bi-gift"></i>
-                    </div>
-                </a>
-
-                <a th:href="@{/cart}" class="epic-icon-nav">
-                    <div class="epic-icon-btn" title="Cart">
-                        <i class="bi bi-cart3"></i>
-                    </div>
-                </a>
-
-                <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
-                    <button class="epic-profile-trigger epic-icon-nav" type="button" id="profileDropdownBtn">
-                        <div class="epic-user-circle"
-                             th:text="${#strings.substring(loggedUser.fullName,0,1)}">U</div>
-                    </button>
-
-                    <div class="epic-profile-menu" id="profileDropdownMenu">
-                        <div class="epic-profile-menu-head">
-                            <strong th:text="${loggedUser.fullName}">User Name</strong>
-                            <span th:text="${loggedUser.email}">user@email.com</span>
-                        </div>
-
-                        <a th:href="@{/profile}">
-                            <i class="bi bi-person"></i>
-                            My Profile
-                        </a>
-
-                        <a th:href="@{/library}">
-                            <i class="bi bi-collection"></i>
-                            My Library
-                        </a>
-
-                        <a th:href="@{/favorites}">
-                            <i class="bi bi-heart"></i>
-                            Wishlist
-                        </a>
-
-                        <a th:href="@{/cart}">
-                            <i class="bi bi-cart3"></i>
-                            Cart
-                        </a>
-
-                        <a th:href="@{/gifts}">
-                            <i class="bi bi-gift"></i>
-                            Gifts
-                        </a>
-
-                        <a th:if="${loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
-                            <i class="bi bi-speedometer2"></i>
-                            Admin Dashboard
-                        </a>
-
-                        <form th:action="@{/logout}" method="post" class="logout-form">
-                            <button type="submit" class="logout-link logout-btn-reset">
-                                <i class="bi bi-box-arrow-right"></i>
-                                Logout
-                            </button>
-                        </form>
+                    <div class="browse-topbar">
+                        <div class="browse-sort">Sort by: <strong>Featured</strong></div>
                     </div>
                 </div>
 
-                <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-user-chip">
-                    <div class="epic-user-circle">G</div>
-                    <span>Guest</span>
-                </a>
-            </div>
-        </header>
+                <div class="browse-grid">
+                    <article class="epic-game-card" th:each="game : ${games}">
+                        <a th:href="@{'/games/' + ${game.id}}" class="epic-game-thumb">
+                            <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : '/images/game-placeholder.jpg'}"
+                                 th:alt="${game.title}">
+                        </a>
 
-        <section class="browse-categories">
-            <a th:href="@{/games}" class="browse-category-card">
-                <div class="browse-category-images">
-                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500&q=80" alt="Action Games">
-                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80" alt="Action Games">
-                    <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=500&q=80" alt="Action Games">
-                </div>
-                <span>Action Games</span>
-            </a>
-
-            <a th:href="@{/games}" class="browse-category-card">
-                <div class="browse-category-images">
-                    <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=500&q=80" alt="Adventure Games">
-                    <img src="https://images.unsplash.com/photo-1511882150382-421056c89033?auto=format&fit=crop&w=500&q=80" alt="Adventure Games">
-                    <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=500&q=80" alt="Adventure Games">
-                </div>
-                <span>Adventure Games</span>
-            </a>
-
-            <a th:href="@{/games}" class="browse-category-card">
-                <div class="browse-category-images">
-                    <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=500&q=80" alt="RPG Games">
-                    <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500&q=80" alt="RPG Games">
-                    <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=500&q=80" alt="RPG Games">
-                </div>
-                <span>RPG Games</span>
-            </a>
-
-            <a th:href="@{/games}" class="browse-category-card">
-                <div class="browse-category-images">
-                    <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=500&q=80" alt="Casual Games">
-                    <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=500&q=80" alt="Casual Games">
-                    <img src="https://images.unsplash.com/photo-1511882150382-421056c89033?auto=format&fit=crop&w=500&q=80" alt="Casual Games">
-                </div>
-                <span>Casual Games</span>
-            </a>
-        </section>
-
-        <section class="browse-layout">
-            <div class="browse-main-content">
-
-                <div class="browse-toolbar">
-                    <div class="browse-toolbar-left">
-                        <span class="browse-toolbar-label">Show:</span>
-
-                        <div class="browse-filter-chip-wrap">
-                            <button class="browse-chip active" type="button">New Release</button>
-                            <button class="browse-chip" type="button">Game <i class="bi bi-x-lg"></i></button>
-                        </div>
-                    </div>
-
-                    <div class="browse-toolbar-right">
-                        <label class="browse-sort">
-                            <span>Sort by:</span>
-                            <select>
-                                <option>Featured</option>
-                                <option selected>Alphabetical A-Z</option>
-                                <option>Price: Low to High</option>
-                                <option>Price: High to Low</option>
-                                <option>Top Rated</option>
-                                <option>Newest</option>
-                            </select>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="browse-game-grid" th:if="${games != null and !#lists.isEmpty(games)}">
-                    <article class="epic-game-card upgraded-card browse-store-card" th:each="game : ${games}">
-                        <div class="epic-game-thumb video-card">
-                            <a th:href="@{'/games/' + ${game.id}}">
-                                <img class="thumb-image"
-                                     th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80'}"
-                                     th:alt="${game.title}">
-
-                                <video class="thumb-video" muted loop preload="none"
-                                       th:poster="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80'}">
-                                    <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-                                </video>
-                            </a>
-
-                            <div class="card-top-actions">
-                                <a th:href="@{/favorites}" class="wishlist-btn" aria-label="Open wishlist">
-                                    <i class="bi bi-heart"></i>
-                                </a>
-                            </div>
-
-                            <div class="discount-badge"
-                                 th:if="${game.discountPercent != null and game.discountPercent > 0}"
-                                 th:text="'-' + ${game.discountPercent} + '%'">-40%</div>
-                        </div>
-
-                        <div class="epic-game-meta">Base Game</div>
+                        <div class="epic-game-meta" th:text="${game.genre != null ? game.genre : 'Unknown Genre'}">Genre</div>
 
                         <h3>
-                            <a th:href="@{'/games/' + ${game.id}}" class="browse-game-title-link" th:text="${game.title}">Game Title</a>
+                            <a th:href="@{'/games/' + ${game.id}}" th:text="${game.title}">Title</a>
                         </h3>
 
-                        <div class="game-tags-row">
-                            <span>Now On GameHub</span>
-                            <span th:text="${game.genre != null ? game.genre : 'Popular'}">Popular</span>
-                        </div>
+                        <div class="epic-platform" th:text="${game.platform != null ? game.platform : 'Platform N/A'}">PC</div>
 
-                        <div class="price-row" th:if="${game.discountPercent != null and game.discountPercent > 0}">
-                            <span class="old-price" th:text="'$' + ${#numbers.formatDecimal(game.price, 1, 2)}">$39.99</span>
+                        <div class="price-line">
+                            <span th:if="${game.discountPercent != null and game.discountPercent > 0}"
+                                  class="discount-pill"
+                                  th:text="'-' + ${game.discountPercent} + '%'">-20%</span>
+
+                            <span th:if="${game.discountPercent != null and game.discountPercent > 0 and game.price != null}"
+                                  class="old-price"
+                                  th:text="'$' + ${#numbers.formatDecimal(game.price, 1, 2)}">$59.99</span>
+
                             <span class="new-price"
-                                  th:text="'$' + ${#numbers.formatDecimal(game.discountedPrice, 1, 2)}">$19.99</span>
-                        </div>
-
-                        <div class="price-row" th:if="${game.discountPercent == null or game.discountPercent <= 0}">
-                            <span class="new-price" th:text="'$' + ${#numbers.formatDecimal(game.price, 1, 2)}">$19.99</span>
-                        </div>
-
-                        <div class="browse-card-actions">
-                            <a th:href="@{'/games/' + ${game.id}}" class="browse-card-btn secondary">View Details</a>
-
-                            <form th:action="@{/cart/add}" method="post" class="browse-add-cart-form">
-                                <input type="hidden" name="gameId" th:value="${game.id}">
-                                <button type="submit" class="browse-card-btn primary">
-                                    <i class="bi bi-cart-plus"></i>
-                                    Add To Cart
-                                </button>
-                            </form>
+                                  th:text="${game.discountedPrice != null ? '$' + #numbers.formatDecimal(game.discountedPrice, 1, 2) : (game.price != null ? '$' + #numbers.formatDecimal(game.price, 1, 2) : 'Free')}">
+                                $49.99
+                            </span>
                         </div>
                     </article>
                 </div>
-
-                <div class="browse-game-grid" th:if="${games == null or #lists.isEmpty(games)}">
-                    <article class="epic-game-card upgraded-card browse-store-card">
-                        <div class="epic-game-thumb video-card">
-                            <img class="thumb-image" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=700&q=80" alt="Cyber Realm">
-                            <video class="thumb-video" muted loop preload="none" poster="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=700&q=80">
-                                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-                            </video>
-                            <div class="discount-badge">-20%</div>
-                        </div>
-                        <div class="epic-game-meta">Base Game</div>
-                        <h3><a href="#" class="browse-game-title-link">Cyber Realm</a></h3>
-                        <div class="game-tags-row">
-                            <span>Now On GameHub</span>
-                            <span>Action RPG</span>
-                        </div>
-                        <div class="price-row">
-                            <span class="old-price">$59.99</span>
-                            <span class="new-price">$47.99</span>
-                        </div>
-                        <div class="browse-card-actions">
-                            <a href="#" class="browse-card-btn secondary">View Details</a>
-                            <button type="button" class="browse-card-btn primary">
-                                <i class="bi bi-cart-plus"></i>
-                                Add To Cart
-                            </button>
-                        </div>
-                    </article>
-                </div>
-            </div>
+            </section>
 
             <aside class="browse-filters">
-                <div class="browse-filter-box">
-                    <div class="browse-filter-head">
-                        <h3>Filters</h3>
-                        <a href="#">Reset</a>
-                    </div>
+                <div class="filters-card">
+                    <h3>Filters</h3>
 
-                    <div class="browse-filter-search">
-                        <i class="bi bi-search"></i>
-                        <input type="text" placeholder="Keywords">
-                    </div>
+                    <form th:action="@{/games}" method="get" class="filters-form">
+                        <input type="text" name="search" placeholder="Search title" th:value="${search}">
 
-                    <div class="browse-filter-group">
-                        <button class="browse-filter-toggle" type="button">
-                            <span>Price</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </button>
-                    </div>
+                        <select name="genre">
+                            <option value="">All Genres</option>
+                            <option th:each="item : ${genres}"
+                                    th:value="${item}"
+                                    th:text="${item}"
+                                    th:selected="${selectedGenre == item}">
+                                Genre
+                            </option>
+                        </select>
 
-                    <div class="browse-filter-group">
-                        <button class="browse-filter-toggle" type="button">
-                            <span>Genre</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </button>
-                    </div>
+                        <select name="platform">
+                            <option value="">All Platforms</option>
+                            <option th:each="item : ${platforms}"
+                                    th:value="${item}"
+                                    th:text="${item}"
+                                    th:selected="${selectedPlatform == item}">
+                                Platform
+                            </option>
+                        </select>
 
-                    <div class="browse-filter-group">
-                        <button class="browse-filter-toggle" type="button">
-                            <span>Platform</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </button>
-                    </div>
-
-                    <div class="browse-filter-group browse-filter-group-open">
-                        <button class="browse-filter-toggle" type="button">
-                            <span>Types</span>
-                            <span class="browse-filter-badge">1</span>
-                        </button>
-
-                        <div class="browse-filter-options">
-                            <label class="browse-check">
-                                <input type="checkbox" checked>
-                                <span>Game</span>
-                            </label>
-
-                            <label class="browse-check">
-                                <input type="checkbox">
-                                <span>Demo</span>
-                            </label>
-
-                            <label class="browse-check">
-                                <input type="checkbox">
-                                <span>DLC</span>
-                            </label>
-                        </div>
-                    </div>
+                        <button type="submit" class="news-primary-btn filters-btn">Apply Filters</button>
+                    </form>
                 </div>
             </aside>
-        </section>
+        </div>
 
-        <section id="browse-news" class="browse-news-strip">
-            <div class="browse-news-head">
-                <h2>Find your next game</h2>
-                <p>Explore new releases, discounts, featured titles, and your favorite genres in one clean Epic-style browse page.</p>
-            </div>
-        </section>
-
+        <div th:replace="fragments/footer :: body"></div>
     </main>
 </div>
 
-<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

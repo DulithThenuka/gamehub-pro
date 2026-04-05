@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}">GameHub Pro</title>
-
-    <meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:if="${_csrf != null}" th:content="${_csrf.headerName}">
-
+    <title>GameHub Pro</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,374 +14,123 @@
 
 <div class="epic-shell">
 
-    <aside class="epic-sidebar">
-        <div>
-            <div class="epic-logo-wrap">
-                <a th:href="@{/}" class="epic-logo">GH</a>
-            </div>
-
-            <nav class="epic-menu">
-                <a th:href="@{/}" class="active">
-                    <i class="bi bi-bag"></i>
-                    <span>Store</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/library}">
-                    <i class="bi bi-collection"></i>
-                    <span>Library</span>
-                </a>
-
-                <a th:href="@{/games}">
-                    <i class="bi bi-grid"></i>
-                    <span>Browse</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/profile}">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
-                </a>
-
-                <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Admin</span>
-                </a>
-            </nav>
-        </div>
-
-        <div class="epic-sidebar-bottom">
-            <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-side-btn">Login</a>
-            <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-side-btn secondary">Register</a>
-            <a th:if="${loggedUser != null}" th:href="@{/logout}" class="epic-side-btn">Logout</a>
-        </div>
-    </aside>
+    <aside th:replace="fragments/sidebar :: sidebar('store', ${loggedUser})"></aside>
 
     <main class="epic-main">
+        <header th:replace="fragments/topbar :: topbar('store', ${loggedUser}, 'Search store')"></header>
 
-        <header class="epic-topbar">
-            <div class="epic-top-left">
-                <button class="epic-icon-btn" type="button">
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-
-                <div class="epic-search">
-                    <i class="bi bi-search"></i>
-                    <input type="text" placeholder="Search store">
+        <section class="store-hero" th:if="${featuredGames != null and !#lists.isEmpty(featuredGames)}">
+            <div class="store-hero-main">
+                <div class="store-hero-image">
+                    <img th:src="${featuredGames[0].imageUrl}" th:alt="${featuredGames[0].title}">
                 </div>
 
-                <nav class="epic-top-links">
-                    <a th:href="@{/}" class="active">Discover</a>
-                    <a th:href="@{/games}">Browse</a>
-                    <a th:href="@{/news}">News</a>
-                </nav>
-            </div>
+                <div class="store-hero-overlay">
+                    <span class="store-hero-label">Available Now</span>
+                    <h1 th:text="${featuredGames[0].title}">Featured Game</h1>
+                    <p th:text="${featuredGames[0].description}">Description</p>
 
-            <div class="epic-top-right">
+                    <div class="store-hero-price">
+                        <span th:if="${featuredGames[0].discountPercent != null and featuredGames[0].discountPercent > 0}"
+                              class="discount-pill"
+                              th:text="'-' + ${featuredGames[0].discountPercent} + '%'">-20%</span>
 
-    <a th:href="@{/favorites}" class="epic-icon-btn top-nav-link" title="Wishlist">
-        <i class="bi bi-bookmark"></i>
-    </a>
+                        <span class="hero-price-value"
+                              th:text="${featuredGames[0].discountedPrice != null ? '$' + featuredGames[0].discountedPrice : '$' + featuredGames[0].price}">
+                            $59.99
+                        </span>
+                    </div>
 
-    <a th:href="@{/gifts}" class="epic-icon-btn top-nav-link" title="Gifts">
-        <i class="bi bi-gift"></i>
-    </a>
-
-    <a th:href="@{/cart}" class="epic-icon-btn top-nav-link" title="Cart">
-        <i class="bi bi-cart3"></i>
-    </a>
-
-    <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
-        <button class="epic-profile-trigger" type="button" id="profileDropdownBtn">
-            <div class="epic-user-circle"
-                 th:text="${#strings.substring(loggedUser.fullName,0,1)}">U</div>
-        </button>
-
-        <div class="epic-profile-menu" id="profileDropdownMenu">
-            <div class="epic-profile-menu-head">
-                <strong th:text="${loggedUser.fullName}">User Name</strong>
-                <span th:text="${loggedUser.email}">user@email.com</span>
-            </div>
-
-            <a th:href="@{/profile}">
-                <i class="bi bi-person"></i>
-                My Profile
-            </a>
-
-            <a th:href="@{/library}">
-                <i class="bi bi-collection"></i>
-                My Library
-            </a>
-
-            <a th:href="@{/favorites}">
-                <i class="bi bi-heart"></i>
-                Wishlist
-            </a>
-
-            <a th:href="@{/cart}">
-                <i class="bi bi-cart3"></i>
-                Cart
-            </a>
-
-            <a th:if="${loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
-                <i class="bi bi-speedometer2"></i>
-                Admin Dashboard
-            </a>
-
-            <a th:href="@{/logout}" class="logout-link">
-                <i class="bi bi-box-arrow-right"></i>
-                Logout
-            </a>
-        </div>
-    </div>
-
-    <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-user-chip guest-chip">
-        <div class="epic-user-circle">G</div>
-        <span>Guest</span>
-    </a>
-
-</div>
-        </header>
-
-        <section class="epic-hero-row" th:if="${featuredGames != null and !#lists.isEmpty(featuredGames)}">
-            <div class="epic-hero-banner epic-slider" id="heroSlider">
-
-                <div class="epic-slide"
-                     th:each="game, stat : ${featuredGames}"
-                     th:classappend="${stat.index == 0} ? ' active' : ''">
-                    <img th:src="${game.imageUrl}" th:alt="${game.title}">
-                    <div class="epic-hero-overlay"></div>
-
-                    <div class="epic-hero-content">
-                        <div class="epic-badge" th:text="${game.discountPercent > 0 ? 'ON SALE' : 'FEATURED'}">FEATURED</div>
-                        <h1 th:text="${game.title}">Game Title</h1>
-                        <p th:text="${game.description}">Game description...</p>
-
-                        <div class="epic-hero-actions">
-                            <a th:href="@{/games/{id}(id=${game.id})}" class="epic-white-btn">View Game</a>
-
-                            <form th:if="${loggedUser != null}" th:action="@{/cart/add/{id}(id=${game.id})}" method="post">
-                                <button type="submit" class="epic-ghost-btn">Add To Cart</button>
-                            </form>
-
-                            <button class="wishlist-btn details-wishlist-btn"
-                                    th:if="${loggedUser != null}"
-                                    type="button"
-                                    th:attr="data-game-id=${game.id}">
-                                <i class="bi" th:classappend="${game.favorite} ? ' bi-heart-fill' : ' bi-heart'"></i>
-                            </button>
-                        </div>
-
-                        <div class="home-hero-price-row">
-                            <span class="old-price"
-                                  th:if="${game.discountPercent > 0}"
-                                  th:text="'$' + ${#numbers.formatDecimal(game.price,1,2)}">$59.99</span>
-                            <span class="new-price"
-                                  th:text="${game.price == 0 ? 'Free' : '$' + #numbers.formatDecimal(game.discountedPrice,1,2)}">$39.99</span>
-                        </div>
+                    <div class="store-hero-actions">
+                        <a th:href="@{'/games/' + ${featuredGames[0].id}}" class="hero-buy-btn">Buy Now</a>
+                        <a th:href="@{/games}" class="hero-wish-btn">Browse</a>
                     </div>
                 </div>
-
-                <button class="slider-arrow slider-arrow-left" type="button" id="heroPrev">
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-
-                <button class="slider-arrow slider-arrow-right" type="button" id="heroNext">
-                    <i class="bi bi-chevron-right"></i>
-                </button>
-
-                <div class="slider-dots" id="sliderDots">
-                    <button class="slider-dot"
-                            th:each="game, stat : ${featuredGames}"
-                            th:classappend="${stat.index == 0} ? ' active' : ''"
-                            type="button"
-                            th:attr="data-slide=${stat.index}"></button>
-                </div>
             </div>
 
-            <aside class="epic-right-rail">
-                <button class="epic-rail-card"
-                        th:each="game, stat : ${featuredGames}"
-                        th:classappend="${stat.index == 0} ? ' active' : ''"
-                        type="button"
-                        th:attr="data-hero-target=${stat.index}">
+            <div class="store-hero-side">
+                <a class="store-side-item" th:each="game : ${featuredGames}" th:href="@{'/games/' + ${game.id}}">
                     <img th:src="${game.imageUrl}" th:alt="${game.title}">
-                    <span th:text="${game.title}">Game</span>
-                </button>
-            </aside>
+                    <div>
+                        <h4 th:text="${game.title}">Game</h4>
+                        <span th:text="${game.genre}">Genre</span>
+                    </div>
+                </a>
+            </div>
         </section>
 
-        <section class="epic-section">
-            <div class="epic-section-head">
-                <h2>Discover Something New</h2>
-                <a th:href="@{/games}"><i class="bi bi-chevron-right"></i></a>
+        <section class="store-section" th:if="${topSellers != null and !#lists.isEmpty(topSellers)}">
+            <div class="section-head">
+                <h2>Top Sellers</h2>
             </div>
 
-            <div class="epic-card-grid">
-                <article class="epic-game-card upgraded-card" th:each="game : ${discoverGames}">
-                    <a th:href="@{/games/{id}(id=${game.id})}">
-                        <div class="epic-game-thumb video-card">
-                            <img class="thumb-image" th:src="${game.imageUrl}" th:alt="${game.title}">
-                            <video class="thumb-video" muted loop preload="none" th:poster="${game.imageUrl}">
-                                <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-                            </video>
-
-                            <div class="card-top-actions">
-                                <button class="wishlist-btn"
-                                        th:if="${loggedUser != null}"
-                                        type="button"
-                                        th:attr="data-game-id=${game.id}">
-                                    <i class="bi" th:classappend="${game.favorite} ? ' bi-heart-fill' : ' bi-heart'"></i>
-                                </button>
-                            </div>
-
-                            <div class="discount-badge"
-                                 th:if="${game.discountPercent > 0}"
-                                 th:text="'-' + ${game.discountPercent} + '%'">-40%</div>
-
-                            <div class="discount-badge free-badge" th:if="${game.price == 0}">FREE</div>
-                        </div>
+            <div class="epic-card-row">
+                <article class="epic-game-card" th:each="game : ${topSellers}">
+                    <a th:href="@{'/games/' + ${game.id}}" class="epic-game-thumb">
+                        <img th:src="${game.imageUrl}" th:alt="${game.title}">
                     </a>
 
                     <div class="epic-game-meta">Base Game</div>
-                    <h3 th:text="${game.title}">Game Title</h3>
+                    <h3>
+                        <a th:href="@{'/games/' + ${game.id}}" th:text="${game.title}">Title</a>
+                    </h3>
 
-                    <div class="game-tags-row">
-                        <span th:text="${game.genre}">Action</span>
-                        <span th:text="${game.platform}">PC</span>
-                    </div>
+                    <div class="price-line">
+                        <span th:if="${game.discountPercent != null and game.discountPercent > 0}"
+                              class="discount-pill"
+                              th:text="'-' + ${game.discountPercent} + '%'">-20%</span>
 
-                    <div class="price-row">
-                        <span class="old-price"
-                              th:if="${game.discountPercent > 0}"
-                              th:text="'$' + ${#numbers.formatDecimal(game.price,1,2)}">$59.99</span>
+                        <span th:if="${game.discountPercent != null and game.discountPercent > 0}"
+                              class="old-price"
+                              th:text="'$' + ${game.price}">$59.99</span>
 
                         <span class="new-price"
-                              th:text="${game.price == 0 ? 'Free' : '$' + #numbers.formatDecimal(game.discountedPrice,1,2)}">$39.99</span>
+                              th:text="${game.discountedPrice != null ? '$' + game.discountedPrice : '$' + game.price}">
+                            $49.99
+                        </span>
                     </div>
-
-                    <form th:if="${loggedUser != null}" th:action="@{/cart/add/{id}(id=${game.id})}" method="post" class="home-card-cart-form">
-                        <button type="submit" class="wishlist-cart-btn">Add To Cart</button>
-                    </form>
                 </article>
             </div>
         </section>
 
-        <section class="home-news-section" id="storeNews">
-            <div class="epic-section-head">
-                <h2>News & Updates</h2>
-                <a th:href="@{/games}"><i class="bi bi-chevron-right"></i></a>
+        <section class="store-section" th:if="${newReleases != null and !#lists.isEmpty(newReleases)}">
+            <div class="section-head">
+                <h2>New Releases</h2>
             </div>
 
-            <div class="home-news-grid" th:if="${discoverGames != null and !#lists.isEmpty(discoverGames)}">
-                <article class="home-news-card" th:each="game : ${discoverGames}">
+            <div class="epic-card-row">
+                <article class="epic-wide-card" th:each="game : ${newReleases}">
                     <img th:src="${game.imageUrl}" th:alt="${game.title}">
-                    <div class="home-news-content">
-                        <span class="home-news-tag">GAME NEWS</span>
-                        <h3 th:text="${game.title}">Game Title</h3>
-                        <p th:text="${game.description}">Game description...</p>
-                        <a th:href="@{/games/{id}(id=${game.id})}" class="home-news-link">Read More</a>
+                    <div class="epic-wide-content">
+                        <h3 th:text="${game.title}">Title</h3>
+                        <p th:text="${game.description}">Description</p>
+                        <a th:href="@{'/games/' + ${game.id}}" class="news-secondary-btn">View Details</a>
                     </div>
                 </article>
             </div>
         </section>
 
-        <section class="epic-stats-section">
-            <div class="epic-mini-stat">
-                <h4 th:text="${totalGames}">0</h4>
-                <span>Games Listed</span>
+        <section class="store-section" th:if="${latestNews != null and !#lists.isEmpty(latestNews)}">
+            <div class="section-head">
+                <h2>Featured Stories</h2>
             </div>
 
-            <div class="epic-mini-stat">
-                <h4 th:text="${favoriteCount}">0</h4>
-                <span>Your Favorites</span>
-            </div>
-
-            <div class="epic-mini-stat">
-                <h4 th:text="${loggedUser != null ? loggedUser.role : 'GUEST'}">GUEST</h4>
-                <span>Account Type</span>
+            <div class="news-feature-row">
+                <article class="news-feature-mini" th:each="item : ${latestNews}">
+                    <img th:src="${item.imageUrl}" th:alt="${item.title}">
+                    <div>
+                        <span class="news-card-category" th:text="${item.category}">Update</span>
+                        <h4 th:text="${item.title}">Title</h4>
+                        <p th:text="${item.summary}">Summary</p>
+                        <a th:href="@{'/news/' + ${item.id}}" class="news-read-link">Read more</a>
+                    </div>
+                </article>
             </div>
         </section>
 
+        <div th:replace="fragments/footer :: body"></div>
     </main>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const slides = document.querySelectorAll('.epic-slide');
-        const dots = document.querySelectorAll('.slider-dot');
-        const railItems = document.querySelectorAll('.epic-rail-card[data-hero-target]');
-        const prevBtn = document.getElementById('heroPrev');
-        const nextBtn = document.getElementById('heroNext');
-
-        let currentSlide = 0;
-        let autoSlide;
-
-        function showSlide(index) {
-            slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
-            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
-            railItems.forEach((item, i) => item.classList.toggle('active', i === index));
-            currentSlide = index;
-        }
-
-        function nextSlide() {
-            showSlide((currentSlide + 1) % slides.length);
-        }
-
-        function prevSlide() {
-            showSlide((currentSlide - 1 + slides.length) % slides.length);
-        }
-
-        function startAutoSlide() {
-            if (slides.length > 1) {
-                autoSlide = setInterval(nextSlide, 5000);
-            }
-        }
-
-        function resetAutoSlide() {
-            clearInterval(autoSlide);
-            startAutoSlide();
-        }
-
-        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetAutoSlide(); });
-        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetAutoSlide(); });
-
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                showSlide(index);
-                resetAutoSlide();
-            });
-        });
-
-        railItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                showSlide(index);
-                resetAutoSlide();
-            });
-        });
-
-        if (slides.length > 0) {
-            showSlide(0);
-            startAutoSlide();
-        }
-
-        const videoCards = document.querySelectorAll('.video-card');
-        videoCards.forEach(card => {
-            const video = card.querySelector('.thumb-video');
-            card.addEventListener('mouseenter', () => {
-                if (video) {
-                    video.currentTime = 0;
-                    video.play().catch(() => {});
-                }
-            });
-            card.addEventListener('mouseleave', () => {
-                if (video) {
-                    video.pause();
-                    video.currentTime = 0;
-                }
-            });
-        });
-    });
-</script>
-
-<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dulith.gamehub.entity.Game;
 import com.dulith.gamehub.entity.User;
-import com.dulith.gamehub.service.FavoriteService;
 import com.dulith.gamehub.service.GameService;
 import com.dulith.gamehub.service.UserService;
+import com.dulith.gamehub.service.WishlistService;
 
 @Controller
 public class WishlistController {
 
-    private final FavoriteService favoriteService;
+    private final WishlistService wishlistService;
     private final UserService userService;
     private final GameService gameService;
 
-    public WishlistController(FavoriteService favoriteService,
+    public WishlistController(WishlistService wishlistService,
                               UserService userService,
                               GameService gameService) {
-        this.favoriteService = favoriteService;
+        this.wishlistService = wishlistService;
         this.userService = userService;
         this.gameService = gameService;
     }
@@ -39,7 +39,7 @@ public class WishlistController {
 
         if (principal == null) {
             response.put("error", "not_logged_in");
-            response.put("favorited", false);
+            response.put("wishlisted", false);
             return ResponseEntity.ok(response);
         }
 
@@ -48,13 +48,13 @@ public class WishlistController {
 
         if (user == null || game == null) {
             response.put("error", "not_found");
-            response.put("favorited", false);
+            response.put("wishlisted", false);
             return ResponseEntity.ok(response);
         }
 
-        boolean isFavorite = favoriteService.toggleFavorite(user, game);
+        boolean isWishlisted = wishlistService.toggleWishlist(user, game);
 
-        response.put("favorited", isFavorite);
+        response.put("wishlisted", isWishlisted);
         return ResponseEntity.ok(response);
     }
 }

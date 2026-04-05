@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${game != null ? game.title + ' - GameHub Pro' : 'Game Details - GameHub Pro'}">Game Details - GameHub Pro</title>
+    <title th:text="${game.title + ' - GameHub Pro'}">Game Details</title>
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,370 +15,230 @@
 
 <div class="epic-shell">
 
-    <aside class="epic-sidebar">
-        <div>
-            <div class="epic-logo-wrap">
-                <a th:href="@{/}" class="epic-logo">GH</a>
-            </div>
-
-            <nav class="epic-menu">
-                <a th:href="@{/}">
-                    <i class="bi bi-bag"></i>
-                    <span>Store</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/library}">
-                    <i class="bi bi-collection"></i>
-                    <span>Library</span>
-                </a>
-
-                <a th:href="@{/games}" class="active">
-                    <i class="bi bi-grid"></i>
-                    <span>Browse</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/profile}">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
-                </a>
-
-                <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Admin</span>
-                </a>
-            </nav>
-        </div>
-
-        <div class="epic-sidebar-bottom">
-            <form th:if="${loggedUser != null}" th:action="@{/logout}" method="post" style="margin:0;">
-                <button type="submit" class="epic-side-btn logout-btn-reset">Logout</button>
-            </form>
-
-            <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-side-btn">Login</a>
-            <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-side-btn secondary">Register</a>
-        </div>
-    </aside>
+    <aside th:replace="fragments/sidebar :: sidebar('games', ${loggedUser})"></aside>
 
     <main class="epic-main">
+        <header th:replace="fragments/topbar :: topbar('games', ${loggedUser}, 'Search games')"></header>
 
-        <header class="epic-topbar">
-            <div class="epic-top-left">
-                <a th:href="@{/games}" class="epic-icon-btn details-back-btn">
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-
-                <div class="epic-search">
-                    <i class="bi bi-search"></i>
-                    <input type="text" placeholder="Search store">
-                </div>
-
-                <nav class="epic-top-links">
-                    <a th:href="@{/}">Discover</a>
-                    <a th:href="@{/games}" class="active">Browse</a>
-                    <a th:href="@{/news}">News</a>
-                </nav>
-            </div>
-
-            <div class="epic-top-right">
-                <a th:href="@{/favorites}" class="epic-icon-nav">
-                    <div class="epic-icon-btn">
-                        <i class="bi bi-bookmark"></i>
-                    </div>
-                </a>
-
-                <a th:href="@{/gifts}" class="epic-icon-nav">
-                    <div class="epic-icon-btn">
-                        <i class="bi bi-gift"></i>
-                    </div>
-                </a>
-
-                <a th:href="@{/cart}" class="epic-icon-nav">
-                    <div class="epic-icon-btn">
-                        <i class="bi bi-cart3"></i>
-                    </div>
-                </a>
-
-                <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
-                    <button class="epic-profile-trigger epic-icon-nav" type="button" id="profileDropdownBtn">
-                        <div class="epic-user-circle"
-                             th:text="${#strings.substring(loggedUser.fullName,0,1)}">U</div>
-                    </button>
-
-                    <div class="epic-profile-menu" id="profileDropdownMenu">
-                        <div class="epic-profile-menu-head">
-                            <strong th:text="${loggedUser.fullName}">User Name</strong>
-                            <span th:text="${loggedUser.email}">user@email.com</span>
-                        </div>
-
-                        <a th:href="@{/profile}">
-                            <i class="bi bi-person"></i>
-                            My Profile
-                        </a>
-
-                        <a th:href="@{/library}">
-                            <i class="bi bi-collection"></i>
-                            My Library
-                        </a>
-
-                        <a th:href="@{/favorites}">
-                            <i class="bi bi-heart"></i>
-                            Wishlist
-                        </a>
-
-                        <a th:href="@{/cart}">
-                            <i class="bi bi-cart3"></i>
-                            Cart
-                        </a>
-
-                        <a th:href="@{/gifts}">
-                            <i class="bi bi-gift"></i>
-                            Gifts
-                        </a>
-
-                        <a th:if="${loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
-                            <i class="bi bi-speedometer2"></i>
-                            Admin Dashboard
-                        </a>
-
-                        <form th:action="@{/logout}" method="post" class="logout-form">
-                            <button type="submit" class="logout-link logout-btn-reset">
-                                <i class="bi bi-box-arrow-right"></i>
-                                Logout
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-user-chip">
-                    <div class="epic-user-circle">G</div>
-                    <span>Guest</span>
-                </a>
-            </div>
-        </header>
-
-        <section class="details-page-head" th:if="${game != null}">
-            <div>
-                <div class="details-label">BASE GAME</div>
-                <h1 th:text="${game.title}">Game Title</h1>
-            </div>
-
-            <div class="details-head-badges">
-                <span><i class="bi bi-star-fill"></i> Featured</span>
-                <span th:text="${game.genre != null ? game.genre : 'Action'}">Action</span>
-            </div>
-        </section>
-
-        <section class="details-hero-layout" th:if="${game != null}">
-            <div class="details-media-panel">
-                <div class="details-hero-media">
-                    <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=80'}"
+        <section class="game-details-page">
+            <div class="details-hero">
+                <div class="details-image">
+                    <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : '/images/game-placeholder.jpg'}"
                          th:alt="${game.title}">
-                    <div class="details-hero-overlay"></div>
-
-                    <div class="details-hero-content">
-                        <div class="details-hero-badge">OUT NOW</div>
-                        <h2 th:text="${game.title}">Game Title</h2>
-                        <p th:text="${game.description != null and !#strings.isEmpty(game.description) ? game.description : 'An immersive premium gaming experience with cinematic action, stylish visuals, and a polished storefront presentation.'}">
-                            Game description goes here.
-                        </p>
-
-                        <div class="details-hero-actions">
-                            <a href="#details-buy" class="details-main-btn white">Buy Now</a>
-                            <a href="#details-about" class="details-main-btn ghost">Learn More</a>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="details-gallery-grid">
-                    <div class="details-gallery-card">
-                        <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=700&q=80'}" alt="Preview 1">
+                <div class="details-content">
+                    <div class="section-kicker">Game Details</div>
+
+                    <h1 th:text="${game.title}">Game Title</h1>
+
+                    <div class="details-meta">
+                        <span th:text="${game.genre != null ? game.genre : 'Unknown Genre'}">Genre</span>
+                        <span th:text="${game.platform != null ? game.platform : 'Platform N/A'}">PC</span>
+                        <span th:text="${game.rating != null ? '★ ' + game.rating : '★ N/A'}">★ 4.8</span>
                     </div>
-                    <div class="details-gallery-card">
-                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=700&q=80" alt="Preview 2">
+
+                    <p class="details-description"
+                       th:text="${game.description != null ? game.description : 'No description available for this game yet.'}">
+                        Game description
+                    </p>
+
+                    <div class="price-line">
+                        <span th:if="${game.discountPercent != null and game.discountPercent > 0}"
+                              class="discount-pill"
+                              th:text="'-' + ${game.discountPercent} + '%'">-20%</span>
+
+                        <span th:if="${game.discountPercent != null and game.discountPercent > 0 and game.price != null}"
+                              class="old-price"
+                              th:text="'$' + ${#numbers.formatDecimal(game.price, 1, 2)}">$59.99</span>
+
+                        <span class="new-price"
+                              th:text="${game.discountedPrice != null ? '$' + #numbers.formatDecimal(game.discountedPrice, 1, 2) : (game.price != null ? '$' + #numbers.formatDecimal(game.price, 1, 2) : 'Free')}">
+                            $49.99
+                        </span>
                     </div>
-                    <div class="details-gallery-card">
-                        <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=700&q=80" alt="Preview 3">
+
+                    <div class="details-actions">
+
+    <!-- BUY -->
+    <form th:action="@{/cart/add}" method="post" class="details-action-form">
+        <input type="hidden" name="gameId" th:value="${game.id}">
+        <button type="submit" class="news-primary-btn">
+            <i class="bi bi-cart-plus"></i>
+            Buy Now
+        </button>
+    </form>
+
+    <!-- FAVORITE -->
+    <form th:action="@{/favorites/toggle}" method="post" class="details-action-form">
+        <input type="hidden" name="gameId" th:value="${game.id}">
+        <button type="submit" class="news-secondary-btn">
+            <i class="bi bi-heart"></i>
+            <span th:text="${isFavorite} ? 'Remove Favorite' : 'Add to Favorites'">
+                Add to Favorites
+            </span>
+        </button>
+    </form>
+
+    <!-- WISHLIST -->
+    <form th:action="@{'/wishlist/toggle/' + ${game.id}}" method="post" class="details-action-form">
+        <button type="submit" class="news-secondary-btn">
+            <i class="bi bi-bookmark"></i>
+            <span th:text="${isWishlisted} ? 'Remove Wishlist' : 'Add to Wishlist'}">
+                Add to Wishlist
+            </span>
+        </button>
+    </form>
+
+    <!-- BACK -->
+    <a th:href="@{/games}" class="news-secondary-btn">
+        <i class="bi bi-arrow-left"></i>
+        Back to Browse
+    </a>
+
+</div>
+
+                    <div class="favorite-block">
+                        <div class="details-meta">
+                            <span>Genre: <strong th:text="${game.genre != null ? game.genre : 'Unknown'}">Action RPG</strong></span>
+                            <span>Platform: <strong th:text="${game.platform != null ? game.platform : 'N/A'}">PC</strong></span>
+                            <span>Discount: <strong th:text="${game.discountPercent != null ? game.discountPercent + '%' : '0%'}">20%</strong></span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <aside class="details-buy-panel" id="details-buy">
-                <div class="details-buy-card">
-                    <div class="details-cover-wrap">
-                        <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80'}"
-                             th:alt="${game.title}">
-                    </div>
+            <div class="related-section">
+                <div class="details-hero" style="grid-template-columns: 1.2fr 0.8fr; gap: 24px;">
+                    <div>
+                        <div class="details-content" th:if="${game.trailerUrl != null and !#strings.isEmpty(game.trailerUrl)}">
+                            <div class="section-head">
+                                <h2>Trailer</h2>
+                            </div>
 
-                    <div class="details-game-type">Base Game</div>
-
-                    <h3 th:text="${game.title}">Game Title</h3>
-
-                    <div class="details-price-wrap"
-                         th:if="${game.discountPercent != null and game.discountPercent > 0}">
-                        <span class="details-discount-badge" th:text="'-' + ${game.discountPercent} + '%'">-40%</span>
-                        <span class="details-old-price" th:text="'$' + ${#numbers.formatDecimal(game.price,1,2)}">$39.99</span>
-                        <span class="details-new-price" th:text="'$' + ${#numbers.formatDecimal(game.discountedPrice,1,2)}">$19.99</span>
-                    </div>
-
-                    <div class="details-price-wrap"
-                         th:if="${game.discountPercent == null or game.discountPercent <= 0}">
-                        <span class="details-new-price" th:text="'$' + ${#numbers.formatDecimal(game.price,1,2)}">$19.99</span>
-                    </div>
-
-                    <div class="details-reward-line">
-                        <i class="bi bi-award"></i>
-                        <span>Earn 5% back in GameHub Rewards</span>
-                    </div>
-
-                    <div class="details-action-stack">
-                        <form th:action="@{/cart/add}" method="post">
-                            <input type="hidden" name="gameId" th:value="${game.id}">
-                            <button type="submit" class="details-buy-btn primary">
-                                <i class="bi bi-cart-plus"></i>
-                                Add To Cart
-                            </button>
-                        </form>
-
-                        <a th:href="@{/favorites}" class="details-buy-btn secondary">
-                            <i class="bi bi-heart"></i>
-                            Add To Wishlist
-                        </a>
-
-                        <a th:href="@{/library}" th:if="${loggedUser != null}" class="details-buy-btn ghost-link">
-                            <i class="bi bi-collection"></i>
-                            Go To Library
-                        </a>
-                    </div>
-
-                    <div class="details-meta-list">
-                        <div class="details-meta-row">
-                            <span>Genre</span>
-                            <strong th:text="${game.genre != null ? game.genre : 'Action'}">Action</strong>
+                            <div class="game-trailer-wrap">
+                                <iframe th:src="${game.trailerUrl}"
+                                        title="Game Trailer"
+                                        frameborder="0"
+                                        allowfullscreen
+                                        style="width:100%; height:420px; border-radius:18px;">
+                                </iframe>
+                            </div>
                         </div>
-                        <div class="details-meta-row">
-                            <span>Platform</span>
-                            <strong th:text="${game.platform != null ? game.platform : 'PC'}">PC</strong>
+
+                        <div class="details-content" style="margin-top: 24px;">
+                            <div class="section-head">
+                                <h2>About This Game</h2>
+                            </div>
+
+                            <div class="game-description-block">
+                                <p class="details-description"
+                                   th:text="${game.description != null ? game.description : 'No description available for this game yet.'}">
+                                    Description
+                                </p>
+                            </div>
                         </div>
-                        <div class="details-meta-row">
-                            <span>Rating</span>
-                            <strong th:text="${game.rating != null ? game.rating : '4.5'}">4.5</strong>
+
+                        <div class="details-content" style="margin-top: 24px;" th:if="${reviews != null and !#lists.isEmpty(reviews)}">
+                            <div class="section-head">
+                                <h2>Player Reviews</h2>
+                            </div>
+
+                            <div class="review-section">
+                                <article class="review-card" th:each="review : ${reviews}">
+                                    <strong th:text="${review.user != null ? review.user.fullName : 'Player'}">Player</strong>
+                                    <p class="text-soft" th:text="'★ ' + ${review.rating}">★ 5</p>
+                                    <p th:text="${review.comment}">Great game.</p>
+                                </article>
+                            </div>
                         </div>
-                        <div class="details-meta-row">
-                            <span>Release</span>
-                            <strong>Available Now</strong>
+
+                        <div class="details-content" style="margin-top: 24px;" th:if="${reviews == null or #lists.isEmpty(reviews)}">
+                            <div class="section-head">
+                                <h2>Player Reviews</h2>
+                            </div>
+
+                            <div class="empty-state">
+                                <h3>No reviews yet</h3>
+                                <p>This game does not have reviews yet.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="details-content">
+                            <div class="section-head">
+                                <h2>Quick Info</h2>
+                            </div>
+
+                            <div class="review-section" style="margin-top:0;">
+                                <div class="review-card">
+                                    <strong>Title</strong>
+                                    <p th:text="${game.title}">Game</p>
+                                </div>
+
+                                <div class="review-card">
+                                    <strong>Genre</strong>
+                                    <p th:text="${game.genre != null ? game.genre : 'Adventure'}">Adventure</p>
+                                </div>
+
+                                <div class="review-card">
+                                    <strong>Platform</strong>
+                                    <p th:text="${game.platform != null ? game.platform : 'PC'}">PC</p>
+                                </div>
+
+                                <div class="review-card">
+                                    <strong>Rating</strong>
+                                    <p th:text="${game.rating != null ? game.rating : 'N/A'}">4.7</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </aside>
+            </div>
         </section>
 
-        <section class="details-info-layout" id="details-about" th:if="${game != null}">
-            <div class="details-description-card">
-                <h2>About This Game</h2>
-                <p th:text="${game.description != null and !#strings.isEmpty(game.description) ? game.description : 'Step into a beautifully designed world filled with action, atmosphere, and polished gameplay systems. This Epic-style detail page gives your project the premium storefront feel you were aiming for.'}">
-                    Description here.
-                </p>
-
-                <div class="details-feature-grid">
-                    <div class="details-feature-box">
-                        <i class="bi bi-controller"></i>
-                        <h4>Immersive Gameplay</h4>
-                        <p>Fast, premium, and store-ready visual presentation for your project.</p>
-                    </div>
-
-                    <div class="details-feature-box">
-                        <i class="bi bi-lightning-charge"></i>
-                        <h4>High Energy Action</h4>
-                        <p>Strong visuals, bold layout, and CTA buttons that feel like a real game launcher.</p>
-                    </div>
-
-                    <div class="details-feature-box">
-                        <i class="bi bi-columns-gap"></i>
-                        <h4>Modern UI Design</h4>
-                        <p>Dark panels, rounded corners, sharp spacing, and premium store-like structure.</p>
-                    </div>
-                </div>
+        <section class="related-section" th:if="${relatedGames != null and !#lists.isEmpty(relatedGames)}">
+            <div class="section-head">
+                <h2>Related Games</h2>
             </div>
 
-            <div class="details-spec-card">
-                <h2>Game Information</h2>
+            <div class="browse-grid">
+                <article class="epic-game-card" th:each="item : ${relatedGames}">
+                    <a th:href="@{'/games/' + ${item.id}}" class="epic-game-thumb">
+                        <img th:src="${item.imageUrl != null and !#strings.isEmpty(item.imageUrl) ? item.imageUrl : '/images/game-placeholder.jpg'}"
+                             th:alt="${item.title}">
+                    </a>
 
-                <div class="details-spec-list">
-                    <div class="details-spec-item">
-                        <span>Developer</span>
-                        <strong>GameHub Studio</strong>
-                    </div>
-                    <div class="details-spec-item">
-                        <span>Publisher</span>
-                        <strong>GameHub Pro</strong>
-                    </div>
-                    <div class="details-spec-item">
-                        <span>Genre</span>
-                        <strong th:text="${game.genre != null ? game.genre : 'Adventure'}">Adventure</strong>
-                    </div>
-                    <div class="details-spec-item">
-                        <span>Language</span>
-                        <strong>English</strong>
-                    </div>
-                    <div class="details-spec-item">
-                        <span>Achievements</span>
-                        <strong>Available</strong>
-                    </div>
-                    <div class="details-spec-item">
-                        <span>Cloud Saves</span>
-                        <strong>Supported</strong>
-                    </div>
-                </div>
-            </div>
-        </section>
+                    <div class="epic-game-meta" th:text="${item.genre != null ? item.genre : 'Unknown Genre'}">Genre</div>
 
-        <section class="details-related-section" id="details-more" th:if="${relatedGames != null and !#lists.isEmpty(relatedGames)}">
-            <div class="details-section-head">
-                <h2>More Like This</h2>
-                <a th:href="@{/games}">Browse All <i class="bi bi-chevron-right"></i></a>
-            </div>
-
-            <div class="details-related-grid">
-                <article class="epic-game-card upgraded-card" th:each="related : ${relatedGames}">
-                    <div class="epic-game-thumb">
-                        <a th:href="@{'/games/' + ${related.id}}">
-                            <img th:src="${related.imageUrl != null and !#strings.isEmpty(related.imageUrl) ? related.imageUrl : 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=700&q=80'}"
-                                 th:alt="${related.title}">
-                        </a>
-                    </div>
-
-                    <div class="epic-game-meta">Base Game</div>
                     <h3>
-                        <a th:href="@{'/games/' + ${related.id}}" class="browse-game-title-link" th:text="${related.title}">Related Game</a>
+                        <a th:href="@{'/games/' + ${item.id}}" th:text="${item.title}">Title</a>
                     </h3>
 
-                    <div class="price-row"
-                         th:if="${related.discountPercent != null and related.discountPercent > 0}">
-                        <span class="discount-badge static-badge" th:text="'-' + ${related.discountPercent} + '%'">-20%</span>
-                        <span class="old-price" th:text="'$' + ${#numbers.formatDecimal(related.price,1,2)}">$29.99</span>
-                        <span class="new-price" th:text="'$' + ${#numbers.formatDecimal(related.discountedPrice,1,2)}">$23.99</span>
-                    </div>
+                    <div class="epic-platform" th:text="${item.platform != null ? item.platform : 'Platform N/A'}">PC</div>
 
-                    <div class="price-row"
-                         th:if="${related.discountPercent == null or related.discountPercent <= 0}">
-                        <span class="new-price" th:text="'$' + ${#numbers.formatDecimal(related.price,1,2)}">$19.99</span>
+                    <div class="price-line">
+                        <span th:if="${item.discountPercent != null and item.discountPercent > 0}"
+                              class="discount-pill"
+                              th:text="'-' + ${item.discountPercent} + '%'">-20%</span>
+
+                        <span th:if="${item.discountPercent != null and item.discountPercent > 0 and item.price != null}"
+                              class="old-price"
+                              th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}">$59.99</span>
+
+                        <span class="new-price"
+                              th:text="${item.discountedPrice != null ? '$' + #numbers.formatDecimal(item.discountedPrice, 1, 2) : (item.price != null ? '$' + #numbers.formatDecimal(item.price, 1, 2) : 'Free')}">
+                            $49.99
+                        </span>
                     </div>
                 </article>
             </div>
         </section>
 
-        <section class="details-empty-state" th:if="${game == null}">
-            <div class="details-empty-card">
-                <i class="bi bi-controller"></i>
-                <h2>Game not found</h2>
-                <p>The selected game could not be loaded.</p>
-                <a th:href="@{/games}" class="details-main-btn white">Back to Browse</a>
-            </div>
-        </section>
-
+        <div th:replace="fragments/footer :: body"></div>
     </main>
 </div>
 
-<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

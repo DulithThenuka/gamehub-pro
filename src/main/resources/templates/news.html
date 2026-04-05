@@ -14,76 +14,10 @@
 
 <div class="epic-shell">
 
-    <aside class="epic-sidebar">
-        <div>
-            <div class="epic-logo-wrap">
-                <a th:href="@{/}" class="epic-logo">GH</a>
-            </div>
-
-            <nav class="epic-menu">
-                <a th:href="@{/}">
-                    <i class="bi bi-bag"></i>
-                    <span>Store</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/library}">
-                    <i class="bi bi-collection"></i>
-                    <span>Library</span>
-                </a>
-
-                <a th:href="@{/games}">
-                    <i class="bi bi-grid"></i>
-                    <span>Browse</span>
-                </a>
-
-                <a th:href="@{/news}" class="active">
-                    <i class="bi bi-newspaper"></i>
-                    <span>News</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/favorites}">
-                    <i class="bi bi-heart"></i>
-                    <span>Wishlist</span>
-                </a>
-            </nav>
-        </div>
-
-        <div class="epic-sidebar-bottom">
-            <a th:if="${loggedUser != null}" th:href="@{/profile}" class="epic-profile-mini">
-                <div class="epic-profile-avatar"
-                     th:text="${loggedUser.fullName != null && !#strings.isEmpty(loggedUser.fullName) ? #strings.substring(loggedUser.fullName,0,1) : 'U'}">
-                    U
-                </div>
-                <span th:text="${loggedUser.fullName}">User</span>
-            </a>
-        </div>
-    </aside>
+    <aside th:replace="fragments/sidebar :: sidebar('news', ${loggedUser})"></aside>
 
     <main class="epic-main">
-        <header class="epic-topbar">
-            <div class="epic-search-wrap">
-                <i class="bi bi-search"></i>
-                <input type="text" placeholder="Search news, games and updates">
-            </div>
-
-            <nav class="epic-top-links">
-                <a th:href="@{/}">Discover</a>
-                <a th:href="@{/games}">Browse</a>
-                <a th:href="@{/news}" class="active-link">News</a>
-            </nav>
-
-            <div class="epic-top-actions">
-                <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-auth-link">Login</a>
-                <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-auth-link highlight">Register</a>
-
-                <div th:if="${loggedUser != null}" class="epic-user-chip">
-                    <span class="epic-user-circle"
-                          th:text="${loggedUser.fullName != null && !#strings.isEmpty(loggedUser.fullName) ? #strings.substring(loggedUser.fullName,0,1) : 'U'}">
-                        U
-                    </span>
-                </div>
-            </div>
-        </header>
+        <header th:replace="fragments/topbar :: topbar('news', ${loggedUser}, 'Search news, games and updates')"></header>
 
         <section class="news-hero" th:if="${featuredNews != null}">
             <div class="news-hero-content">

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<aside class="epic-sidebar" th:fragment="sidebar(activePage, loggedUser)">
+    <div>
+        <div class="epic-logo-wrap">
+            <a th:href="@{/}" class="epic-logo" aria-label="GameHub Home">GH</a>
+        </div>
+
+        <nav class="epic-menu">
+            <a th:href="@{/}" th:classappend="${activePage == 'store'} ? ' active' : ''">
+                <i class="bi bi-bag"></i>
+                <span>Store</span>
+            </a>
+
+            <a th:if="${loggedUser != null}"
+               th:href="@{/library}"
+               th:classappend="${activePage == 'library'} ? ' active' : ''">
+                <i class="bi bi-collection"></i>
+                <span>Library</span>
+            </a>
+
+            <a th:href="@{/games}"
+               th:classappend="${activePage == 'games'} ? ' active' : ''">
+                <i class="bi bi-grid"></i>
+                <span>Browse</span>
+            </a>
+
+            <a th:href="@{/news}"
+               th:classappend="${activePage == 'news'} ? ' active' : ''">
+                <i class="bi bi-newspaper"></i>
+                <span>News</span>
+            </a>
+
+            <a th:if="${loggedUser != null}"
+               th:href="@{/favorites}"
+               th:classappend="${activePage == 'favorites'} ? ' active' : ''">
+                <i class="bi bi-heart"></i>
+                <span>Favorites</span>
+            </a>
+
+            <a th:if="${loggedUser != null}"
+               th:href="@{/wishlist}"
+               th:classappend="${activePage == 'wishlist'} ? ' active' : ''">
+                <i class="bi bi-bookmark"></i>
+                <span>Wishlist</span>
+            </a>
+
+            <a th:if="${loggedUser != null}"
+               th:href="@{/cart}"
+               th:classappend="${activePage == 'cart'} ? ' active' : ''">
+                <i class="bi bi-cart3"></i>
+                <span>Cart</span>
+            </a>
+
+            <a th:if="${loggedUser != null}"
+               th:href="@{/profile}"
+               th:classappend="${activePage == 'profile'} ? ' active' : ''">
+                <i class="bi bi-person"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="epic-sidebar-bottom" th:if="${loggedUser != null}">
+        <a th:href="@{/profile}" class="epic-profile-mini">
+            <div class="epic-profile-avatar"
+                 th:text="${loggedUser.fullName != null and !#strings.isEmpty(#strings.trim(loggedUser.fullName)) ? #strings.substring(#strings.trim(loggedUser.fullName), 0, 1) : 'U'}">
+                U
+            </div>
+            <span th:text="${loggedUser.fullName != null and !#strings.isEmpty(#strings.trim(loggedUser.fullName)) ? loggedUser.fullName : 'User'}">
+                User
+            </span>
+        </a>
+    </div>
+</aside>
+
+</body>
+</html>

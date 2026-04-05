@@ -37,20 +37,38 @@ public class GameService {
     }
 
     public List<Game> getRelatedGames(Long currentGameId) {
-        return gameRepository.findAll()
-                .stream()
+        Game currentGame = getGameById(currentGameId);
+        if (currentGame == null) {
+            return List.of();
+        }
+
+        return gameRepository.findAll().stream()
                 .filter(game -> !game.getId().equals(currentGameId))
-                .limit(3)
+                .filter(game -> game.getGenre() != null
+                        && currentGame.getGenre() != null
+                        && game.getGenre().equalsIgnoreCase(currentGame.getGenre()))
+                .limit(4)
                 .toList();
     }
 
-    public List<Game> searchGames(String keyword, String genre, String platform) {
-        String safeKeyword = keyword == null ? "" : keyword.trim();
-        String safeGenre = genre == null ? "" : genre.trim();
-        String safePlatform = platform == null ? "" : platform.trim();
+    public List<Game> getFeaturedGames() {
+        return gameRepository.findAll().stream().limit(5).toList();
+    }
 
-        return gameRepository.findByTitleContainingIgnoreCaseAndGenreContainingIgnoreCaseAndPlatformContainingIgnoreCase(
-                safeKeyword, safeGenre, safePlatform
-        );
+    public List<Game> getTopDiscountedGames() {
+        return gameRepository.findAll().stream()
+                .filter(game -> game.getDiscountPercent() != null && game.getDiscountPercent() > 0)
+                .sorted((a, b) -> Integer.compare(
+                        b.getDiscountPercent() != null ? b.getDiscountPercent() : 0,
+                        a.getDiscountPercent() != null ? a.getDiscountPercent() : 0))
+                .limit(5)
+                .toList();
+    }
+
+    public List<Game> getFreeGames() {
+        return gameRepository.findAll().stream()
+                .filter(game -> game.getPrice() != null && game.getPrice() == 0)
+                .limit(5)
+                .toList();
     }
 }

@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.dulith.gamehub.entity.Game;
 import com.dulith.gamehub.entity.User;
-import com.dulith.gamehub.service.FavoriteService;
 import com.dulith.gamehub.service.UserService;
+import com.dulith.gamehub.service.WishlistService;
 
 @Controller
-public class FavoritePageController {
+public class WishlistPageController {
 
-    private final FavoriteService favoriteService;
+    private final WishlistService wishlistService;
     private final UserService userService;
 
-    public FavoritePageController(FavoriteService favoriteService,
+    public WishlistPageController(WishlistService wishlistService,
                                   UserService userService) {
-        this.favoriteService = favoriteService;
+        this.wishlistService = wishlistService;
         this.userService = userService;
     }
 
-    @GetMapping("/favorites")
-    public String showFavoritesPage(Model model, Principal principal) {
+    @GetMapping("/wishlist")
+    public String showWishlistPage(Model model, Principal principal) {
         if (principal == null) {
             return "redirect:/login";
         }
@@ -36,12 +36,12 @@ public class FavoritePageController {
             return "redirect:/login";
         }
 
-        List<Game> favoriteGames = favoriteService.getFavoriteGames(loggedUser);
+        List<Game> wishlistGames = wishlistService.getWishlistGames(loggedUser);
 
         model.addAttribute("loggedUser", loggedUser);
-        model.addAttribute("favoriteGames", favoriteGames);
-        model.addAttribute("activePage", "favorites");
+        model.addAttribute("wishlistGames", wishlistGames);
+        model.addAttribute("activePage", "wishlist");
 
-        return "favorites";
+        return "wishlist";
     }
 }

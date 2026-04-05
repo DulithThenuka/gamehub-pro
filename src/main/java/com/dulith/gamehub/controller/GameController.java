@@ -35,80 +35,77 @@ public class GameController {
     }
 
     @GetMapping("/games")
-    public String games(
-            @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String genre,
-            @RequestParam(required = false) String platform,
-            Model model,
-            Authentication authentication
-    ) {
+    public String games(@RequestParam(required = false) String genre,
+                        @RequestParam(required = false) String platform,
+                        @RequestParam(required = false) String search,
+                        Authentication authentication,
+                        Model model) {
+
         User loggedUser = getLoggedUser(authentication);
+        List<Game> games = gameService.getAllGames();
 
-        List<Game> games = gameService.searchGames(keyword, genre, platform);
-
-        if (loggedUser != null) {
-            for (Game game : games) {
-                game.setFavorite(favoriteService.isFavorite(loggedUser, game));
-            }
+        if (genre != null && !genre.isBlank()) {
+            games = games.stream()
+                    .filter(game -> game.getGenre() != null && game.getGenre().equalsIgnoreCase(genre))
+                    .toList();
         }
 
-        model.addAttribute("pageTitle", "Browse Games");
-        model.addAttribute("games", games);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("genre", genre);
-        model.addAttribute("platform", platform);
+        if (platform != null && !platform.isBlank()) {
+            games = games.stream()
+                    .filter(game -> game.getPlatform() != null && game.getPlatform().equalsIgnoreCase(platform))
+                    .toList();
+        }
+
+        if (search != null && !search.isBlank()) {
+            String keyword = search.toLowerCase();
+            games = games.stream()
+                    .filter(game ->
+                            (game.getTitle() != null && game.getTitle().toLowerCase().contains(keyword)) ||
+                            (game.getGenre() != null && game.getGenre().toLowerCase().contains(keyword)) ||
+                            (game.getPlatform() != null && game.getPlatform().toLowerCase().contains(keyword)))
+                    .toList();
+        }
+
         model.addAttribute("loggedUser", loggedUser);
+        model.addAttribute("games", games);
+        model.addAttribute("selectedGenre", genre);
+        model.addAttribute("selectedPlatform", platform);
+        model.addAttribute("search", search);
+
+        model.addAttribute("genres", List.of(
+                "Action RPG", "Adventure", "Shooter", "Racing", "Indie Platformer"
+        ));
+
+        model.addAttribute("platforms", List.of(
+                "PC", "PlayStation 5", "Xbox Series X", "Nintendo Switch"
+        ));
 
         return "games";
     }
 
     @GetMapping("/games/{id}")
-    public String gameDetails(@PathVariable Long id, Model model, Authentication authentication) {
+    public String gameDetails(@PathVariable Long id,
+                              Authentication authentication,
+                              Model model) {
         User loggedUser = getLoggedUser(authentication);
-
         Game game = gameService.getGameById(id);
+
         if (game == null) {
             return "redirect:/games";
         }
 
+        boolean isFavorite = false;
         if (loggedUser != null) {
-            game.setFavorite(favoriteService.isFavorite(loggedUser, game));
+            isFavorite = favoriteService.isFavorite(loggedUser, game);
         }
 
-        List<Game> relatedGames = gameService.getRelatedGames(id);
-
-        if (loggedUser != null) {
-            for (Game relatedGame : relatedGames) {
-                relatedGame.setFavorite(favoriteService.isFavorite(loggedUser, relatedGame));
-            }
-        }
-
-        model.addAttribute("game", game);
-        model.addAttribute("relatedGames", relatedGames);
-        model.addAttribute("reviews", reviewService.getReviewsByGame(game));
         model.addAttribute("loggedUser", loggedUser);
+        model.addAttribute("game", game);
+        model.addAttribute("isFavorite", isFavorite);
+        model.addAttribute("reviews", reviewService.getReviewsByGame(game));
+        model.addAttribute("relatedGames", gameService.getRelatedGames(id));
 
         return "game-details";
-    }
-
-    @GetMapping("/library")
-    public String library(Model model, Authentication authentication) {
-        User loggedUser = getLoggedUser(authentication);
-
-        if (loggedUser == null) {
-            return "redirect:/login";
-        }
-
-        List<Game> libraryGames = favoriteService.getFavoriteGames(loggedUser);
-
-        for (Game game : libraryGames) {
-            game.setFavorite(true);
-        }
-
-        model.addAttribute("libraryGames", libraryGames);
-        model.addAttribute("loggedUser", loggedUser);
-
-        return "library";
     }
 
     private User getLoggedUser(Authentication authentication) {

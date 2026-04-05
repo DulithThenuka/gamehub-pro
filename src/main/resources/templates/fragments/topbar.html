@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header class="epic-topbar" th:fragment="topbar(activePage, loggedUser, placeholder)">
+    <form class="epic-search-wrap" th:action="@{/games}" method="get">
+        <i class="bi bi-search"></i>
+        <input type="text"
+               name="search"
+               th:placeholder="${placeholder != null and !#strings.isEmpty(#strings.trim(placeholder)) ? placeholder : 'Search games, news, and more'}">
+    </form>
+
+    <nav class="epic-top-links">
+        <a th:href="@{/}" th:classappend="${activePage == 'store'} ? ' active-link' : ''">Discover</a>
+        <a th:href="@{/games}" th:classappend="${activePage == 'games'} ? ' active-link' : ''">Browse</a>
+        <a th:href="@{/news}" th:classappend="${activePage == 'news'} ? ' active-link' : ''">News</a>
+    </nav>
+
+    <div class="epic-top-actions">
+        <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-auth-link">Login</a>
+        <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-auth-link highlight">Register</a>
+
+        <a th:if="${loggedUser != null}"
+           th:href="@{/favorites}"
+           class="top-icon-btn"
+           th:classappend="${activePage == 'favorites'} ? ' active-icon' : ''"
+           aria-label="Favorites"
+           title="Favorites">
+            <i class="bi bi-heart"></i>
+        </a>
+
+        <a th:if="${loggedUser != null}"
+           th:href="@{/wishlist}"
+           class="top-icon-btn"
+           th:classappend="${activePage == 'wishlist'} ? ' active-icon' : ''"
+           aria-label="Wishlist"
+           title="Wishlist">
+            <i class="bi bi-bookmark"></i>
+        </a>
+
+        <a th:if="${loggedUser != null}"
+           th:href="@{/cart}"
+           class="top-icon-btn"
+           th:classappend="${activePage == 'cart'} ? ' active-icon' : ''"
+           aria-label="Cart"
+           title="Cart">
+            <i class="bi bi-cart3"></i>
+        </a>
+
+        <a th:if="${loggedUser != null}"
+           th:href="@{/profile}"
+           class="top-icon-btn"
+           th:classappend="${activePage == 'profile'} ? ' active-icon' : ''"
+           aria-label="Profile"
+           title="Profile">
+            <i class="bi bi-person-circle"></i>
+        </a>
+    </div>
+</header>
+
+</body>
+</html>

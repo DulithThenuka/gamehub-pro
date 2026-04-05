@@ -18,247 +18,101 @@
 
 <div class="epic-shell">
 
-    <!-- SIDEBAR -->
-    <aside class="epic-sidebar">
-        <div>
-            <div class="epic-logo-wrap">
-                <a th:href="@{/}" class="epic-logo">GH</a>
-            </div>
+    <aside th:replace="fragments/sidebar :: sidebar('cart', ${loggedUser})"></aside>
 
-            <nav class="epic-menu">
-                <a th:href="@{/}">
-                    <i class="bi bi-bag"></i>
-                    <span>Store</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/library}">
-                    <i class="bi bi-collection"></i>
-                    <span>Library</span>
-                </a>
-
-                <a th:href="@{/games}">
-                    <i class="bi bi-grid"></i>
-                    <span>Browse</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/favorites}">
-                    <i class="bi bi-heart"></i>
-                    <span>Wishlist</span>
-                </a>
-
-                <a th:href="@{/cart}" class="active">
-                    <i class="bi bi-cart3"></i>
-                    <span>Cart</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/profile}">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
-                </a>
-
-                <a th:if="${loggedUser != null and loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
-                    <i class="bi bi-speedometer2"></i>
-                    <span>Admin</span>
-                </a>
-            </nav>
-        </div>
-
-        <div class="epic-sidebar-bottom">
-            <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-side-btn">Login</a>
-            <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-side-btn secondary">Register</a>
-            <a th:if="${loggedUser != null}" th:href="@{/logout}" class="epic-side-btn">Logout</a>
-        </div>
-    </aside>
-
-    <!-- MAIN -->
     <main class="epic-main">
+        <header th:replace="fragments/topbar :: topbar('cart', ${loggedUser}, 'Search cart')"></header>
 
-        <!-- TOP BAR -->
-        <header class="epic-topbar">
-            <div class="epic-top-left">
-                <a th:href="@{/games}" class="epic-icon-btn cart-back-btn">
-                    <i class="bi bi-chevron-left"></i>
-                </a>
-
-                <div class="epic-search">
-                    <i class="bi bi-search"></i>
-                    <input type="text" id="cartSearch" placeholder="Search cart">
+        <section class="cart-page">
+            <div class="section-head browse-head">
+                <div>
+                    <p class="section-kicker">Cart</p>
+                    <h2>My Cart</h2>
+                    <p class="section-subtext">Review your selected games before checkout.</p>
                 </div>
-
-                <nav class="epic-top-links">
-                    <a th:href="@{/}">Discover</a>
-                    <a th:href="@{/games}">Browse</a>
-                    <a th:href="@{/news}">News</a>
-                </nav>
             </div>
 
-            <div class="epic-top-right">
+            <div class="cart-layout">
 
-    <a th:href="@{/favorites}" class="epic-icon-btn top-nav-link" title="Wishlist">
-        <i class="bi bi-bookmark"></i>
-    </a>
+                <div class="cart-items-card">
+                    <div th:if="${cartItems != null and !#lists.isEmpty(cartItems)}">
 
-    <a th:href="@{/gifts}" class="epic-icon-btn top-nav-link" title="Gifts">
-        <i class="bi bi-gift"></i>
-    </a>
+                        <div class="cart-item" th:each="item : ${cartItems}">
+                            <div class="cart-item-thumb">
+                                <a th:href="@{'/games/' + ${item.game.id}}">
+                                    <img th:src="${item.game.imageUrl != null and !#strings.isEmpty(item.game.imageUrl) ? item.game.imageUrl : '/images/game-placeholder.jpg'}"
+                                         th:alt="${item.game.title}">
+                                </a>
+                            </div>
 
-    <a th:href="@{/cart}" class="epic-icon-btn top-nav-link" title="Cart">
-        <i class="bi bi-cart3"></i>
-    </a>
+                            <div class="cart-item-meta">
+                                <h3>
+                                    <a th:href="@{'/games/' + ${item.game.id}}"
+                                       th:text="${item.game.title}">Game Title</a>
+                                </h3>
 
-    <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
-        <button class="epic-profile-trigger" type="button" id="profileDropdownBtn">
-            <div class="epic-user-circle"
-                 th:text="${#strings.substring(loggedUser.fullName,0,1)}">U</div>
-        </button>
+                                <p th:text="${item.game.description != null and !#strings.isEmpty(item.game.description) ? item.game.description : 'Premium game experience ready for your library.'}">
+                                    Game description
+                                </p>
 
-        <div class="epic-profile-menu" id="profileDropdownMenu">
-            <div class="epic-profile-menu-head">
-                <strong th:text="${loggedUser.fullName}">User Name</strong>
-                <span th:text="${loggedUser.email}">user@email.com</span>
-            </div>
+                                <div class="game-tags-row">
+                                    <span th:text="${item.game.genre != null ? item.game.genre : 'Action'}">Action</span>
+                                    <span th:text="${item.game.platform != null ? item.game.platform : 'PC'}">PC</span>
+                                    <span>Digital Download</span>
+                                </div>
 
-            <a th:href="@{/profile}">
-                <i class="bi bi-person"></i>
-                My Profile
-            </a>
+                                <div class="price-line" style="margin-top: 12px;">
+                                    <span th:if="${item.game.discountPercent != null and item.game.discountPercent > 0}"
+                                          class="discount-pill"
+                                          th:text="'-' + ${item.game.discountPercent} + '%'">-40%</span>
 
-            <a th:href="@{/library}">
-                <i class="bi bi-collection"></i>
-                My Library
-            </a>
+                                    <span th:if="${item.game.discountPercent != null and item.game.discountPercent > 0 and item.game.price != null}"
+                                          class="old-price"
+                                          th:text="'$' + ${#numbers.formatDecimal(item.game.price,1,2)}">$39.99</span>
 
-            <a th:href="@{/favorites}">
-                <i class="bi bi-heart"></i>
-                Wishlist
-            </a>
+                                    <span class="new-price"
+                                          th:text="${item.game.discountedPrice != null ? '$' + #numbers.formatDecimal(item.game.discountedPrice,1,2) : (item.game.price != null ? '$' + #numbers.formatDecimal(item.game.price,1,2) : 'Free')}">
+                                        $19.99
+                                    </span>
+                                </div>
 
-            <a th:href="@{/cart}">
-                <i class="bi bi-cart3"></i>
-                Cart
-            </a>
+                                <div class="cart-item-actions" style="margin-top: 14px;">
+                                    <form th:action="@{/cart/remove}" method="post">
+                                        <input type="hidden" name="gameId" th:value="${item.game.id}">
+                                        <button type="submit" class="news-secondary-btn small-btn">
+                                            <i class="bi bi-trash3"></i>
+                                            Remove
+                                        </button>
+                                    </form>
 
-            <a th:if="${loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
-                <i class="bi bi-speedometer2"></i>
-                Admin Dashboard
-            </a>
+                                    <form th:if="${loggedUser != null}" th:action="@{'/wishlist/toggle/' + ${item.game.id}}" method="post">
+                                        <button type="submit" class="news-secondary-btn small-btn">
+                                            <i class="bi bi-bookmark-plus"></i>
+                                            Move to Wishlist
+                                        </button>
+                                    </form>
 
-            <a th:href="@{/logout}" class="logout-link">
-                <i class="bi bi-box-arrow-right"></i>
-                Logout
-            </a>
-        </div>
-    </div>
-
-    <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-user-chip guest-chip">
-        <div class="epic-user-circle">G</div>
-        <span>Guest</span>
-    </a>
-
-</div>
-        </header>
-
-        <!-- PAGE HEAD -->
-        <section class="cart-head">
-            <div>
-                <h1>My Cart</h1>
-                <p>Review your selected games before checkout.</p>
-            </div>
-
-            <div class="cart-head-badge">
-                <i class="bi bi-shield-check"></i>
-                <span>Secure Checkout</span>
-            </div>
-        </section>
-
-        <!-- CART CONTENT -->
-        <section class="cart-layout">
-
-            <div class="cart-main">
-
-                <div class="cart-list" th:if="${cartItems != null and !#lists.isEmpty(cartItems)}">
-                    <article class="cart-item-card"
-                             th:each="item : ${cartItems}"
-                             th:attr="data-title=${item.game.title}">
-
-                        <div class="cart-item-image-wrap">
-                            <a th:href="@{'/games/' + ${item.game.id}}">
-                                <img class="cart-item-image"
-                                     th:src="${item.game.imageUrl != null and !#strings.isEmpty(item.game.imageUrl) ? item.game.imageUrl : 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80'}"
-                                     th:alt="${item.game.title}">
-                            </a>
+                                    <a th:href="@{'/games/' + ${item.game.id}}" class="news-primary-btn small-btn">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="cart-item-body">
-                            <div class="cart-item-top">
-                                <div>
-                                    <span class="cart-game-type">Base Game</span>
-                                    <h3>
-                                        <a th:href="@{'/games/' + ${item.game.id}}" class="cart-title-link" th:text="${item.game.title}">Game Title</a>
-                                    </h3>
-                                </div>
+                    </div>
 
-                                <div class="cart-price-area"
-                                     th:if="${item.game.discountPercent != null and item.game.discountPercent > 0}">
-                                    <span class="cart-discount-badge" th:text="'-' + ${item.game.discountPercent} + '%'">-40%</span>
-                                    <span class="cart-old-price" th:text="'$' + ${#numbers.formatDecimal(item.game.price,1,2)}">$39.99</span>
-                                    <span class="cart-new-price" th:text="'$' + ${#numbers.formatDecimal(item.game.discountedPrice,1,2)}">$19.99</span>
-                                </div>
-
-                                <div class="cart-price-area"
-                                     th:if="${item.game.discountPercent == null or item.game.discountPercent <= 0}">
-                                    <span class="cart-new-price" th:text="'$' + ${#numbers.formatDecimal(item.game.price,1,2)}">$19.99</span>
-                                </div>
-                            </div>
-
-                            <p class="cart-item-description"
-                               th:text="${item.game.description != null and !#strings.isEmpty(item.game.description) ? item.game.description : 'Premium game experience ready for your library.'}">
-                                Game description
-                            </p>
-
-                            <div class="cart-meta-row">
-                                <span th:text="${item.game.genre != null ? item.game.genre : 'Action'}">Action</span>
-                                <span>Windows</span>
-                                <span>Digital Download</span>
-                            </div>
-
-                            <div class="cart-item-actions">
-                                <form th:action="@{/cart/remove}" method="post">
-                                    <input type="hidden" name="gameId" th:value="${item.game.id}">
-                                    <button type="submit" class="cart-action-btn danger">
-                                        <i class="bi bi-trash3"></i>
-                                        Remove
-                                    </button>
-                                </form>
-
-                                <form th:if="${loggedUser != null}" th:action="@{/favorites/toggle}" method="post">
-                                    <input type="hidden" name="gameId" th:value="${item.game.id}">
-                                    <button type="submit" class="cart-action-btn secondary">
-                                        <i class="bi bi-heart"></i>
-                                        Move to Wishlist
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-
-                <!-- EMPTY STATE -->
-                <div class="cart-empty-state" th:if="${cartItems == null or #lists.isEmpty(cartItems)}">
-                    <div class="cart-empty-card">
-                        <i class="bi bi-cart3"></i>
-                        <h2>Your cart is empty</h2>
+                    <div th:if="${cartItems == null or #lists.isEmpty(cartItems)}" class="empty-state">
+                        <h3>Your cart is empty</h3>
                         <p>Add games to your cart to continue to checkout.</p>
-                        <a th:href="@{/games}" class="cart-browse-btn">Browse Games</a>
+                        <a th:href="@{/games}" class="news-primary-btn">
+                            <i class="bi bi-grid"></i>
+                            Browse Games
+                        </a>
                     </div>
                 </div>
 
-            </div>
-
-            <!-- SUMMARY -->
-            <aside class="cart-summary-panel">
-                <div class="cart-summary-card">
-                    <h2>Order Summary</h2>
+                <aside class="cart-summary-card">
+                    <h2 style="margin-bottom: 18px;">Order Summary</h2>
 
                     <div class="cart-summary-line">
                         <span>Price</span>
@@ -280,44 +134,51 @@
                         <strong th:text="${finalTotal != null ? '$' + #numbers.formatDecimal(finalTotal,1,2) : '$0.00'}">$0.00</strong>
                     </div>
 
-                    <form th:action="@{/checkout}" method="post" class="cart-checkout-form">
-                        <button type="submit" class="cart-checkout-btn">
+                    <form th:action="@{/checkout}" method="post" style="margin-top: 18px;">
+                        <button type="submit" class="news-primary-btn" style="width: 100%;">
                             <i class="bi bi-credit-card"></i>
                             Check Out
                         </button>
                     </form>
 
-                    <a th:href="@{/games}" class="cart-continue-link">Continue Shopping</a>
+                    <a th:href="@{/games}" class="news-secondary-btn" style="width: 100%; margin-top: 12px;">
+                        Continue Shopping
+                    </a>
 
-                    <div class="cart-summary-note">
+                    <div class="checkout-security-note" style="margin-top: 16px;">
                         <i class="bi bi-lock-fill"></i>
                         <span>Transactions are protected with secure checkout.</span>
                     </div>
-                </div>
-            </aside>
+                </aside>
 
+            </div>
         </section>
 
+        <div th:replace="fragments/footer :: body"></div>
     </main>
 </div>
 
-<script th:src="@{/js/main.js}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const searchInput = document.getElementById("cartSearch");
-        const cards = document.querySelectorAll(".cart-item-card");
+        const searchInput = document.querySelector('input[name="search"]');
+        const cards = document.querySelectorAll(".cart-item");
 
         if (searchInput) {
             searchInput.addEventListener("input", function () {
                 const keyword = this.value.toLowerCase().trim();
 
                 cards.forEach(card => {
-                    const title = (card.dataset.title || "").toLowerCase();
-                    card.style.display = title.includes(keyword) ? "" : "none";
+                    const titleEl = card.querySelector(".cart-item-meta h3");
+                    const title = titleEl ? titleEl.textContent.toLowerCase() : "";
+                    card.style.display = title.includes(keyword) ? "" : "grid";
+                    if (!title.includes(keyword)) {
+                        card.style.display = "none";
+                    }
                 });
             });
         }
     });
 </script>
+
 </body>
 </html>
