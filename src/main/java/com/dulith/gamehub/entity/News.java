@@ -7,11 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "news")
 public class News {
 
     @Id
@@ -24,7 +21,7 @@ public class News {
     @Column(length = 1200)
     private String summary;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "image_url")
@@ -39,81 +36,93 @@ public class News {
     @Column(name = "published_date")
     private LocalDate publishedDate;
 
-    @Column(nullable = false)
-    private boolean featured;
+    private Boolean featured = false;
 
     public News() {
+    }
+
+    public News(Long id, String title, String summary, String content, String imageUrl,
+                String category, String readTime, LocalDate publishedDate, Boolean featured) {
+        this.id = id;
+        this.title = title;
+        this.summary = summary;
+        this.content = content;
+        this.imageUrl = imageUrl;
+        this.category = category;
+        this.readTime = readTime;
+        this.publishedDate = publishedDate;
+        this.featured = featured;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public String getReadTime() {
-        return readTime;
-    }
-
-    public LocalDate getPublishedDate() {
-        return publishedDate;
-    }
-
-    public boolean isFeatured() {
-        return featured;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     public void setContent(String content) {
         this.content = content;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public void setCategory(String category) {
         this.category = category;
     }
 
+    public String getReadTime() {
+        return readTime;
+    }
+
     public void setReadTime(String readTime) {
         this.readTime = readTime;
+    }
+
+    public LocalDate getPublishedDate() {
+        return publishedDate;
     }
 
     public void setPublishedDate(LocalDate publishedDate) {
         this.publishedDate = publishedDate;
     }
 
-    public void setFeatured(boolean featured) {
+    public Boolean getFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(Boolean featured) {
         this.featured = featured;
     }
 }

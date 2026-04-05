@@ -21,29 +21,18 @@
         <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-auth-link highlight">Register</a>
 
         <a th:if="${loggedUser != null}"
-           th:href="@{/favorites}"
-           class="top-icon-btn"
-           th:classappend="${activePage == 'favorites'} ? ' active-icon' : ''"
-           aria-label="Favorites"
-           title="Favorites">
-            <i class="bi bi-heart"></i>
-        </a>
-
-        <a th:if="${loggedUser != null}"
            th:href="@{/wishlist}"
            class="top-icon-btn"
            th:classappend="${activePage == 'wishlist'} ? ' active-icon' : ''"
-           aria-label="Wishlist"
-           title="Wishlist">
-            <i class="bi bi-bookmark"></i>
+           aria-label="Wishlist">
+            <i class="bi bi-heart"></i>
         </a>
 
         <a th:if="${loggedUser != null}"
            th:href="@{/cart}"
            class="top-icon-btn"
            th:classappend="${activePage == 'cart'} ? ' active-icon' : ''"
-           aria-label="Cart"
-           title="Cart">
+           aria-label="Cart">
             <i class="bi bi-cart3"></i>
         </a>
 
@@ -51,8 +40,7 @@
            th:href="@{/profile}"
            class="top-icon-btn"
            th:classappend="${activePage == 'profile'} ? ' active-icon' : ''"
-           aria-label="Profile"
-           title="Profile">
+           aria-label="Profile">
             <i class="bi bi-person-circle"></i>
         </a>
     </div>

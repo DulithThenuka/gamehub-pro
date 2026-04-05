@@ -18,14 +18,13 @@ public class WishlistPageController {
     private final WishlistService wishlistService;
     private final UserService userService;
 
-    public WishlistPageController(WishlistService wishlistService,
-                                  UserService userService) {
+    public WishlistPageController(WishlistService wishlistService, UserService userService) {
         this.wishlistService = wishlistService;
         this.userService = userService;
     }
 
     @GetMapping("/wishlist")
-    public String showWishlistPage(Model model, Principal principal) {
+    public String wishlist(Model model, Principal principal) {
         if (principal == null) {
             return "redirect:/login";
         }

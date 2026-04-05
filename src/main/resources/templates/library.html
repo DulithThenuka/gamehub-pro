@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library - GameHub Pro</title>
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,34 +20,54 @@
     <main class="epic-main">
         <header th:replace="fragments/topbar :: topbar('library', ${loggedUser}, 'Search library')"></header>
 
-        <section class="section-head">
-            <h2>Library</h2>
-        </section>
-
-        <div th:if="${libraryGames == null or #lists.isEmpty(libraryGames)}" class="empty-state-card">
-            <h3>Your library is empty</h3>
-            <p>Add games to favorites or purchases to build your collection.</p>
-            <a th:href="@{/games}" class="news-primary-btn">Browse Games</a>
-        </div>
-
-        <div th:if="${libraryGames != null and !#lists.isEmpty(libraryGames)}" class="browse-grid">
-            <article class="epic-game-card" th:each="game : ${libraryGames}">
-                <a th:href="@{'/games/' + ${game.id}}" class="epic-game-thumb">
-                    <img th:src="${game.imageUrl}" th:alt="${game.title}">
-                </a>
-
-                <div class="epic-game-meta" th:text="${game.genre}">Genre</div>
-                <h3>
-                    <a th:href="@{'/games/' + ${game.id}}" th:text="${game.title}">Title</a>
-                </h3>
-                <div class="epic-platform" th:text="${game.platform}">PC</div>
-
-                <div class="library-actions">
-                    <button type="button" class="news-secondary-btn install-btn">Install</button>
-                    <a th:href="@{'/games/' + ${game.id}}" class="news-read-link">View details</a>
+        <section class="favorites-page">
+            <div class="section-head browse-head">
+                <div>
+                    <p class="section-kicker">Library</p>
+                    <h2>My Library</h2>
+                    <p class="section-subtext">
+                        Access the games you own and jump back into your collection anytime.
+                    </p>
                 </div>
-            </article>
-        </div>
+            </div>
+
+            <div th:if="${libraryGames == null or #lists.isEmpty(libraryGames)}" class="empty-state">
+                <h3>Your library is empty</h3>
+                <p>Purchase games to add them to your library and start building your collection.</p>
+                <a th:href="@{/games}" class="news-primary-btn">
+                    <i class="bi bi-grid"></i>
+                    Browse Games
+                </a>
+            </div>
+
+            <div th:if="${libraryGames != null and !#lists.isEmpty(libraryGames)}" class="browse-grid">
+                <article class="epic-game-card" th:each="game : ${libraryGames}">
+                    <a th:href="@{'/games/' + ${game.id}}" class="epic-game-thumb">
+                        <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : '/images/game-placeholder.jpg'}"
+                             th:alt="${game.title}">
+                    </a>
+
+                    <div class="epic-game-meta" th:text="${game.genre != null ? game.genre : 'Game'}">Genre</div>
+
+                    <h3>
+                        <a th:href="@{'/games/' + ${game.id}}" th:text="${game.title}">Title</a>
+                    </h3>
+
+                    <div class="epic-platform" th:text="${game.platform != null ? game.platform : 'Platform N/A'}">PC</div>
+
+                    <div class="library-actions">
+                        <button type="button" class="news-primary-btn small-btn install-btn">
+                            <i class="bi bi-download"></i>
+                            Install
+                        </button>
+
+                        <a th:href="@{'/games/' + ${game.id}}" class="news-secondary-btn small-btn">
+                            View Details
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
 
         <div th:replace="fragments/footer :: body"></div>
     </main>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Games - GameHub Pro</title>
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,12 +28,22 @@
                         <h2>Browse Games</h2>
                         <p class="section-subtext">Find your next favorite title by genre, platform, and price.</p>
                     </div>
+
                     <div class="browse-topbar">
                         <div class="browse-sort">Sort by: <strong>Featured</strong></div>
                     </div>
                 </div>
 
-                <div class="browse-grid">
+                <div th:if="${games == null or #lists.isEmpty(games)}" class="empty-state">
+                    <h3>No games found</h3>
+                    <p>Try changing your search or filter options.</p>
+                    <a th:href="@{/games}" class="epic-white-btn">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reset Filters
+                    </a>
+                </div>
+
+                <div th:if="${games != null and !#lists.isEmpty(games)}" class="browse-grid">
                     <article class="epic-game-card" th:each="game : ${games}">
                         <a th:href="@{'/games/' + ${game.id}}" class="epic-game-thumb">
                             <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : '/images/game-placeholder.jpg'}"
@@ -92,7 +103,15 @@
                             </option>
                         </select>
 
-                        <button type="submit" class="news-primary-btn filters-btn">Apply Filters</button>
+                        <button type="submit" class="news-primary-btn filters-btn">
+                            <i class="bi bi-funnel"></i>
+                            Apply Filters
+                        </button>
+
+                        <a th:href="@{/games}" class="epic-ghost-btn" style="text-align:center;">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            Clear Filters
+                        </a>
                     </form>
                 </div>
             </aside>

@@ -10,8 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:if="${_csrf != null}" th:content="${_csrf.headerName}">
 </head>
 <body class="epic-page">
 
@@ -22,7 +20,7 @@
     <main class="epic-main">
         <header th:replace="fragments/topbar :: topbar('games', ${loggedUser}, 'Search games')"></header>
 
-        <section class="game-details-page">
+        <section class="details-page">
             <div class="details-hero">
                 <div class="details-image">
                     <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : '/images/game-placeholder.jpg'}"
@@ -30,22 +28,26 @@
                 </div>
 
                 <div class="details-content">
-                    <div class="section-kicker">Game Details</div>
-
+                    <p class="section-kicker">Game Details</p>
                     <h1 th:text="${game.title}">Game Title</h1>
 
-                    <div class="details-meta">
-                        <span th:text="${game.genre != null ? game.genre : 'Unknown Genre'}">Genre</span>
-                        <span th:text="${game.platform != null ? game.platform : 'Platform N/A'}">PC</span>
-                        <span th:text="${game.rating != null ? '★ ' + game.rating : '★ N/A'}">★ 4.8</span>
+                    <div class="details-meta-row">
+                        <span class="details-chip" th:text="${game.genre != null ? game.genre : 'Unknown Genre'}">Genre</span>
+                        <span class="details-chip" th:text="${game.platform != null ? game.platform : 'Platform N/A'}">Platform</span>
+                        <span class="details-chip">
+                            ★ <span th:text="${#numbers.formatDecimal(averageRating, 1, 1)}">0.0</span>
+                        </span>
+                        <span class="details-chip">
+                            <span th:text="${reviewCount}">0</span> Reviews
+                        </span>
                     </div>
 
                     <p class="details-description"
-                       th:text="${game.description != null ? game.description : 'No description available for this game yet.'}">
-                        Game description
+                       th:text="${game.description != null ? game.description : 'No description available yet.'}">
+                        Game description.
                     </p>
 
-                    <div class="price-line">
+                    <div class="price-line details-price-line">
                         <span th:if="${game.discountPercent != null and game.discountPercent > 0}"
                               class="discount-pill"
                               th:text="'-' + ${game.discountPercent} + '%'">-20%</span>
@@ -61,281 +63,147 @@
                     </div>
 
                     <div class="details-actions">
+                        <form th:if="${loggedUser != null}" th:action="@{'/cart/add/' + ${game.id}}" method="post">
+                            <button type="submit" class="epic-white-btn">
+                                <i class="bi bi-cart3"></i>
+                                Add to Cart
+                            </button>
+                        </form>
 
-    <form th:action="@{/cart/add}" method="post" class="details-action-form">
-        <input type="hidden" name="gameId" th:value="${game.id}">
-        <button type="submit" class="news-primary-btn">
-            <i class="bi bi-cart-plus"></i>
-            Buy Now
-        </button>
-    </form>
+                        <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-white-btn">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Login to Buy
+                        </a>
 
-    <button type="button"
-            class="news-secondary-btn ajax-toggle-btn favorite-toggle-btn"
-            th:attr="data-game-id=${game.id},data-active=${isFavorite}">
-        <i class="bi"
-           th:classappend="${isFavorite} ? ' bi-heart-fill' : ' bi-heart'"></i>
-        <span th:text="${isFavorite} ? 'Remove Favorite' : 'Add to Favorites'}">Add to Favorites</span>
-    </button>
-
-    <button type="button"
-            class="news-secondary-btn ajax-toggle-btn wishlist-toggle-btn"
-            th:attr="data-game-id=${game.id},data-active=${isWishlisted}">
-        <i class="bi"
-           th:classappend="${isWishlisted} ? ' bi-bookmark-fill' : ' bi-bookmark'"></i>
-        <span th:text="${isWishlisted} ? 'Remove Wishlist' : 'Add to Wishlist'}">Add to Wishlist</span>
-    </button>
-
-    <a th:href="@{/games}" class="news-secondary-btn">
-        <i class="bi bi-arrow-left"></i>
-        Back to Browse
-    </a>
-</div>
-
-                    <div class="favorite-block">
-                        <div class="details-meta">
-                            <span>Genre: <strong th:text="${game.genre != null ? game.genre : 'Unknown'}">Action RPG</strong></span>
-                            <span>Platform: <strong th:text="${game.platform != null ? game.platform : 'N/A'}">PC</strong></span>
-                            <span>Discount: <strong th:text="${game.discountPercent != null ? game.discountPercent + '%' : '0%'}">20%</strong></span>
-                        </div>
+                        <form th:if="${loggedUser != null}" th:action="@{'/wishlist/toggle/' + ${game.id}}" method="post">
+                            <button type="submit" class="epic-ghost-btn">
+                                <i class="bi" th:classappend="${isWishlisted} ? ' bi-heart-fill' : ' bi-heart'"></i>
+                                <span th:text="${isWishlisted} ? 'Remove from Wishlist' : 'Add to Wishlist'}">Add to Wishlist</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
+
+            <section class="review-section">
+                <div class="section-head">
+                    <div>
+                        <p class="section-kicker">Community</p>
+                        <h2>Player Reviews</h2>
+                    </div>
+                </div>
+
+                <div class="review-form-card" th:if="${loggedUser != null}">
+                    <h3 th:text="${userReview != null ? 'Update Your Review' : 'Write a Review'}">Write a Review</h3>
+
+                    <form th:action="@{'/reviews/add/' + ${game.id}}" method="post" class="review-form">
+                        <div class="rating-stars">
+                            <label>
+                                <input type="radio" name="rating" value="1" th:checked="${userReview != null and userReview.rating == 1}">
+                                <span>★</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="2" th:checked="${userReview != null and userReview.rating == 2}">
+                                <span>★</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="3" th:checked="${userReview != null and userReview.rating == 3}">
+                                <span>★</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="4" th:checked="${userReview != null and userReview.rating == 4}">
+                                <span>★</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="5" th:checked="${userReview != null and userReview.rating == 5}">
+                                <span>★</span>
+                            </label>
+                        </div>
+
+                        <textarea name="comment"
+                                  placeholder="Share your thoughts about this game..."
+                                  th:text="${userReview != null ? userReview.comment : ''}"></textarea>
+
+                        <button type="submit" class="epic-white-btn">
+                            <i class="bi bi-star"></i>
+                            <span th:text="${userReview != null ? 'Update Review' : 'Post Review'}">Post Review</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="review-login-box" th:if="${loggedUser == null}">
+                    <p class="section-subtext">Login to write a review and rate this game.</p>
+                    <a th:href="@{/login}" class="epic-white-btn">Login</a>
+                </div>
+
+                <div class="reviews-list" th:if="${reviews != null and !#lists.isEmpty(reviews)}">
+                    <article class="review-card" th:each="review : ${reviews}">
+                        <div class="review-card-top">
+                            <div>
+                                <h4 th:text="${review.user != null ? review.user.fullName : 'Anonymous User'}">Player</h4>
+                                <div class="review-stars-display">
+                                    <span th:each="i : ${#numbers.sequence(1, 5)}"
+                                          th:classappend="${i <= review.rating} ? ' active-star' : ''">★</span>
+                                </div>
+                            </div>
+                            <span class="details-chip" th:text="${review.rating + '/5'}">5/5</span>
+                        </div>
+
+                        <p class="review-text"
+                           th:text="${review.comment != null and !#strings.isEmpty(review.comment) ? review.comment : 'No comment provided.'}">
+                            Review text
+                        </p>
+                    </article>
+                </div>
+
+                <div class="empty-state" th:if="${reviews == null or #lists.isEmpty(reviews)}">
+                    <h3>No reviews yet</h3>
+                    <p>Be the first player to share an opinion about this game.</p>
+                </div>
+            </section>
 
             <div class="related-section">
-                <div class="details-hero" style="grid-template-columns: 1.2fr 0.8fr; gap: 24px;">
-                    <div>
-                        <div class="details-content" th:if="${game.trailerUrl != null and !#strings.isEmpty(game.trailerUrl)}">
-                            <div class="section-head">
-                                <h2>Trailer</h2>
-                            </div>
-
-                            <div class="game-trailer-wrap">
-                                <iframe th:src="${game.trailerUrl}"
-                                        title="Game Trailer"
-                                        frameborder="0"
-                                        allowfullscreen
-                                        style="width:100%; height:420px; border-radius:18px;">
-                                </iframe>
-                            </div>
-                        </div>
-
-                        <div class="details-content" style="margin-top: 24px;">
-                            <div class="section-head">
-                                <h2>About This Game</h2>
-                            </div>
-
-                            <div class="game-description-block">
-                                <p class="details-description"
-                                   th:text="${game.description != null ? game.description : 'No description available for this game yet.'}">
-                                    Description
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="details-content" style="margin-top: 24px;" th:if="${reviews != null and !#lists.isEmpty(reviews)}">
-                            <div class="section-head">
-                                <h2>Player Reviews</h2>
-                            </div>
-
-                            <div class="review-section">
-                                <article class="review-card" th:each="review : ${reviews}">
-                                    <strong th:text="${review.user != null ? review.user.fullName : 'Player'}">Player</strong>
-                                    <p class="text-soft" th:text="'★ ' + ${review.rating}">★ 5</p>
-                                    <p th:text="${review.comment}">Great game.</p>
-                                </article>
-                            </div>
-                        </div>
-
-                        <div class="details-content" style="margin-top: 24px;" th:if="${reviews == null or #lists.isEmpty(reviews)}">
-                            <div class="section-head">
-                                <h2>Player Reviews</h2>
-                            </div>
-
-                            <div class="empty-state">
-                                <h3>No reviews yet</h3>
-                                <p>This game does not have reviews yet.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="details-content">
-                            <div class="section-head">
-                                <h2>Quick Info</h2>
-                            </div>
-
-                            <div class="review-section" style="margin-top:0;">
-                                <div class="review-card">
-                                    <strong>Title</strong>
-                                    <p th:text="${game.title}">Game</p>
-                                </div>
-
-                                <div class="review-card">
-                                    <strong>Genre</strong>
-                                    <p th:text="${game.genre != null ? game.genre : 'Adventure'}">Adventure</p>
-                                </div>
-
-                                <div class="review-card">
-                                    <strong>Platform</strong>
-                                    <p th:text="${game.platform != null ? game.platform : 'PC'}">PC</p>
-                                </div>
-
-                                <div class="review-card">
-                                    <strong>Rating</strong>
-                                    <p th:text="${game.rating != null ? game.rating : 'N/A'}">4.7</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="section-head">
+                    <h2>Related Games</h2>
                 </div>
-            </div>
-        </section>
 
-        <section class="related-section" th:if="${relatedGames != null and !#lists.isEmpty(relatedGames)}">
-            <div class="section-head">
-                <h2>Related Games</h2>
-            </div>
+                <div class="browse-grid">
+                    <article class="epic-game-card" th:each="item : ${relatedGames}">
+                        <a th:href="@{'/games/' + ${item.id}}" class="epic-game-thumb">
+                            <img th:src="${item.imageUrl != null and !#strings.isEmpty(item.imageUrl) ? item.imageUrl : '/images/game-placeholder.jpg'}"
+                                 th:alt="${item.title}">
+                        </a>
 
-            <div class="browse-grid">
-                <article class="epic-game-card" th:each="item : ${relatedGames}">
-                    <a th:href="@{'/games/' + ${item.id}}" class="epic-game-thumb">
-                        <img th:src="${item.imageUrl != null and !#strings.isEmpty(item.imageUrl) ? item.imageUrl : '/images/game-placeholder.jpg'}"
-                             th:alt="${item.title}">
-                    </a>
+                        <div class="epic-game-meta" th:text="${item.genre != null ? item.genre : 'Unknown Genre'}">Genre</div>
 
-                    <div class="epic-game-meta" th:text="${item.genre != null ? item.genre : 'Unknown Genre'}">Genre</div>
+                        <h3>
+                            <a th:href="@{'/games/' + ${item.id}}" th:text="${item.title}">Title</a>
+                        </h3>
 
-                    <h3>
-                        <a th:href="@{'/games/' + ${item.id}}" th:text="${item.title}">Title</a>
-                    </h3>
+                        <div class="epic-platform" th:text="${item.platform != null ? item.platform : 'Platform N/A'}">PC</div>
 
-                    <div class="epic-platform" th:text="${item.platform != null ? item.platform : 'Platform N/A'}">PC</div>
+                        <div class="price-line">
+                            <span th:if="${item.discountPercent != null and item.discountPercent > 0}"
+                                  class="discount-pill"
+                                  th:text="'-' + ${item.discountPercent} + '%'">-20%</span>
 
-                    <div class="price-line">
-                        <span th:if="${item.discountPercent != null and item.discountPercent > 0}"
-                              class="discount-pill"
-                              th:text="'-' + ${item.discountPercent} + '%'">-20%</span>
+                            <span th:if="${item.discountPercent != null and item.discountPercent > 0 and item.price != null}"
+                                  class="old-price"
+                                  th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}">$59.99</span>
 
-                        <span th:if="${item.discountPercent != null and item.discountPercent > 0 and item.price != null}"
-                              class="old-price"
-                              th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}">$59.99</span>
-
-                        <span class="new-price"
-                              th:text="${item.discountedPrice != null ? '$' + #numbers.formatDecimal(item.discountedPrice, 1, 2) : (item.price != null ? '$' + #numbers.formatDecimal(item.price, 1, 2) : 'Free')}">
-                            $49.99
-                        </span>
-                    </div>
-                </article>
+                            <span class="new-price"
+                                  th:text="${item.discountedPrice != null ? '$' + #numbers.formatDecimal(item.discountedPrice, 1, 2) : (item.price != null ? '$' + #numbers.formatDecimal(item.price, 1, 2) : 'Free')}">
+                                $49.99
+                            </span>
+                        </div>
+                    </article>
+                </div>
             </div>
         </section>
 
         <div th:replace="fragments/footer :: body"></div>
     </main>
 </div>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const csrfTokenMeta = document.querySelector('meta[name="_csrf"]');
-    const csrfHeaderMeta = document.querySelector('meta[name="_csrf_header"]');
-
-    const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute("content") : null;
-    const csrfHeader = csrfHeaderMeta ? csrfHeaderMeta.getAttribute("content") : null;
-
-    async function sendToggle(url, options = {}) {
-        const headers = options.headers || {};
-
-        if (csrfToken && csrfHeader) {
-            headers[csrfHeader] = csrfToken;
-        }
-
-        const response = await fetch(url, {
-            method: "POST",
-            headers,
-            body: options.body || null
-        });
-
-        return response.json();
-    }
-
-    function animateButton(button) {
-        button.classList.remove("toggle-pop");
-        void button.offsetWidth;
-        button.classList.add("toggle-pop");
-    }
-
-    const favoriteBtn = document.querySelector(".favorite-toggle-btn");
-    if (favoriteBtn) {
-        favoriteBtn.addEventListener("click", async function () {
-            const gameId = this.dataset.gameId;
-            const icon = this.querySelector("i");
-            const text = this.querySelector("span");
-
-            const formData = new URLSearchParams();
-            formData.append("gameId", gameId);
-
-            try {
-                const data = await sendToggle("/favorites/toggle", {
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: formData.toString()
-                });
-
-                if (data.error === "not_logged_in") {
-                    window.location.href = "/login";
-                    return;
-                }
-
-                if (data.favorited) {
-                    this.dataset.active = "true";
-                    icon.className = "bi bi-heart-fill";
-                    text.textContent = "Remove Favorite";
-                } else {
-                    this.dataset.active = "false";
-                    icon.className = "bi bi-heart";
-                    text.textContent = "Add to Favorites";
-                }
-
-                animateButton(this);
-            } catch (error) {
-                console.error("Favorite toggle failed:", error);
-            }
-        });
-    }
-
-    const wishlistBtn = document.querySelector(".wishlist-toggle-btn");
-    if (wishlistBtn) {
-        wishlistBtn.addEventListener("click", async function () {
-            const gameId = this.dataset.gameId;
-            const icon = this.querySelector("i");
-            const text = this.querySelector("span");
-
-            try {
-                const data = await sendToggle(`/wishlist/toggle/${gameId}`);
-
-                if (data.error === "not_logged_in") {
-                    window.location.href = "/login";
-                    return;
-                }
-
-                if (data.wishlisted) {
-                    this.dataset.active = "true";
-                    icon.className = "bi bi-bookmark-fill";
-                    text.textContent = "Remove Wishlist";
-                } else {
-                    this.dataset.active = "false";
-                    icon.className = "bi bi-bookmark";
-                    text.textContent = "Add to Wishlist";
-                }
-
-                animateButton(this);
-            } catch (error) {
-                console.error("Wishlist toggle failed:", error);
-            }
-        });
-    }
-});
-</script>
 
 </body>
 </html>

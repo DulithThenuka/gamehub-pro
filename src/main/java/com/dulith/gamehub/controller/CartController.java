@@ -5,73 +5,111 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.dulith.gamehub.entity.CartItem;
-import com.dulith.gamehub.entity.Game;
 import com.dulith.gamehub.entity.User;
 import com.dulith.gamehub.service.CartService;
 import com.dulith.gamehub.service.GameService;
 import com.dulith.gamehub.service.UserService;
 
 @Controller
-@RequestMapping("/cart")
 public class CartController {
 
     private final CartService cartService;
-    private final UserService userService;
     private final GameService gameService;
+    private final UserService userService;
 
     public CartController(CartService cartService,
-                          UserService userService,
-                          GameService gameService) {
+                          GameService gameService,
+                          UserService userService) {
         this.cartService = cartService;
-        this.userService = userService;
         this.gameService = gameService;
+        this.userService = userService;
     }
 
-    @PostMapping("/add/{gameId}")
+    @GetMapping("/cart")
+    public String cart(Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        User loggedUser = userService.findByEmail(principal.getName());
+
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
+
+        List<CartItem> cartItems = cartService.getCartItemsByUser(loggedUser);
+
+        double cartTotal = 0.0;
+        double finalTotal = 0.0;
+
+        for (CartItem item : cartItems) {
+            if (item.getGame() == null) {
+                continue;
+            }
+
+            double basePrice = item.getGame().getPrice() != null ? item.getGame().getPrice() : 0.0;
+            double discountedPrice = item.getGame().getDiscountedPrice() != null
+                    ? item.getGame().getDiscountedPrice()
+                    : basePrice;
+
+            int quantity = item.getQuantity() > 0 ? item.getQuantity() : 1;
+
+            cartTotal += basePrice * quantity;
+            finalTotal += discountedPrice * quantity;
+        }
+
+        double discountTotal = cartTotal - finalTotal;
+
+        model.addAttribute("loggedUser", loggedUser);
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("cartTotal", cartTotal);
+        model.addAttribute("discountTotal", discountTotal);
+        model.addAttribute("finalTotal", finalTotal);
+        model.addAttribute("activePage", "cart");
+
+        return "cart";
+    }
+
+    @PostMapping("/cart/add/{gameId}")
     public String addToCart(@PathVariable Long gameId, Principal principal) {
         if (principal == null) {
             return "redirect:/login";
         }
 
-        User user = userService.findByEmail(principal.getName());
-        Game game = gameService.getGameById(gameId);
+        User loggedUser = userService.findByEmail(principal.getName());
 
-        if (user != null && game != null) {
-            cartService.addToCart(user, game);
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
+
+        var game = gameService.getGameById(gameId);
+
+        if (game != null) {
+            cartService.addToCart(loggedUser, game);
         }
 
         return "redirect:/cart";
     }
 
-    @PostMapping("/remove/{cartItemId}")
+    @PostMapping("/cart/remove/{cartItemId}")
     public String removeFromCart(@PathVariable Long cartItemId, Principal principal) {
         if (principal == null) {
             return "redirect:/login";
         }
 
-        cartService.removeFromCart(cartItemId);
-        return "redirect:/cart";
-    }
+        User loggedUser = userService.findByEmail(principal.getName());
 
-    @GetMapping
-    public String viewCart(Model model, Principal principal) {
-        if (principal == null) {
+        if (loggedUser == null) {
             return "redirect:/login";
         }
 
-        User user = userService.findByEmail(principal.getName());
-        List<CartItem> cartItems = cartService.getCart(user);
+        cartService.removeCartItemById(cartItemId, loggedUser);
 
-        model.addAttribute("loggedUser", user);
-        model.addAttribute("cartItems", cartItems);
-        model.addAttribute("cartTotal", cartService.getCartTotal(user));
-
-        return "cart";
+        return "redirect:/cart";
     }
 }

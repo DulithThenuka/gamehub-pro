@@ -1,6 +1,7 @@
 package com.dulith.gamehub.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -18,46 +19,37 @@ public class WishlistService {
         this.wishlistRepository = wishlistRepository;
     }
 
-    public boolean isWishlisted(User user, Game game) {
-        return wishlistRepository.findByUserAndGame(user, game).isPresent();
-    }
-
-    public void addToWishlist(User user, Game game) {
-        if (!isWishlisted(user, game)) {
-            Wishlist wishlist = new Wishlist();
-            wishlist.setUser(user);
-            wishlist.setGame(game);
-            wishlistRepository.save(wishlist);
-        }
-    }
-
-    public void removeFromWishlist(User user, Game game) {
-        wishlistRepository.findByUserAndGame(user, game)
-                .ifPresent(wishlistRepository::delete);
-    }
-
-    public boolean toggleWishlist(User user, Game game) {
-        if (isWishlisted(user, game)) {
-            removeFromWishlist(user, game);
-            return false;
-        } else {
-            addToWishlist(user, game);
-            return true;
-        }
-    }
-
-    public List<Wishlist> getWishlistItems(User user) {
-        return wishlistRepository.findByUser(user);
-    }
-
     public List<Game> getWishlistGames(User user) {
         return wishlistRepository.findByUser(user)
                 .stream()
                 .map(Wishlist::getGame)
-                .toList();
+                .collect(Collectors.toList());
     }
 
-    public long getWishlistCount(User user) {
-        return wishlistRepository.countByUser(user);
+    public boolean isInWishlist(User user, Game game) {
+        if (user == null || game == null) {
+            return false;
+        }
+
+        return wishlistRepository.findByUserAndGame(user, game) != null;
+    }
+
+    public void toggleWishlist(User user, Game game) {
+        Wishlist existing = wishlistRepository.findByUserAndGame(user, game);
+
+        if (existing != null) {
+            wishlistRepository.delete(existing);
+            return;
+        }
+
+        Wishlist wishlist = new Wishlist();
+        wishlist.setUser(user);
+        wishlist.setGame(game);
+
+        wishlistRepository.save(wishlist);
+    }
+
+    public int getWishlistCount(User user) {
+        return wishlistRepository.findByUser(user).size();
     }
 }

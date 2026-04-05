@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameHub Pro</title>
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,75 +18,120 @@
     <aside th:replace="fragments/sidebar :: sidebar('store', ${loggedUser})"></aside>
 
     <main class="epic-main">
-        <header th:replace="fragments/topbar :: topbar('store', ${loggedUser}, 'Search store')"></header>
+        <header th:replace="fragments/topbar :: topbar('store', ${loggedUser}, 'Search games, news, and more')"></header>
 
-        <section class="store-hero" th:if="${featuredGames != null and !#lists.isEmpty(featuredGames)}">
-            <div class="store-hero-main">
-                <div class="store-hero-image">
-                    <img th:src="${featuredGames[0].imageUrl}" th:alt="${featuredGames[0].title}">
+        <section class="home-hero">
+            <div class="hero-main-card" th:if="${featuredGames != null and !#lists.isEmpty(featuredGames)}">
+                <div class="hero-main-image">
+                    <img th:src="${featuredGames[0].imageUrl != null and !#strings.isEmpty(featuredGames[0].imageUrl) ? featuredGames[0].imageUrl : '/images/game-placeholder.jpg'}"
+                         th:alt="${featuredGames[0].title}">
                 </div>
 
-                <div class="store-hero-overlay">
-                    <span class="store-hero-label">Available Now</span>
-                    <h1 th:text="${featuredGames[0].title}">Featured Game</h1>
-                    <p th:text="${featuredGames[0].description}">Description</p>
+                <div class="hero-main-content">
+                    <p class="section-kicker">Featured Game</p>
+                    <h1 th:text="${featuredGames[0].title}">Featured Title</h1>
 
-                    <div class="store-hero-price">
+                    <p class="hero-description"
+                       th:text="${featuredGames[0].description != null ? featuredGames[0].description : 'Discover a new adventure waiting for you in the GameHub store.'}">
+                        Featured description
+                    </p>
+
+                    <div class="details-meta-row">
+                        <span class="details-chip" th:text="${featuredGames[0].genre != null ? featuredGames[0].genre : 'Unknown Genre'}">Genre</span>
+                        <span class="details-chip" th:text="${featuredGames[0].platform != null ? featuredGames[0].platform : 'Platform N/A'}">Platform</span>
+                        <span class="details-chip" th:text="${featuredGames[0].rating != null ? '★ ' + featuredGames[0].rating : 'Top Rated'}">★ 4.8</span>
+                    </div>
+
+                    <div class="price-line hero-price-line">
                         <span th:if="${featuredGames[0].discountPercent != null and featuredGames[0].discountPercent > 0}"
                               class="discount-pill"
-                              th:text="'-' + ${featuredGames[0].discountPercent} + '%'">-20%</span>
+                              th:text="'-' + ${featuredGames[0].discountPercent} + '%'">
+                            -20%
+                        </span>
 
-                        <span class="hero-price-value"
-                              th:text="${featuredGames[0].discountedPrice != null ? '$' + featuredGames[0].discountedPrice : '$' + featuredGames[0].price}">
+                        <span th:if="${featuredGames[0].discountPercent != null and featuredGames[0].discountPercent > 0 and featuredGames[0].price != null}"
+                              class="old-price"
+                              th:text="'$' + ${#numbers.formatDecimal(featuredGames[0].price, 1, 2)}">
                             $59.99
+                        </span>
+
+                        <span class="new-price"
+                              th:text="${featuredGames[0].discountedPrice != null ? '$' + #numbers.formatDecimal(featuredGames[0].discountedPrice, 1, 2) : (featuredGames[0].price != null ? '$' + #numbers.formatDecimal(featuredGames[0].price, 1, 2) : 'Free')}">
+                            $49.99
                         </span>
                     </div>
 
-                    <div class="store-hero-actions">
-                        <a th:href="@{'/games/' + ${featuredGames[0].id}}" class="hero-buy-btn">Buy Now</a>
-                        <a th:href="@{/games}" class="hero-wish-btn">Browse</a>
+                    <div class="hero-actions">
+                        <a th:href="@{'/games/' + ${featuredGames[0].id}}" class="epic-white-btn">
+                            <i class="bi bi-controller"></i>
+                            View Details
+                        </a>
+
+                        <form th:if="${loggedUser != null}" th:action="@{'/cart/add/' + ${featuredGames[0].id}}" method="post">
+                            <button type="submit" class="epic-ghost-btn">
+                                <i class="bi bi-cart3"></i>
+                                Add to Cart
+                            </button>
+                        </form>
+
+                        <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-ghost-btn">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Login to Buy
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <div class="store-hero-side">
-                <a class="store-side-item" th:each="game : ${featuredGames}" th:href="@{'/games/' + ${game.id}}">
-                    <img th:src="${game.imageUrl}" th:alt="${game.title}">
-                    <div>
-                        <h4 th:text="${game.title}">Game</h4>
-                        <span th:text="${game.genre}">Genre</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <section class="store-section" th:if="${topSellers != null and !#lists.isEmpty(topSellers)}">
-            <div class="section-head">
-                <h2>Top Sellers</h2>
-            </div>
-
-            <div class="epic-card-row">
-                <article class="epic-game-card" th:each="game : ${topSellers}">
-                    <a th:href="@{'/games/' + ${game.id}}" class="epic-game-thumb">
-                        <img th:src="${game.imageUrl}" th:alt="${game.title}">
+            <aside class="hero-side-panel" th:if="${featuredGames != null and #lists.size(featuredGames) > 1}">
+                <div class="hero-side-card" th:each="game, iterStat : ${featuredGames}" th:if="${iterStat.index > 0 and iterStat.index < 4}">
+                    <a th:href="@{'/games/' + ${game.id}}" class="hero-side-thumb">
+                        <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : '/images/game-placeholder.jpg'}"
+                             th:alt="${game.title}">
                     </a>
 
-                    <div class="epic-game-meta">Base Game</div>
+                    <div class="hero-side-meta">
+                        <p class="hero-side-title" th:text="${game.title}">Game Title</p>
+                        <span class="hero-side-genre" th:text="${game.genre != null ? game.genre : 'Genre'}">Genre</span>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="content-section" th:if="${newReleases != null and !#lists.isEmpty(newReleases)}">
+            <div class="section-head">
+                <div>
+                    <p class="section-kicker">Latest</p>
+                    <h2>New Releases</h2>
+                </div>
+                <a th:href="@{/games}" class="section-link">View All</a>
+            </div>
+
+            <div class="browse-grid">
+                <article class="epic-game-card" th:each="game : ${newReleases}">
+                    <a th:href="@{'/games/' + ${game.id}}" class="epic-game-thumb">
+                        <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : '/images/game-placeholder.jpg'}"
+                             th:alt="${game.title}">
+                    </a>
+
+                    <div class="epic-game-meta" th:text="${game.genre != null ? game.genre : 'Unknown Genre'}">Genre</div>
+
                     <h3>
                         <a th:href="@{'/games/' + ${game.id}}" th:text="${game.title}">Title</a>
                     </h3>
+
+                    <div class="epic-platform" th:text="${game.platform != null ? game.platform : 'Platform N/A'}">Platform</div>
 
                     <div class="price-line">
                         <span th:if="${game.discountPercent != null and game.discountPercent > 0}"
                               class="discount-pill"
                               th:text="'-' + ${game.discountPercent} + '%'">-20%</span>
 
-                        <span th:if="${game.discountPercent != null and game.discountPercent > 0}"
+                        <span th:if="${game.discountPercent != null and game.discountPercent > 0 and game.price != null}"
                               class="old-price"
-                              th:text="'$' + ${game.price}">$59.99</span>
+                              th:text="'$' + ${#numbers.formatDecimal(game.price, 1, 2)}">$59.99</span>
 
                         <span class="new-price"
-                              th:text="${game.discountedPrice != null ? '$' + game.discountedPrice : '$' + game.price}">
+                              th:text="${game.discountedPrice != null ? '$' + #numbers.formatDecimal(game.discountedPrice, 1, 2) : (game.price != null ? '$' + #numbers.formatDecimal(game.price, 1, 2) : 'Free')}">
                             $49.99
                         </span>
                     </div>
@@ -93,36 +139,74 @@
             </div>
         </section>
 
-        <section class="store-section" th:if="${newReleases != null and !#lists.isEmpty(newReleases)}">
+        <section class="content-section" th:if="${topSellers != null and !#lists.isEmpty(topSellers)}">
             <div class="section-head">
-                <h2>New Releases</h2>
+                <div>
+                    <p class="section-kicker">Popular</p>
+                    <h2>Top Sellers</h2>
+                </div>
+                <a th:href="@{/games}" class="section-link">Explore</a>
             </div>
 
-            <div class="epic-card-row">
-                <article class="epic-wide-card" th:each="game : ${newReleases}">
-                    <img th:src="${game.imageUrl}" th:alt="${game.title}">
-                    <div class="epic-wide-content">
-                        <h3 th:text="${game.title}">Title</h3>
-                        <p th:text="${game.description}">Description</p>
-                        <a th:href="@{'/games/' + ${game.id}}" class="news-secondary-btn">View Details</a>
+            <div class="browse-grid">
+                <article class="epic-game-card" th:each="game : ${topSellers}">
+                    <a th:href="@{'/games/' + ${game.id}}" class="epic-game-thumb">
+                        <img th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : '/images/game-placeholder.jpg'}"
+                             th:alt="${game.title}">
+                    </a>
+
+                    <div class="epic-game-meta" th:text="${game.genre != null ? game.genre : 'Unknown Genre'}">Genre</div>
+
+                    <h3>
+                        <a th:href="@{'/games/' + ${game.id}}" th:text="${game.title}">Title</a>
+                    </h3>
+
+                    <div class="epic-platform" th:text="${game.platform != null ? game.platform : 'Platform N/A'}">Platform</div>
+
+                    <div class="price-line">
+                        <span th:if="${game.discountPercent != null and game.discountPercent > 0}"
+                              class="discount-pill"
+                              th:text="'-' + ${game.discountPercent} + '%'">-20%</span>
+
+                        <span th:if="${game.discountPercent != null and game.discountPercent > 0 and game.price != null}"
+                              class="old-price"
+                              th:text="'$' + ${#numbers.formatDecimal(game.price, 1, 2)}">$59.99</span>
+
+                        <span class="new-price"
+                              th:text="${game.discountedPrice != null ? '$' + #numbers.formatDecimal(game.discountedPrice, 1, 2) : (game.price != null ? '$' + #numbers.formatDecimal(game.price, 1, 2) : 'Free')}">
+                            $49.99
+                        </span>
                     </div>
                 </article>
             </div>
         </section>
 
-        <section class="store-section" th:if="${latestNews != null and !#lists.isEmpty(latestNews)}">
+        <section class="content-section" th:if="${latestNews != null and !#lists.isEmpty(latestNews)}">
             <div class="section-head">
-                <h2>Featured Stories</h2>
+                <div>
+                    <p class="section-kicker">Updates</p>
+                    <h2>Latest News</h2>
+                </div>
+                <a th:href="@{/news}" class="section-link">See News</a>
             </div>
 
-            <div class="news-feature-row">
-                <article class="news-feature-mini" th:each="item : ${latestNews}">
-                    <img th:src="${item.imageUrl}" th:alt="${item.title}">
-                    <div>
-                        <span class="news-card-category" th:text="${item.category}">Update</span>
-                        <h4 th:text="${item.title}">Title</h4>
-                        <p th:text="${item.summary}">Summary</p>
-                        <a th:href="@{'/news/' + ${item.id}}" class="news-read-link">Read more</a>
+            <div class="news-grid">
+                <article class="news-card" th:each="item : ${latestNews}">
+                    <a th:href="@{/news}" class="news-thumb">
+                        <img th:src="${item.imageUrl != null and !#strings.isEmpty(item.imageUrl) ? item.imageUrl : '/images/game-placeholder.jpg'}"
+                             th:alt="${item.title}">
+                    </a>
+
+                    <div class="news-body">
+                        <div class="news-meta-row">
+                            <span class="news-category" th:text="${item.category}">Update</span>
+                            <span class="news-read-time" th:text="${item.readTime}">5 min read</span>
+                        </div>
+
+                        <h3 th:text="${item.title}">News title</h3>
+                        <p th:text="${item.summary != null ? item.summary : 'Latest update from GameHub.'}">
+                            News summary
+                        </p>
                     </div>
                 </article>
             </div>

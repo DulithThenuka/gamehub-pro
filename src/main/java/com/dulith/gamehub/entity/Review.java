@@ -8,67 +8,78 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "review")
 public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(columnDefinition = "TEXT")
+    private String comment;
+
+    @Column(nullable = false)
+    private Integer rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id", nullable = false)
     private Game game;
 
-    private int rating;
-
-    @Column(columnDefinition = "TEXT")
-    private String comment;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Review() {
+    }
+
+    public Review(Long id, String comment, Integer rating, Game game, User user) {
+        this.id = id;
+        this.comment = comment;
+        this.rating = rating;
+        this.game = game;
+        this.user = user;
     }
 
     public Long getId() {
         return id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public int getRating() {
-        return rating;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getComment() {
         return comment;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public void setGame(Game game) {
         this.game = game;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public User getUser() {
+        return user;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

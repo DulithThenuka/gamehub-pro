@@ -1,8 +1,8 @@
 package com.dulith.gamehub.controller;
 
+import java.security.Principal;
 import java.util.List;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,42 +21,36 @@ public class HomeController {
     private final NewsService newsService;
     private final UserService userService;
 
-    public HomeController(GameService gameService, NewsService newsService, UserService userService) {
+    public HomeController(GameService gameService,
+                          NewsService newsService,
+                          UserService userService) {
         this.gameService = gameService;
         this.newsService = newsService;
         this.userService = userService;
     }
 
     @GetMapping("/")
-    public String home(Authentication authentication, Model model) {
-        User loggedUser = getLoggedUser(authentication);
+    public String home(Model model, Principal principal) {
+        User loggedUser = null;
+
+        if (principal != null) {
+            loggedUser = userService.findByEmail(principal.getName());
+        }
 
         List<Game> allGames = gameService.getAllGames();
-        List<Game> featuredGames = allGames.stream().limit(5).toList();
-        List<Game> newReleases = allGames.stream().skip(1).limit(5).toList();
-        List<Game> topSellers = allGames.stream().skip(2).limit(5).toList();
-        List<Game> freeToPlay = allGames.stream().filter(game -> game.getPrice() != null && game.getPrice() == 0).limit(5).toList();
-
         List<News> latestNews = newsService.getLatestNews();
-        News featuredNews = newsService.getFeaturedNews();
 
         model.addAttribute("loggedUser", loggedUser);
-        model.addAttribute("featuredGames", featuredGames);
-        model.addAttribute("newReleases", newReleases);
-        model.addAttribute("topSellers", topSellers);
-        model.addAttribute("freeToPlay", freeToPlay);
+        model.addAttribute("featuredGames", gameService.getFeaturedGames());
+        model.addAttribute("newReleases", gameService.getNewReleases());
+        model.addAttribute("topSellers", gameService.getTopSellers());
+        model.addAttribute("freeToPlay", gameService.getFreeToPlayGames());
         model.addAttribute("latestNews", latestNews);
-        model.addAttribute("featuredNews", featuredNews);
+
+        // Optional fallback so the page never feels empty
+        model.addAttribute("allGames", allGames);
+        model.addAttribute("activePage", "store");
 
         return "home";
-    }
-
-    private User getLoggedUser(Authentication authentication) {
-        if (authentication != null
-                && authentication.isAuthenticated()
-                && !"anonymousUser".equals(authentication.getName())) {
-            return userService.findByEmail(authentication.getName());
-        }
-        return null;
     }
 }

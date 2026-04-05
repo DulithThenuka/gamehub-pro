@@ -30,6 +30,10 @@ public class CheckoutController {
 
         User user = userService.findByEmail(principal.getName());
 
+        if (user == null) {
+            return "redirect:/login";
+        }
+
         if (cartService.getCart(user).isEmpty()) {
             return "redirect:/cart";
         }
@@ -37,6 +41,7 @@ public class CheckoutController {
         model.addAttribute("loggedUser", user);
         model.addAttribute("cartItems", cartService.getCart(user));
         model.addAttribute("cartTotal", cartService.getCartTotal(user));
+        model.addAttribute("activePage", "cart");
 
         return "checkout";
     }
@@ -48,12 +53,18 @@ public class CheckoutController {
         }
 
         User user = userService.findByEmail(principal.getName());
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
         double finalTotal = cartService.getCartTotal(user);
 
         cartService.clearCart(user);
 
         model.addAttribute("loggedUser", user);
         model.addAttribute("finalTotal", finalTotal);
+        model.addAttribute("activePage", "cart");
 
         return "checkout-success";
     }

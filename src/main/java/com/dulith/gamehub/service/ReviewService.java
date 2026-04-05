@@ -22,12 +22,44 @@ public class ReviewService {
         return reviewRepository.findByGame(game);
     }
 
-    public void addReview(User user, Game game, int rating, String comment) {
+    public Review getReviewByUserAndGame(User user, Game game) {
+        return reviewRepository.findByUserAndGame(user, game);
+    }
+
+    public void saveOrUpdateReview(User user, Game game, Integer rating, String comment) {
+        Review existingReview = reviewRepository.findByUserAndGame(user, game);
+
+        if (existingReview != null) {
+            existingReview.setRating(rating);
+            existingReview.setComment(comment);
+            reviewRepository.save(existingReview);
+            return;
+        }
+
         Review review = new Review();
         review.setUser(user);
         review.setGame(game);
         review.setRating(rating);
         review.setComment(comment);
+
         reviewRepository.save(review);
+    }
+
+    public double getAverageRating(Game game) {
+        List<Review> reviews = reviewRepository.findByGame(game);
+
+        if (reviews.isEmpty()) {
+            return 0.0;
+        }
+
+        int total = reviews.stream()
+                .mapToInt(review -> review.getRating() != null ? review.getRating() : 0)
+                .sum();
+
+        return (double) total / reviews.size();
+    }
+
+    public int getReviewCount(Game game) {
+        return reviewRepository.findByGame(game).size();
     }
 }

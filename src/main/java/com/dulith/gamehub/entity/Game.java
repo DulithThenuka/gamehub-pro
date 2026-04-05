@@ -5,9 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "game")
 public class Game {
 
     @Id
@@ -17,38 +18,43 @@ public class Game {
     @Column(nullable = false)
     private String title;
 
-    private String genre;
-    private String platform;
-    private Double rating;
-
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    private String genre;
+
+    @Column(name = "image_url")
     private String imageUrl;
+
+    private String platform;
+
+    private Double rating;
+
+    @Column(name = "trailer_url")
     private String trailerUrl;
 
     @Column(nullable = false)
-    private Double price = 0.0;
+    private Double price;
 
-    private Integer discountPercent = 0;
+    @Column(name = "discount_percent")
+    private Integer discountPercent;
 
-    private Double discountedPrice = 0.0;
-
-    @Transient
-    private boolean favorite;
+    @Column(name = "discounted_price")
+    private Double discountedPrice;
 
     public Game() {
     }
 
-    public Game(String title, String genre, String platform, Double rating,
-                String description, String imageUrl, String trailerUrl,
+    public Game(Long id, String title, String description, String genre, String imageUrl,
+                String platform, Double rating, String trailerUrl,
                 Double price, Integer discountPercent, Double discountedPrice) {
+        this.id = id;
         this.title = title;
+        this.description = description;
         this.genre = genre;
+        this.imageUrl = imageUrl;
         this.platform = platform;
         this.rating = rating;
-        this.description = description;
-        this.imageUrl = imageUrl;
         this.trailerUrl = trailerUrl;
         this.price = price;
         this.discountPercent = discountPercent;
@@ -59,103 +65,87 @@ public class Game {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public String getPlatform() {
-        return platform;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public String getTrailerUrl() {
-        return trailerUrl;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public Integer getDiscountPercent() {
-        return discountPercent;
-    }
-
-    public Double getDiscountedPrice() {
-        if (discountedPrice != null && discountedPrice > 0) {
-            return discountedPrice;
-        }
-
-        if (price != null && discountPercent != null && discountPercent > 0) {
-            return price - (price * discountPercent / 100.0);
-        }
-
-        return price != null ? price : 0.0;
-    }
-
-    public boolean isFavorite() {
-        return favorite;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public void setPlatform(String platform) {
-        this.platform = platform;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public String getTrailerUrl() {
+        return trailerUrl;
     }
 
     public void setTrailerUrl(String trailerUrl) {
         this.trailerUrl = trailerUrl;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Integer getDiscountPercent() {
+        return discountPercent;
     }
 
     public void setDiscountPercent(Integer discountPercent) {
         this.discountPercent = discountPercent;
     }
 
-    public void setDiscountedPrice(Double discountedPrice) {
-        this.discountedPrice = discountedPrice;
+    public Double getDiscountedPrice() {
+        return discountedPrice;
     }
 
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
+    public void setDiscountedPrice(Double discountedPrice) {
+        this.discountedPrice = discountedPrice;
     }
 }

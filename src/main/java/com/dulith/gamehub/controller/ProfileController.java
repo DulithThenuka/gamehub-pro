@@ -1,75 +1,52 @@
 package com.dulith.gamehub.controller;
 
-import org.springframework.security.core.Authentication;
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dulith.gamehub.entity.User;
-import com.dulith.gamehub.service.FavoriteService;
+import com.dulith.gamehub.service.CartService;
 import com.dulith.gamehub.service.UserService;
+import com.dulith.gamehub.service.WishlistService;
 
 @Controller
 public class ProfileController {
 
     private final UserService userService;
-    private final FavoriteService favoriteService;
+    private final WishlistService wishlistService;
+    private final CartService cartService;
 
-    public ProfileController(UserService userService, FavoriteService favoriteService) {
+    public ProfileController(UserService userService,
+                             WishlistService wishlistService,
+                             CartService cartService) {
         this.userService = userService;
-        this.favoriteService = favoriteService;
+        this.wishlistService = wishlistService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/profile")
-    public String profile(Authentication authentication, Model model) {
-        User loggedUser = getLoggedUser(authentication);
+    public String profile(Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        User loggedUser = userService.findByEmail(principal.getName());
+
         if (loggedUser == null) {
             return "redirect:/login";
         }
 
-        loadProfileData(model, loggedUser);
-        return "profile";
-    }
+        int wishlistCount = wishlistService.getWishlistGames(loggedUser).size();
+        int cartCount = cartService.getCartItemsByUser(loggedUser).size();
 
-    @PostMapping("/profile/update")
-    public String updateProfile(@RequestParam String fullName,
-                                Authentication authentication,
-                                Model model) {
-        User loggedUser = getLoggedUser(authentication);
-        if (loggedUser == null) {
-            return "redirect:/login";
-        }
-
-        try {
-            loggedUser.setFullName(fullName.trim());
-            userService.updateProfile(loggedUser);
-
-            loadProfileData(model, loggedUser);
-            model.addAttribute("success", "Profile updated successfully.");
-            return "profile";
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            loadProfileData(model, loggedUser);
-            model.addAttribute("error", "Failed to update profile.");
-            return "profile";
-        }
-    }
-
-    private User getLoggedUser(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()
-                || "anonymousUser".equals(authentication.getName())) {
-            return null;
-        }
-        return userService.findByEmail(authentication.getName());
-    }
-
-    private void loadProfileData(Model model, User loggedUser) {
         model.addAttribute("loggedUser", loggedUser);
-        model.addAttribute("favoriteCount", favoriteService.getFavoriteGames(loggedUser).size());
-        model.addAttribute("libraryCount", favoriteService.getFavoriteGames(loggedUser).size());
-        model.addAttribute("orderCount", 0);
+        model.addAttribute("wishlistCount", wishlistCount);
+        model.addAttribute("libraryCount", 0); // until real purchases system is added
+        model.addAttribute("cartCount", cartCount);
+        model.addAttribute("activePage", "profile");
+
+        return "profile";
     }
 }

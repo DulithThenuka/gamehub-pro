@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News - GameHub Pro</title>
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,80 +18,123 @@
     <aside th:replace="fragments/sidebar :: sidebar('news', ${loggedUser})"></aside>
 
     <main class="epic-main">
-        <header th:replace="fragments/topbar :: topbar('news', ${loggedUser}, 'Search news, games and updates')"></header>
+        <header th:replace="fragments/topbar :: topbar('news', ${loggedUser}, 'Search news and updates')"></header>
 
-        <section class="news-hero" th:if="${featuredNews != null}">
-            <div class="news-hero-content">
-                <span class="news-badge" th:text="${featuredNews.category}">Featured</span>
-                <h1 th:text="${featuredNews.title}">Featured title</h1>
-                <p th:text="${featuredNews.summary}">Featured summary</p>
-
-                <div class="news-meta-row">
-                    <span><i class="bi bi-calendar3"></i> <span th:text="${featuredNews.publishedDate}">2026-04-05</span></span>
-                    <span><i class="bi bi-clock"></i> <span th:text="${featuredNews.readTime}">5 min read</span></span>
+        <section class="content-section">
+            <div class="section-head browse-head">
+                <div>
+                    <p class="section-kicker">Updates</p>
+                    <h2>Gaming News</h2>
+                    <p class="section-subtext">
+                        Stay updated with the latest releases, events, expansions, and platform news.
+                    </p>
                 </div>
-
-                <div class="news-hero-actions">
-                    <a th:href="@{'/news/' + ${featuredNews.id}}" class="news-primary-btn">Read Article</a>
-                    <a th:href="@{/games}" class="news-secondary-btn">Browse Games</a>
-                </div>
-            </div>
-
-            <div class="news-hero-visual">
-                <img th:src="${featuredNews.imageUrl}" th:alt="${featuredNews.title}">
             </div>
         </section>
 
-        <section class="news-section">
+        <section class="content-section" th:if="${featuredNews != null and !#lists.isEmpty(featuredNews)}">
             <div class="section-head">
-                <h2>Latest News</h2>
-                <a th:href="@{/news}" class="section-link">View all</a>
+                <div>
+                    <p class="section-kicker">Spotlight</p>
+                    <h2>Featured News</h2>
+                </div>
             </div>
 
             <div class="news-grid">
-                <article class="news-card" th:each="item : ${latestNews}">
-                    <a th:href="@{'/news/' + ${item.id}}" class="news-card-image-wrap">
-                        <img th:src="${item.imageUrl}" th:alt="${item.title}">
+                <article class="news-card" th:each="item : ${featuredNews}">
+                    <a th:href="@{/news}" class="news-thumb">
+                        <img th:src="${item.imageUrl != null and !#strings.isEmpty(item.imageUrl) ? item.imageUrl : '/images/game-placeholder.jpg'}"
+                             th:alt="${item.title}">
                     </a>
 
-                    <div class="news-card-body">
-                        <div class="news-card-top">
-                            <span class="news-card-category" th:text="${item.category}">Update</span>
-                            <span class="news-card-time" th:text="${item.readTime}">5 min read</span>
+                    <div class="news-body">
+                        <div class="news-meta-row">
+                            <span class="news-category" th:text="${item.category != null ? item.category : 'News'}">News</span>
+                            <span class="news-read-time" th:text="${item.readTime != null ? item.readTime : 'Read'}">5 min read</span>
                         </div>
 
-                        <h3>
-                            <a th:href="@{'/news/' + ${item.id}}" th:text="${item.title}">News title</a>
-                        </h3>
+                        <h3 th:text="${item.title}">Featured title</h3>
 
-                        <p th:text="${item.summary}">Summary</p>
-
-                        <div class="news-card-bottom">
-                            <span th:text="${item.publishedDate}">2026-04-05</span>
-                            <a th:href="@{'/news/' + ${item.id}}" class="news-read-link">Read more</a>
-                        </div>
+                        <p th:text="${item.summary != null ? item.summary : 'Latest featured update from GameHub.'}">
+                            Summary text
+                        </p>
                     </div>
                 </article>
             </div>
         </section>
 
-        <section class="news-section">
-            <div class="section-head">
-                <h2>Featured Stories</h2>
-            </div>
-
-            <div class="news-feature-row">
-                <article class="news-feature-mini" th:each="item : ${popularNews}">
-                    <img th:src="${item.imageUrl}" th:alt="${item.title}">
+        <div class="browse-layout">
+            <section class="browse-main">
+                <div class="section-head">
                     <div>
-                        <span class="news-card-category" th:text="${item.category}">Story</span>
-                        <h4 th:text="${item.title}">Title</h4>
-                        <p th:text="${item.summary}">Summary</p>
-                        <a th:href="@{'/news/' + ${item.id}}" class="news-read-link">Read more</a>
+                        <p class="section-kicker">Latest</p>
+                        <h2>All News</h2>
                     </div>
-                </article>
-            </div>
-        </section>
+                </div>
+
+                <div th:if="${newsList == null or #lists.isEmpty(newsList)}" class="empty-state">
+                    <h3>No news found</h3>
+                    <p>Try changing the category filter or check back later for more updates.</p>
+                    <a th:href="@{/news}" class="epic-white-btn">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reset News Filter
+                    </a>
+                </div>
+
+                <div th:if="${newsList != null and !#lists.isEmpty(newsList)}" class="news-grid">
+                    <article class="news-card" th:each="item : ${newsList}">
+                        <a th:href="@{/news}" class="news-thumb">
+                            <img th:src="${item.imageUrl != null and !#strings.isEmpty(item.imageUrl) ? item.imageUrl : '/images/game-placeholder.jpg'}"
+                                 th:alt="${item.title}">
+                        </a>
+
+                        <div class="news-body">
+                            <div class="news-meta-row">
+                                <span class="news-category" th:text="${item.category != null ? item.category : 'News'}">News</span>
+                                <span class="news-read-time"
+                                      th:text="${item.readTime != null ? item.readTime : (item.publishedDate != null ? item.publishedDate : 'Latest')}">
+                                    5 min read
+                                </span>
+                            </div>
+
+                            <h3 th:text="${item.title}">News title</h3>
+
+                            <p th:text="${item.summary != null ? item.summary : 'Latest GameHub update.'}">
+                                News summary
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <aside class="browse-filters">
+                <div class="filters-card">
+                    <h3>Filter News</h3>
+
+                    <form th:action="@{/news}" method="get" class="filters-form">
+                        <select name="category">
+                            <option value="">All Categories</option>
+                            <option th:each="item : ${categories}"
+                                    th:value="${item}"
+                                    th:text="${item}"
+                                    th:selected="${selectedCategory == item}">
+                                Category
+                            </option>
+                        </select>
+
+                        <button type="submit" class="news-primary-btn filters-btn">
+                            <i class="bi bi-funnel"></i>
+                            Apply Filter
+                        </button>
+
+                        <a th:href="@{/news}" class="epic-ghost-btn" style="text-align:center;">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            Clear Filter
+                        </a>
+                    </form>
+                </div>
+            </aside>
+        </div>
 
         <div th:replace="fragments/footer :: body"></div>
     </main>

@@ -1,12 +1,12 @@
 package com.dulith.gamehub.controller;
 
+import java.security.Principal;
 import java.util.List;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dulith.gamehub.entity.News;
 import com.dulith.gamehub.entity.User;
@@ -25,43 +25,27 @@ public class NewsController {
     }
 
     @GetMapping("/news")
-    public String news(Model model, Authentication authentication) {
-        User loggedUser = getLoggedUser(authentication);
+    public String news(@RequestParam(required = false) String category,
+                       Model model,
+                       Principal principal) {
 
-        News featuredNews = newsService.getFeaturedNews();
-        List<News> latestNews = newsService.getLatestNews();
-        List<News> popularNews = newsService.getPopularNews();
+        User loggedUser = null;
+
+        if (principal != null) {
+            loggedUser = userService.findByEmail(principal.getName());
+        }
+
+        List<News> newsList = newsService.getNewsByCategory(category);
+        List<News> featuredNews = newsService.getFeaturedNews();
+        List<String> categories = newsService.getAllCategories();
 
         model.addAttribute("loggedUser", loggedUser);
+        model.addAttribute("newsList", newsList);
         model.addAttribute("featuredNews", featuredNews);
-        model.addAttribute("latestNews", latestNews);
-        model.addAttribute("popularNews", popularNews);
+        model.addAttribute("categories", categories);
+        model.addAttribute("selectedCategory", category != null ? category : "");
+        model.addAttribute("activePage", "news");
 
         return "news";
-    }
-
-    @GetMapping("/news/{id}")
-    public String newsDetails(@PathVariable Long id, Model model, Authentication authentication) {
-        User loggedUser = getLoggedUser(authentication);
-        News article = newsService.getNewsById(id);
-
-        if (article == null) {
-            return "redirect:/news";
-        }
-
-        model.addAttribute("loggedUser", loggedUser);
-        model.addAttribute("article", article);
-        model.addAttribute("latestNews", newsService.getLatestNews());
-
-        return "news-details";
-    }
-
-    private User getLoggedUser(Authentication authentication) {
-        if (authentication != null
-                && authentication.isAuthenticated()
-                && !"anonymousUser".equals(authentication.getName())) {
-            return userService.findByEmail(authentication.getName());
-        }
-        return null;
     }
 }
