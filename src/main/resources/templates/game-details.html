@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:if="${_csrf != null}" th:content="${_csrf.headerName}">
 </head>
 <body class="epic-page">
 
@@ -60,7 +62,6 @@
 
                     <div class="details-actions">
 
-    <!-- BUY -->
     <form th:action="@{/cart/add}" method="post" class="details-action-form">
         <input type="hidden" name="gameId" th:value="${game.id}">
         <button type="submit" class="news-primary-btn">
@@ -69,33 +70,26 @@
         </button>
     </form>
 
-    <!-- FAVORITE -->
-    <form th:action="@{/favorites/toggle}" method="post" class="details-action-form">
-        <input type="hidden" name="gameId" th:value="${game.id}">
-        <button type="submit" class="news-secondary-btn">
-            <i class="bi bi-heart"></i>
-            <span th:text="${isFavorite} ? 'Remove Favorite' : 'Add to Favorites'">
-                Add to Favorites
-            </span>
-        </button>
-    </form>
+    <button type="button"
+            class="news-secondary-btn ajax-toggle-btn favorite-toggle-btn"
+            th:attr="data-game-id=${game.id},data-active=${isFavorite}">
+        <i class="bi"
+           th:classappend="${isFavorite} ? ' bi-heart-fill' : ' bi-heart'"></i>
+        <span th:text="${isFavorite} ? 'Remove Favorite' : 'Add to Favorites'}">Add to Favorites</span>
+    </button>
 
-    <!-- WISHLIST -->
-    <form th:action="@{'/wishlist/toggle/' + ${game.id}}" method="post" class="details-action-form">
-        <button type="submit" class="news-secondary-btn">
-            <i class="bi bi-bookmark"></i>
-            <span th:text="${isWishlisted} ? 'Remove Wishlist' : 'Add to Wishlist'}">
-                Add to Wishlist
-            </span>
-        </button>
-    </form>
+    <button type="button"
+            class="news-secondary-btn ajax-toggle-btn wishlist-toggle-btn"
+            th:attr="data-game-id=${game.id},data-active=${isWishlisted}">
+        <i class="bi"
+           th:classappend="${isWishlisted} ? ' bi-bookmark-fill' : ' bi-bookmark'"></i>
+        <span th:text="${isWishlisted} ? 'Remove Wishlist' : 'Add to Wishlist'}">Add to Wishlist</span>
+    </button>
 
-    <!-- BACK -->
     <a th:href="@{/games}" class="news-secondary-btn">
         <i class="bi bi-arrow-left"></i>
         Back to Browse
     </a>
-
 </div>
 
                     <div class="favorite-block">
@@ -239,6 +233,109 @@
         <div th:replace="fragments/footer :: body"></div>
     </main>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const csrfTokenMeta = document.querySelector('meta[name="_csrf"]');
+    const csrfHeaderMeta = document.querySelector('meta[name="_csrf_header"]');
+
+    const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute("content") : null;
+    const csrfHeader = csrfHeaderMeta ? csrfHeaderMeta.getAttribute("content") : null;
+
+    async function sendToggle(url, options = {}) {
+        const headers = options.headers || {};
+
+        if (csrfToken && csrfHeader) {
+            headers[csrfHeader] = csrfToken;
+        }
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers,
+            body: options.body || null
+        });
+
+        return response.json();
+    }
+
+    function animateButton(button) {
+        button.classList.remove("toggle-pop");
+        void button.offsetWidth;
+        button.classList.add("toggle-pop");
+    }
+
+    const favoriteBtn = document.querySelector(".favorite-toggle-btn");
+    if (favoriteBtn) {
+        favoriteBtn.addEventListener("click", async function () {
+            const gameId = this.dataset.gameId;
+            const icon = this.querySelector("i");
+            const text = this.querySelector("span");
+
+            const formData = new URLSearchParams();
+            formData.append("gameId", gameId);
+
+            try {
+                const data = await sendToggle("/favorites/toggle", {
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: formData.toString()
+                });
+
+                if (data.error === "not_logged_in") {
+                    window.location.href = "/login";
+                    return;
+                }
+
+                if (data.favorited) {
+                    this.dataset.active = "true";
+                    icon.className = "bi bi-heart-fill";
+                    text.textContent = "Remove Favorite";
+                } else {
+                    this.dataset.active = "false";
+                    icon.className = "bi bi-heart";
+                    text.textContent = "Add to Favorites";
+                }
+
+                animateButton(this);
+            } catch (error) {
+                console.error("Favorite toggle failed:", error);
+            }
+        });
+    }
+
+    const wishlistBtn = document.querySelector(".wishlist-toggle-btn");
+    if (wishlistBtn) {
+        wishlistBtn.addEventListener("click", async function () {
+            const gameId = this.dataset.gameId;
+            const icon = this.querySelector("i");
+            const text = this.querySelector("span");
+
+            try {
+                const data = await sendToggle(`/wishlist/toggle/${gameId}`);
+
+                if (data.error === "not_logged_in") {
+                    window.location.href = "/login";
+                    return;
+                }
+
+                if (data.wishlisted) {
+                    this.dataset.active = "true";
+                    icon.className = "bi bi-bookmark-fill";
+                    text.textContent = "Remove Wishlist";
+                } else {
+                    this.dataset.active = "false";
+                    icon.className = "bi bi-bookmark";
+                    text.textContent = "Add to Wishlist";
+                }
+
+                animateButton(this);
+            } catch (error) {
+                console.error("Wishlist toggle failed:", error);
+            }
+        });
+    }
+});
+</script>
 
 </body>
 </html>

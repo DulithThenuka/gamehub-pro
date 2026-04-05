@@ -1,9 +1,14 @@
 package com.dulith.gamehub.controller;
 
-import org.springframework.security.core.Authentication;
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dulith.gamehub.entity.Game;
 import com.dulith.gamehub.entity.User;
@@ -27,26 +32,29 @@ public class FavoriteController {
     }
 
     @PostMapping("/favorites/toggle")
-    public String toggleFavorite(@RequestParam Long gameId, Authentication authentication) {
-        if (authentication == null
-                || !authentication.isAuthenticated()
-                || "anonymousUser".equals(authentication.getName())) {
-            return "redirect:/login";
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> toggleFavorite(@RequestParam Long gameId,
+                                                              Principal principal) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (principal == null) {
+            response.put("error", "not_logged_in");
+            response.put("favorited", false);
+            return ResponseEntity.ok(response);
         }
 
-        User loggedUser = userService.findByEmail(authentication.getName());
+        User user = userService.findByEmail(principal.getName());
         Game game = gameService.getGameById(gameId);
 
-        if (loggedUser == null || game == null) {
-            return "redirect:/games";
+        if (user == null || game == null) {
+            response.put("error", "not_found");
+            response.put("favorited", false);
+            return ResponseEntity.ok(response);
         }
 
-        if (favoriteService.isFavorite(loggedUser, game)) {
-            favoriteService.removeFromFavorites(loggedUser, game);
-        } else {
-            favoriteService.addToFavorites(loggedUser, game);
-        }
+        boolean isFavorited = favoriteService.toggleFavorite(user, game);
 
-        return "redirect:/games/" + gameId;
+        response.put("favorited", isFavorited);
+        return ResponseEntity.ok(response);
     }
 }

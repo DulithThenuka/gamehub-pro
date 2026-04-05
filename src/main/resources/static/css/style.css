@@ -2131,3 +2131,22 @@ textarea {
         grid-template-columns: 1fr;
     }
 }
+.ajax-toggle-btn i {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.ajax-toggle-btn.toggle-pop {
+    animation: togglePop 0.28s ease;
+}
+
+@keyframes togglePop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
