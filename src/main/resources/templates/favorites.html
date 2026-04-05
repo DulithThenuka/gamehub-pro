@@ -79,28 +79,22 @@
                 <nav class="epic-top-links">
                     <a th:href="@{/}">Discover</a>
                     <a th:href="@{/games}">Browse</a>
-                    <a th:href="@{/favorites}" class="active">Wishlist</a>
+                    <a href="#storeNews">News</a>
                 </nav>
             </div>
 
             <div class="epic-top-right">
-
-                <a th:href="@{/favorites}" class="epic-icon-btn top-nav-link" title="Wishlist">
+<a th:href="@{/favorites}" class="epic-icon-btn top-nav-link" title="Wishlist">
         <i class="bi bi-bookmark"></i>
     </a>
 
-                <a th:href="@{/gifts}" class="epic-icon-nav">
-    <div class="epic-icon-btn" title="Gifts">
+    <a th:href="@{/gifts}" class="epic-icon-btn top-nav-link" title="Gifts">
         <i class="bi bi-gift"></i>
-    </div>
-</a>
+    </a>
 
-<a th:href="@{/cart}" class="epic-icon-nav">
-    <div class="epic-icon-btn" title="Cart">
+    <a th:href="@{/cart}" class="epic-icon-btn top-nav-link" title="Cart">
         <i class="bi bi-cart3"></i>
-    </div>
-</a>
-
+    </a>
                 <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
                     <button class="epic-profile-trigger epic-icon-nav"
                             type="button"

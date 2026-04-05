@@ -24,51 +24,52 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String profile(Authentication authentication, Model model) {
-        if (authentication == null || "anonymousUser".equals(authentication.getName())) {
+        User loggedUser = getLoggedUser(authentication);
+        if (loggedUser == null) {
             return "redirect:/login";
         }
 
-        User loggedUser = userService.findByEmail(authentication.getName());
-
-        model.addAttribute("loggedUser", loggedUser);
-        model.addAttribute("favoriteCount", favoriteService.getFavoriteGames(loggedUser).size());
-        model.addAttribute("libraryCount", favoriteService.getFavoriteGames(loggedUser).size());
-        model.addAttribute("orderCount", 0);
-
+        loadProfileData(model, loggedUser);
         return "profile";
     }
 
     @PostMapping("/profile/update")
     public String updateProfile(@RequestParam String fullName,
-                                @RequestParam String email,
                                 Authentication authentication,
                                 Model model) {
-        if (authentication == null || "anonymousUser".equals(authentication.getName())) {
+        User loggedUser = getLoggedUser(authentication);
+        if (loggedUser == null) {
             return "redirect:/login";
         }
 
-        User loggedUser = userService.findByEmail(authentication.getName());
-
         try {
-            loggedUser.setFullName(fullName);
-            loggedUser.setEmail(email);
-            userService.save(loggedUser);
+            loggedUser.setFullName(fullName.trim());
+            userService.updateProfile(loggedUser);
 
-            model.addAttribute("loggedUser", loggedUser);
-            model.addAttribute("favoriteCount", favoriteService.getFavoriteGames(loggedUser).size());
-            model.addAttribute("libraryCount", favoriteService.getFavoriteGames(loggedUser).size());
-            model.addAttribute("orderCount", 0);
+            loadProfileData(model, loggedUser);
             model.addAttribute("success", "Profile updated successfully.");
-
             return "profile";
-        } catch (Exception e) {
-            model.addAttribute("loggedUser", loggedUser);
-            model.addAttribute("favoriteCount", favoriteService.getFavoriteGames(loggedUser).size());
-            model.addAttribute("libraryCount", favoriteService.getFavoriteGames(loggedUser).size());
-            model.addAttribute("orderCount", 0);
-            model.addAttribute("error", "Failed to update profile.");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            loadProfileData(model, loggedUser);
+            model.addAttribute("error", "Failed to update profile.");
             return "profile";
         }
+    }
+
+    private User getLoggedUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()
+                || "anonymousUser".equals(authentication.getName())) {
+            return null;
+        }
+        return userService.findByEmail(authentication.getName());
+    }
+
+    private void loadProfileData(Model model, User loggedUser) {
+        model.addAttribute("loggedUser", loggedUser);
+        model.addAttribute("favoriteCount", favoriteService.getFavoriteGames(loggedUser).size());
+        model.addAttribute("libraryCount", favoriteService.getFavoriteGames(loggedUser).size());
+        model.addAttribute("orderCount", 0);
     }
 }

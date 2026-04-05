@@ -15,7 +15,6 @@
 
 <div class="epic-shell">
 
-    <!-- SIDEBAR -->
     <aside class="epic-sidebar">
         <div>
             <div class="epic-logo-wrap">
@@ -51,16 +50,17 @@
         </div>
 
         <div class="epic-sidebar-bottom">
-            <a th:if="${loggedUser != null}" th:href="@{/logout}" class="epic-side-btn">Logout</a>
+            <form th:if="${loggedUser != null}" th:action="@{/logout}" method="post" style="margin:0;">
+                <button type="submit" class="epic-side-btn logout-btn-reset">Logout</button>
+            </form>
+
             <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-side-btn">Login</a>
             <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-side-btn secondary">Register</a>
         </div>
     </aside>
 
-    <!-- MAIN -->
     <main class="epic-main">
 
-        <!-- TOPBAR -->
         <header class="epic-topbar">
             <div class="epic-top-left">
                 <a th:href="@{/}" class="epic-icon-btn">
@@ -134,10 +134,12 @@
                             Admin Dashboard
                         </a>
 
-                        <a th:href="@{/logout}" class="logout-link">
-                            <i class="bi bi-box-arrow-right"></i>
-                            Logout
-                        </a>
+                        <form th:action="@{/logout}" method="post" class="logout-form">
+                            <button type="submit" class="logout-link logout-btn-reset">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Logout
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -148,7 +150,6 @@
             </div>
         </header>
 
-        <!-- PAGE HEAD -->
         <section class="profile-head">
             <div>
                 <div class="profile-label">ACCOUNT</div>
@@ -157,10 +158,8 @@
             </div>
         </section>
 
-        <!-- PROFILE LAYOUT -->
         <section class="profile-layout">
 
-            <!-- LEFT -->
             <div class="profile-main">
 
                 <div class="profile-hero-card">
@@ -257,7 +256,7 @@
                                 <label>Email Address</label>
                                 <input type="email" name="email"
                                        th:value="${loggedUser != null ? loggedUser.email : ''}"
-                                       placeholder="Enter your email" required>
+                                       readonly>
                             </div>
                         </div>
 
@@ -327,7 +326,6 @@
                 </div>
             </div>
 
-            <!-- RIGHT -->
             <aside class="profile-side">
 
                 <div class="profile-side-card">

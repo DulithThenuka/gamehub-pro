@@ -10,15 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:if="${_csrf != null}" th:content="${_csrf.headerName}">
 </head>
 <body class="epic-page">
 
 <div class="epic-shell">
 
-    <!-- SIDEBAR -->
     <aside class="epic-sidebar">
         <div>
             <div class="epic-logo-wrap">
@@ -54,16 +50,17 @@
         </div>
 
         <div class="epic-sidebar-bottom">
+            <form th:if="${loggedUser != null}" th:action="@{/logout}" method="post" style="margin:0;">
+                <button type="submit" class="epic-side-btn logout-btn-reset">Logout</button>
+            </form>
+
             <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-side-btn">Login</a>
             <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-side-btn secondary">Register</a>
-            <a th:if="${loggedUser != null}" th:href="@{/logout}" class="epic-side-btn">Logout</a>
         </div>
     </aside>
 
-    <!-- MAIN -->
     <main class="epic-main">
 
-        <!-- TOP BAR -->
         <header class="epic-topbar">
             <div class="epic-top-left">
                 <a th:href="@{/games}" class="epic-icon-btn details-back-btn">
@@ -83,72 +80,82 @@
             </div>
 
             <div class="epic-top-right">
+                <a th:href="@{/favorites}" class="epic-icon-nav">
+                    <div class="epic-icon-btn">
+                        <i class="bi bi-bookmark"></i>
+                    </div>
+                </a>
 
-    <a th:href="@{/favorites}" class="epic-icon-btn top-nav-link" title="Wishlist">
-        <i class="bi bi-bookmark"></i>
-    </a>
+                <a th:href="@{/gifts}" class="epic-icon-nav">
+                    <div class="epic-icon-btn">
+                        <i class="bi bi-gift"></i>
+                    </div>
+                </a>
 
-    <a th:href="@{/gifts}" class="epic-icon-btn top-nav-link" title="Gifts">
-        <i class="bi bi-gift"></i>
-    </a>
+                <a th:href="@{/cart}" class="epic-icon-nav">
+                    <div class="epic-icon-btn">
+                        <i class="bi bi-cart3"></i>
+                    </div>
+                </a>
 
-    <a th:href="@{/cart}" class="epic-icon-btn top-nav-link" title="Cart">
-        <i class="bi bi-cart3"></i>
-    </a>
+                <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
+                    <button class="epic-profile-trigger epic-icon-nav" type="button" id="profileDropdownBtn">
+                        <div class="epic-user-circle"
+                             th:text="${#strings.substring(loggedUser.fullName,0,1)}">U</div>
+                    </button>
 
-    <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
-        <button class="epic-profile-trigger" type="button" id="profileDropdownBtn">
-            <div class="epic-user-circle"
-                 th:text="${#strings.substring(loggedUser.fullName,0,1)}">U</div>
-        </button>
+                    <div class="epic-profile-menu" id="profileDropdownMenu">
+                        <div class="epic-profile-menu-head">
+                            <strong th:text="${loggedUser.fullName}">User Name</strong>
+                            <span th:text="${loggedUser.email}">user@email.com</span>
+                        </div>
 
-        <div class="epic-profile-menu" id="profileDropdownMenu">
-            <div class="epic-profile-menu-head">
-                <strong th:text="${loggedUser.fullName}">User Name</strong>
-                <span th:text="${loggedUser.email}">user@email.com</span>
+                        <a th:href="@{/profile}">
+                            <i class="bi bi-person"></i>
+                            My Profile
+                        </a>
+
+                        <a th:href="@{/library}">
+                            <i class="bi bi-collection"></i>
+                            My Library
+                        </a>
+
+                        <a th:href="@{/favorites}">
+                            <i class="bi bi-heart"></i>
+                            Wishlist
+                        </a>
+
+                        <a th:href="@{/cart}">
+                            <i class="bi bi-cart3"></i>
+                            Cart
+                        </a>
+
+                        <a th:href="@{/gifts}">
+                            <i class="bi bi-gift"></i>
+                            Gifts
+                        </a>
+
+                        <a th:if="${loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
+                            <i class="bi bi-speedometer2"></i>
+                            Admin Dashboard
+                        </a>
+
+                        <form th:action="@{/logout}" method="post" class="logout-form">
+                            <button type="submit" class="logout-link logout-btn-reset">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-user-chip">
+                    <div class="epic-user-circle">G</div>
+                    <span>Guest</span>
+                </a>
             </div>
-
-            <a th:href="@{/profile}">
-                <i class="bi bi-person"></i>
-                My Profile
-            </a>
-
-            <a th:href="@{/library}">
-                <i class="bi bi-collection"></i>
-                My Library
-            </a>
-
-            <a th:href="@{/favorites}">
-                <i class="bi bi-heart"></i>
-                Wishlist
-            </a>
-
-            <a th:href="@{/cart}">
-                <i class="bi bi-cart3"></i>
-                Cart
-            </a>
-
-            <a th:if="${loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
-                <i class="bi bi-speedometer2"></i>
-                Admin Dashboard
-            </a>
-
-            <a th:href="@{/logout}" class="logout-link">
-                <i class="bi bi-box-arrow-right"></i>
-                Logout
-            </a>
-        </div>
-    </div>
-
-    <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-user-chip guest-chip">
-        <div class="epic-user-circle">G</div>
-        <span>Guest</span>
-    </a>
-
-</div>
         </header>
 
-        <!-- PAGE HEAD -->
         <section class="details-page-head" th:if="${game != null}">
             <div>
                 <div class="details-label">BASE GAME</div>
@@ -161,7 +168,6 @@
             </div>
         </section>
 
-        <!-- HERO / BUY PANEL -->
         <section class="details-hero-layout" th:if="${game != null}">
             <div class="details-media-panel">
                 <div class="details-hero-media">
@@ -233,13 +239,10 @@
                             </button>
                         </form>
 
-                        <form th:if="${loggedUser != null}" th:action="@{/favorites/toggle}" method="post">
-                            <input type="hidden" name="gameId" th:value="${game.id}">
-                            <button type="submit" class="details-buy-btn secondary">
-                                <i class="bi bi-heart"></i>
-                                Add To Wishlist
-                            </button>
-                        </form>
+                        <a th:href="@{/favorites}" class="details-buy-btn secondary">
+                            <i class="bi bi-heart"></i>
+                            Add To Wishlist
+                        </a>
 
                         <a th:href="@{/library}" th:if="${loggedUser != null}" class="details-buy-btn ghost-link">
                             <i class="bi bi-collection"></i>
@@ -254,11 +257,11 @@
                         </div>
                         <div class="details-meta-row">
                             <span>Platform</span>
-                            <strong>Windows</strong>
+                            <strong th:text="${game.platform != null ? game.platform : 'PC'}">PC</strong>
                         </div>
                         <div class="details-meta-row">
-                            <span>Type</span>
-                            <strong>Single Player</strong>
+                            <span>Rating</span>
+                            <strong th:text="${game.rating != null ? game.rating : '4.5'}">4.5</strong>
                         </div>
                         <div class="details-meta-row">
                             <span>Release</span>
@@ -269,7 +272,6 @@
             </aside>
         </section>
 
-        <!-- ABOUT + INFO -->
         <section class="details-info-layout" id="details-about" th:if="${game != null}">
             <div class="details-description-card">
                 <h2>About This Game</h2>
@@ -330,7 +332,6 @@
             </div>
         </section>
 
-        <!-- RELATED GAMES -->
         <section class="details-related-section" id="details-more" th:if="${relatedGames != null and !#lists.isEmpty(relatedGames)}">
             <div class="details-section-head">
                 <h2>More Like This</h2>
@@ -366,7 +367,6 @@
             </div>
         </section>
 
-        <!-- FALLBACK -->
         <section class="details-empty-state" th:if="${game == null}">
             <div class="details-empty-card">
                 <i class="bi bi-controller"></i>

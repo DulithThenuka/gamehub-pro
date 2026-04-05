@@ -4,51 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - GameHub Pro</title>
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-<body>
+<body class="auth-page">
 
-<section class="auth-page">
-    <div class="auth-card">
-        <a th:href="@{/}" class="auth-brand">🎮 GameHub Pro</a>
-        <h1>Welcome Back</h1>
-        <p class="auth-subtitle">Login to continue exploring your game world.</p>
+<div class="auth-shell">
 
-        <div th:if="${param.error}" class="auth-message error-message">
-            Invalid email or password.
+    <div class="auth-left">
+        <div class="auth-brand">
+            <a th:href="@{/}" class="auth-logo">GH</a>
+            <span>GameHub Pro</span>
         </div>
 
-        <div th:if="${param.logout}" class="auth-message success-message">
-            You logged out successfully.
-        </div>
+        <div class="auth-hero">
+            <span class="auth-badge">WELCOME BACK</span>
+            <h1>Jump back into your next favorite game.</h1>
+            <p>
+                Access your library, manage your wishlist, and continue your premium gaming experience
+                with the new GameHub Pro interface.
+            </p>
 
-        <div th:if="${param.registered}" class="auth-message success-message">
-            Registration successful. Please login.
-        </div>
-
-        <form th:action="@{/login}" method="post" class="auth-form">
-            <div class="auth-group">
-                <label>Email</label>
-                <input type="email" name="username" placeholder="Enter your email" required>
+            <div class="auth-feature-list">
+                <div class="auth-feature-item">
+                    <i class="bi bi-controller"></i>
+                    <span>Access your game library instantly</span>
+                </div>
+                <div class="auth-feature-item">
+                    <i class="bi bi-heart"></i>
+                    <span>Manage wishlist and favorites</span>
+                </div>
+                <div class="auth-feature-item">
+                    <i class="bi bi-lightning-charge"></i>
+                    <span>Fast, modern Epic-style experience</span>
+                </div>
             </div>
-
-            <div class="auth-group">
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Enter your password" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary auth-btn">Login</button>
-        </form>
-
-        <p class="auth-switch">
-            Don’t have an account?
-            <a th:href="@{/register}">Create one</a>
-        </p>
+        </div>
     </div>
-</section>
+
+    <div class="auth-right">
+        <div class="auth-card">
+            <div class="auth-card-top">
+                <h2>Login</h2>
+                <p>Enter your account details to continue.</p>
+            </div>
+
+            <div th:if="${param.error}" class="auth-alert error">
+                Invalid email or password.
+            </div>
+
+            <div th:if="${param.logout}" class="auth-alert success">
+                You have been logged out successfully.
+            </div>
+
+            <form th:action="@{/login}" method="post" class="auth-form">
+                <div class="auth-form-group">
+                    <label for="username">Email</label>
+                    <div class="auth-input-wrap">
+                        <i class="bi bi-envelope"></i>
+                        <input type="email" id="username" name="username" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="password">Password</label>
+                    <div class="auth-input-wrap">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Sign In
+                </button>
+            </form>
+
+            <div class="auth-divider">
+                <span>or</span>
+            </div>
+
+            <div class="auth-bottom-text">
+                Don’t have an account?
+                <a th:href="@{/register}">Create one</a>
+            </div>
+
+            <div class="auth-back-home">
+                <a th:href="@{/}">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Store
+                </a>
+            </div>
+            <div th:if="${param.error}" class="auth-alert error">
+                Invalid email or password.
+            </div>
+
+            <div th:if="${param.logout}" class="auth-alert success">
+                You have been logged out successfully.
+            </div>
+
+            <div th:if="${param.registered}" class="auth-alert success">
+                Registration successful. Please log in.
+            </div>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>

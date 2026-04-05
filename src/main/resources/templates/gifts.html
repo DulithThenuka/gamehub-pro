@@ -38,15 +38,6 @@
                     <span>Browse</span>
                 </a>
 
-                <a th:href="@{/gifts}" class="active">
-                    <i class="bi bi-gift"></i>
-                    <span>Gifts</span>
-                </a>
-
-                <a th:if="${loggedUser != null}" th:href="@{/favorites}">
-                    <i class="bi bi-heart"></i>
-                    <span>Wishlist</span>
-                </a>
 
                 <a th:if="${loggedUser != null}" th:href="@{/profile}">
                     <i class="bi bi-person"></i>
@@ -85,7 +76,7 @@
                 <nav class="epic-top-links">
                     <a th:href="@{/}">Discover</a>
                     <a th:href="@{/games}">Browse</a>
-                    <a th:href="@{/gifts}" class="active">Gifts</a>
+                    <a href="#storeNews">News</a>
                 </nav>
             </div>
 

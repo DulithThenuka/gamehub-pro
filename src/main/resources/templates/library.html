@@ -15,7 +15,6 @@
 
 <div class="epic-shell">
 
-    <!-- SIDEBAR -->
     <aside class="epic-sidebar">
         <div>
             <div class="epic-logo-wrap">
@@ -51,16 +50,17 @@
         </div>
 
         <div class="epic-sidebar-bottom">
+            <form th:if="${loggedUser != null}" th:action="@{/logout}" method="post" style="margin:0;">
+                <button type="submit" class="epic-side-btn logout-btn-reset">Logout</button>
+            </form>
+
             <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-side-btn">Login</a>
             <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-side-btn secondary">Register</a>
-            <a th:if="${loggedUser != null}" th:href="@{/logout}" class="epic-side-btn">Logout</a>
         </div>
     </aside>
 
-    <!-- MAIN -->
     <main class="epic-main">
 
-        <!-- TOP BAR -->
         <header class="epic-topbar">
             <div class="epic-top-left">
                 <button class="epic-icon-btn" type="button">
@@ -72,275 +72,191 @@
                     <input type="text" placeholder="Search library">
                 </div>
 
+                <nav class="epic-top-links">
+                    <a th:href="@{/}">Discover</a>
+                    <a th:href="@{/games}">Browse</a>
+                    <a href="#library-filters" class="active">Library</a>
+                </nav>
             </div>
 
             <div class="epic-top-right">
+                <a th:href="@{/favorites}" class="epic-icon-nav">
+                    <div class="epic-icon-btn" title="Wishlist">
+                        <i class="bi bi-heart"></i>
+                    </div>
+                </a>
 
-    <a th:href="@{/favorites}" class="epic-icon-btn top-nav-link" title="Wishlist">
-        <i class="bi bi-bookmark"></i>
-    </a>
+                <a th:href="@{/cart}" class="epic-icon-nav">
+                    <div class="epic-icon-btn" title="Cart">
+                        <i class="bi bi-cart3"></i>
+                    </div>
+                </a>
 
-    <a th:href="@{/gifts}" class="epic-icon-btn top-nav-link" title="Gifts">
-        <i class="bi bi-gift"></i>
-    </a>
+                <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
+                    <button class="epic-profile-trigger epic-icon-nav" type="button" id="profileDropdownBtn">
+                        <div class="epic-user-circle"
+                             th:text="${#strings.substring(loggedUser.fullName,0,1)}">U</div>
+                    </button>
 
-    <a th:href="@{/cart}" class="epic-icon-btn top-nav-link" title="Cart">
-        <i class="bi bi-cart3"></i>
-    </a>
+                    <div class="epic-profile-menu" id="profileDropdownMenu">
+                        <div class="epic-profile-menu-head">
+                            <strong th:text="${loggedUser.fullName}">User Name</strong>
+                            <span th:text="${loggedUser.email}">user@email.com</span>
+                        </div>
 
-    <div class="epic-profile-dropdown" th:if="${loggedUser != null}">
-        <button class="epic-profile-trigger" type="button" id="profileDropdownBtn">
-            <div class="epic-user-circle"
-                 th:text="${#strings.substring(loggedUser.fullName,0,1)}">U</div>
-        </button>
+                        <a th:href="@{/profile}">
+                            <i class="bi bi-person"></i>
+                            My Profile
+                        </a>
 
-        <div class="epic-profile-menu" id="profileDropdownMenu">
-            <div class="epic-profile-menu-head">
-                <strong th:text="${loggedUser.fullName}">User Name</strong>
-                <span th:text="${loggedUser.email}">user@email.com</span>
+                        <a th:href="@{/library}">
+                            <i class="bi bi-collection"></i>
+                            My Library
+                        </a>
+
+                        <a th:href="@{/favorites}">
+                            <i class="bi bi-heart"></i>
+                            Wishlist
+                        </a>
+
+                        <a th:href="@{/cart}">
+                            <i class="bi bi-cart3"></i>
+                            Cart
+                        </a>
+
+                        <a th:href="@{/gifts}">
+                            <i class="bi bi-gift"></i>
+                            Gifts
+                        </a>
+
+                        <a th:if="${loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
+                            <i class="bi bi-speedometer2"></i>
+                            Admin Dashboard
+                        </a>
+
+                        <form th:action="@{/logout}" method="post" class="logout-form">
+                            <button type="submit" class="logout-link logout-btn-reset">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-user-chip">
+                    <div class="epic-user-circle">G</div>
+                    <span>Guest</span>
+                </a>
             </div>
-
-            <a th:href="@{/profile}">
-                <i class="bi bi-person"></i>
-                My Profile
-            </a>
-
-            <a th:href="@{/library}">
-                <i class="bi bi-collection"></i>
-                My Library
-            </a>
-
-            <a th:href="@{/favorites}">
-                <i class="bi bi-heart"></i>
-                Wishlist
-            </a>
-
-            <a th:href="@{/cart}">
-                <i class="bi bi-cart3"></i>
-                Cart
-            </a>
-
-            <a th:if="${loggedUser.role.name() == 'ADMIN'}" th:href="@{/admin}">
-                <i class="bi bi-speedometer2"></i>
-                Admin Dashboard
-            </a>
-
-            <a th:href="@{/logout}" class="logout-link">
-                <i class="bi bi-box-arrow-right"></i>
-                Logout
-            </a>
-        </div>
-    </div>
-
-    <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-user-chip guest-chip">
-        <div class="epic-user-circle">G</div>
-        <span>Guest</span>
-    </a>
-
-</div>
         </header>
 
-        <!-- LIBRARY HEAD -->
-        <section class="library-head">
-            <div class="library-head-left">
-                <div class="library-title-row">
-                    <h1>Library</h1>
-                    <button class="library-refresh-btn" type="button">
-                        <i class="bi bi-arrow-clockwise"></i>
-                    </button>
-                </div>
-
-                <div class="library-tabs">
-                    <button class="library-tab active" type="button">All</button>
-                    <button class="library-tab" type="button">Favorites</button>
-                    <button class="library-add-btn" type="button">
-                        <i class="bi bi-plus-circle"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="library-head-right">
-                <div class="library-sort-wrap">
-                    <span>Sort by:</span>
-                    <select>
-                        <option selected>Alphabetical A-Z</option>
-                        <option>Recently Added</option>
-                        <option>Recently Played</option>
-                        <option>Installed</option>
-                    </select>
-                </div>
-
-                <div class="library-view-switch">
-                    <button class="library-view-btn active" type="button">
-                        <i class="bi bi-grid-3x3-gap-fill"></i>
-                    </button>
-                    <button class="library-view-btn" type="button">
-                        <i class="bi bi-list-ul"></i>
-                    </button>
-                </div>
+        <section class="library-page-head">
+            <div>
+                <div class="profile-label">COLLECTION</div>
+                <h1>My Library</h1>
+                <p>Your purchased and saved GameHub titles in one clean launcher-style view.</p>
             </div>
         </section>
 
-        <!-- LIBRARY BODY -->
-        <section class="library-layout">
-            <div class="library-main">
+        <section class="browse-layout">
+            <div class="browse-main-content">
 
-                <div class="library-grid" th:if="${libraryGames != null and !#lists.isEmpty(libraryGames)}">
-                    <article class="library-card" th:each="game : ${libraryGames}">
-                        <div class="library-card-top">
-                            <a th:href="@{'/games/' + ${game.id}}" class="library-thumb-link">
-                                <img class="library-thumb"
+                <div class="browse-toolbar">
+                    <div class="browse-toolbar-left">
+                        <div class="browse-filter-chip-wrap">
+                            <button class="browse-chip active" type="button">All Games</button>
+                            <button class="browse-chip" type="button">Installed</button>
+                            <button class="browse-chip" type="button">Recent</button>
+                        </div>
+                    </div>
+
+                    <div class="browse-toolbar-right">
+                        <label class="browse-sort">
+                            <span>Sort by:</span>
+                            <select>
+                                <option selected>Recently Added</option>
+                                <option>Alphabetical A-Z</option>
+                                <option>Rating</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="browse-game-grid" th:if="${libraryGames != null and !#lists.isEmpty(libraryGames)}">
+                    <article class="epic-game-card upgraded-card browse-store-card" th:each="game : ${libraryGames}">
+                        <div class="epic-game-thumb">
+                            <a th:href="@{'/games/' + ${game.id}}">
+                                <img class="thumb-image"
                                      th:src="${game.imageUrl != null and !#strings.isEmpty(game.imageUrl) ? game.imageUrl : 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80'}"
                                      th:alt="${game.title}">
                             </a>
-
-                            <button class="library-more-btn" type="button">
-                                <i class="bi bi-three-dots"></i>
-                            </button>
                         </div>
+
+                        <div class="epic-game-meta">In Library</div>
 
                         <h3>
-                            <a th:href="@{'/games/' + ${game.id}}" class="library-title-link" th:text="${game.title}">Game Title</a>
+                            <a th:href="@{'/games/' + ${game.id}}" class="browse-game-title-link" th:text="${game.title}">Game Title</a>
                         </h3>
 
-                        <div class="library-meta-row"
-                             th:if="${game.achievementCount != null}">
-                            <span th:text="'0/' + ${game.achievementCount} + ' Achievements'">0/25 Achievements</span>
+                        <div class="game-tags-row">
+                            <span th:text="${game.platform != null ? game.platform : 'PC'}">PC</span>
+                            <span th:text="${game.genre != null ? game.genre : 'Popular'}">Popular</span>
                         </div>
 
-                        <div class="library-meta-row"
-                             th:if="${game.achievementCount == null}">
-                            <span>Ready to install</span>
+                        <div class="price-row">
+                            <span class="new-price">Owned</span>
                         </div>
 
-                        <div class="library-action-row">
-                            <a th:href="@{'/games/' + ${game.id}}" class="library-install-link">
-                                <i class="bi bi-download"></i>
-                                Install
-                            </a>
+                        <div class="browse-card-actions">
+                            <a th:href="@{'/games/' + ${game.id}}" class="browse-card-btn secondary">View Details</a>
+                            <button type="button" class="browse-card-btn primary">
+                                <i class="bi bi-play-fill"></i>
+                                Play Now
+                            </button>
                         </div>
                     </article>
                 </div>
 
-                <!-- FALLBACK -->
-                <div class="library-grid" th:if="${libraryGames == null or #lists.isEmpty(libraryGames)}">
-                    <article class="library-card">
-                        <div class="library-card-top">
-                            <a href="#" class="library-thumb-link">
-                                <img class="library-thumb"
-                                     src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80"
-                                     alt="20 Minutes Till Dawn">
-                            </a>
-                            <button class="library-more-btn" type="button">
-                                <i class="bi bi-three-dots"></i>
-                            </button>
-                        </div>
-                        <h3><a href="#" class="library-title-link">20 Minutes Till Dawn</a></h3>
-                        <div class="library-meta-row"><span>Ready to install</span></div>
-                        <div class="library-action-row">
-                            <a href="#" class="library-install-link"><i class="bi bi-download"></i> Install</a>
-                        </div>
-                    </article>
-
-                    <article class="library-card">
-                        <div class="library-card-top">
-                            <a href="#" class="library-thumb-link">
-                                <img class="library-thumb"
-                                     src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=700&q=80"
-                                     alt="A Plague Tale">
-                            </a>
-                            <button class="library-more-btn" type="button">
-                                <i class="bi bi-three-dots"></i>
-                            </button>
-                        </div>
-                        <h3><a href="#" class="library-title-link">A Plague Tale: Innocence</a></h3>
-                        <div class="library-meta-row"><span>Ready to install</span></div>
-                        <div class="library-action-row">
-                            <a href="#" class="library-install-link"><i class="bi bi-download"></i> Install</a>
-                        </div>
-                    </article>
-
-                    <article class="library-card">
-                        <div class="library-card-top">
-                            <a href="#" class="library-thumb-link">
-                                <img class="library-thumb"
-                                     src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=700&q=80"
-                                     alt="Blood West">
-                            </a>
-                            <button class="library-more-btn" type="button">
-                                <i class="bi bi-three-dots"></i>
-                            </button>
-                        </div>
-                        <h3><a href="#" class="library-title-link">Blood West</a></h3>
-                        <div class="library-meta-row"><span>0/35 Achievements</span></div>
-                        <div class="library-action-row">
-                            <a href="#" class="library-install-link"><i class="bi bi-download"></i> Install</a>
-                        </div>
-                    </article>
-
-                    <article class="library-card">
-                        <div class="library-card-top">
-                            <a href="#" class="library-thumb-link">
-                                <img class="library-thumb"
-                                     src="https://images.unsplash.com/photo-1511882150382-421056c89033?auto=format&fit=crop&w=700&q=80"
-                                     alt="Bloodstained">
-                            </a>
-                            <button class="library-more-btn" type="button">
-                                <i class="bi bi-three-dots"></i>
-                            </button>
-                        </div>
-                        <h3><a href="#" class="library-title-link">Bloodstained: Ritual of the Night</a></h3>
-                        <div class="library-meta-row"><span>0/57 Achievements</span></div>
-                        <div class="library-action-row">
-                            <a href="#" class="library-install-link"><i class="bi bi-download"></i> Install</a>
-                        </div>
-                    </article>
+                <div class="details-empty-state" th:if="${libraryGames == null or #lists.isEmpty(libraryGames)}">
+                    <div class="details-empty-card">
+                        <i class="bi bi-collection"></i>
+                        <h2>Your library is empty</h2>
+                        <p>Browse the store and add some amazing games to your collection.</p>
+                        <a th:href="@{/games}" class="details-main-btn white">Browse Games</a>
+                    </div>
                 </div>
 
-                <div class="library-footer-row">
-                    <span>Showing your owned games collection</span>
-                </div>
             </div>
 
-            <!-- FILTERS -->
-            <aside class="library-filters" id="library-filters">
-                <div class="library-filter-box">
-                    <div class="library-filter-search">
-                        <i class="bi bi-search"></i>
-                        <input type="text" placeholder="Title">
+            <aside class="browse-filters" id="library-filters">
+                <div class="browse-filter-box">
+                    <div class="browse-filter-head">
+                        <h3>Library Filters</h3>
+                        <a href="#">Reset</a>
                     </div>
 
-                    <div class="library-filter-group">
-                        <button class="library-filter-toggle" type="button">
-                            <span>Installed</span>
+                    <div class="browse-filter-search">
+                        <i class="bi bi-search"></i>
+                        <input type="text" placeholder="Search library">
+                    </div>
+
+                    <div class="browse-filter-group">
+                        <button class="browse-filter-toggle" type="button">
+                            <span>Platform</span>
                             <i class="bi bi-chevron-down"></i>
                         </button>
                     </div>
 
-                    <div class="library-filter-group">
-                        <button class="library-filter-toggle" type="button">
+                    <div class="browse-filter-group">
+                        <button class="browse-filter-toggle" type="button">
                             <span>Genre</span>
                             <i class="bi bi-chevron-down"></i>
                         </button>
                     </div>
 
-                    <div class="library-filter-group">
-                        <button class="library-filter-toggle" type="button">
-                            <span>Features</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </button>
-                    </div>
-
-                    <div class="library-filter-group">
-                        <button class="library-filter-toggle" type="button">
-                            <span>Types</span>
-                            <i class="bi bi-chevron-down"></i>
-                        </button>
-                    </div>
-
-                    <div class="library-filter-group">
-                        <button class="library-filter-toggle" type="button">
-                            <span>Platform</span>
+                    <div class="browse-filter-group">
+                        <button class="browse-filter-toggle" type="button">
+                            <span>Status</span>
                             <i class="bi bi-chevron-down"></i>
                         </button>
                     </div>
