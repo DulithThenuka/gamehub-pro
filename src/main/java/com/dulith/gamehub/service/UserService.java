@@ -13,8 +13,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -28,15 +27,18 @@ public class UserService {
     }
 
     public User registerUser(String fullName, String email, String rawPassword) {
-        if (emailExists(email)) {
+        String normalizedEmail = email.trim().toLowerCase();
+
+        if (emailExists(normalizedEmail)) {
             throw new IllegalArgumentException("An account with this email already exists.");
         }
 
         User user = new User();
         user.setFullName(fullName.trim());
-        user.setEmail(email.trim().toLowerCase());
+        user.setEmail(normalizedEmail);
         user.setPassword(passwordEncoder.encode(rawPassword));
         user.setRole(Role.USER);
+        user.setBalance(0.0);
 
         return userRepository.save(user);
     }
@@ -44,18 +46,19 @@ public class UserService {
     public User updateProfile(User user) {
         return userRepository.save(user);
     }
+
     public void createAdminIfNotExists() {
-    String adminEmail = "admin@gamehub.com";
+        String adminEmail = "admin@gamehub.com";
 
-    if (userRepository.findByEmail(adminEmail).isEmpty()) {
-        User admin = new User();
-        admin.setFullName("GameHub Admin");
-        admin.setEmail(adminEmail);
-        admin.setPassword(passwordEncoder.encode("admin123"));
-        admin.setRole(Role.ADMIN);
-        admin.setBalance(0.0);
+        if (userRepository.findByEmail(adminEmail).isEmpty()) {
+            User admin = new User();
+            admin.setFullName("GameHub Admin");
+            admin.setEmail(adminEmail);
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRole(Role.ADMIN);
+            admin.setBalance(0.0);
 
-        userRepository.save(admin);
+            userRepository.save(admin);
+        }
     }
-}
 }

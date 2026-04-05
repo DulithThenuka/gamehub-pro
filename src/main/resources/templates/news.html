@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News - GameHub Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="epic-page">
+
+<div class="epic-shell">
+
+    <aside class="epic-sidebar">
+        <div>
+            <div class="epic-logo-wrap">
+                <a th:href="@{/}" class="epic-logo">GH</a>
+            </div>
+
+            <nav class="epic-menu">
+                <a th:href="@{/}">
+                    <i class="bi bi-bag"></i>
+                    <span>Store</span>
+                </a>
+
+                <a th:if="${loggedUser != null}" th:href="@{/library}">
+                    <i class="bi bi-collection"></i>
+                    <span>Library</span>
+                </a>
+
+                <a th:href="@{/games}">
+                    <i class="bi bi-grid"></i>
+                    <span>Browse</span>
+                </a>
+
+                <a th:href="@{/news}" class="active">
+                    <i class="bi bi-newspaper"></i>
+                    <span>News</span>
+                </a>
+
+                <a th:if="${loggedUser != null}" th:href="@{/favorites}">
+                    <i class="bi bi-heart"></i>
+                    <span>Wishlist</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="epic-sidebar-bottom">
+            <a th:if="${loggedUser != null}" th:href="@{/profile}" class="epic-profile-mini">
+                <div class="epic-profile-avatar"
+                     th:text="${loggedUser.fullName != null && !#strings.isEmpty(loggedUser.fullName) ? #strings.substring(loggedUser.fullName,0,1) : 'U'}">
+                    U
+                </div>
+                <span th:text="${loggedUser.fullName}">User</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="epic-main">
+        <header class="epic-topbar">
+            <div class="epic-search-wrap">
+                <i class="bi bi-search"></i>
+                <input type="text" placeholder="Search news, games and updates">
+            </div>
+
+            <nav class="epic-top-links">
+                <a th:href="@{/}">Discover</a>
+                <a th:href="@{/games}">Browse</a>
+                <a th:href="@{/news}" class="active-link">News</a>
+            </nav>
+
+            <div class="epic-top-actions">
+                <a th:if="${loggedUser == null}" th:href="@{/login}" class="epic-auth-link">Login</a>
+                <a th:if="${loggedUser == null}" th:href="@{/register}" class="epic-auth-link highlight">Register</a>
+
+                <div th:if="${loggedUser != null}" class="epic-user-chip">
+                    <span class="epic-user-circle"
+                          th:text="${loggedUser.fullName != null && !#strings.isEmpty(loggedUser.fullName) ? #strings.substring(loggedUser.fullName,0,1) : 'U'}">
+                        U
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <section class="news-hero" th:if="${featuredNews != null}">
+            <div class="news-hero-content">
+                <span class="news-badge" th:text="${featuredNews.category}">Featured</span>
+                <h1 th:text="${featuredNews.title}">Featured title</h1>
+                <p th:text="${featuredNews.summary}">Featured summary</p>
+
+                <div class="news-meta-row">
+                    <span><i class="bi bi-calendar3"></i> <span th:text="${featuredNews.publishedDate}">2026-04-05</span></span>
+                    <span><i class="bi bi-clock"></i> <span th:text="${featuredNews.readTime}">5 min read</span></span>
+                </div>
+
+                <div class="news-hero-actions">
+                    <a th:href="@{'/news/' + ${featuredNews.id}}" class="news-primary-btn">Read Article</a>
+                    <a th:href="@{/games}" class="news-secondary-btn">Browse Games</a>
+                </div>
+            </div>
+
+            <div class="news-hero-visual">
+                <img th:src="${featuredNews.imageUrl}" th:alt="${featuredNews.title}">
+            </div>
+        </section>
+
+        <section class="news-section">
+            <div class="section-head">
+                <h2>Latest News</h2>
+                <a th:href="@{/news}" class="section-link">View all</a>
+            </div>
+
+            <div class="news-grid">
+                <article class="news-card" th:each="item : ${latestNews}">
+                    <a th:href="@{'/news/' + ${item.id}}" class="news-card-image-wrap">
+                        <img th:src="${item.imageUrl}" th:alt="${item.title}">
+                    </a>
+
+                    <div class="news-card-body">
+                        <div class="news-card-top">
+                            <span class="news-card-category" th:text="${item.category}">Update</span>
+                            <span class="news-card-time" th:text="${item.readTime}">5 min read</span>
+                        </div>
+
+                        <h3>
+                            <a th:href="@{'/news/' + ${item.id}}" th:text="${item.title}">News title</a>
+                        </h3>
+
+                        <p th:text="${item.summary}">Summary</p>
+
+                        <div class="news-card-bottom">
+                            <span th:text="${item.publishedDate}">2026-04-05</span>
+                            <a th:href="@{'/news/' + ${item.id}}" class="news-read-link">Read more</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="news-section">
+            <div class="section-head">
+                <h2>Featured Stories</h2>
+            </div>
+
+            <div class="news-feature-row">
+                <article class="news-feature-mini" th:each="item : ${popularNews}">
+                    <img th:src="${item.imageUrl}" th:alt="${item.title}">
+                    <div>
+                        <span class="news-card-category" th:text="${item.category}">Story</span>
+                        <h4 th:text="${item.title}">Title</h4>
+                        <p th:text="${item.summary}">Summary</p>
+                        <a th:href="@{'/news/' + ${item.id}}" class="news-read-link">Read more</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <div th:replace="fragments/footer :: body"></div>
+    </main>
+</div>
+
+</body>
+</html>

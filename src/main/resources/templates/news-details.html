@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${article.title + ' - GameHub Pro'}">News Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="epic-page">
+
+<div class="epic-shell">
+
+    <aside class="epic-sidebar">
+        <div>
+            <div class="epic-logo-wrap">
+                <a th:href="@{/}" class="epic-logo">GH</a>
+            </div>
+
+            <nav class="epic-menu">
+                <a th:href="@{/}"><span>Store</span></a>
+                <a th:href="@{/games}"><span>Browse</span></a>
+                <a th:href="@{/news}" class="active"><span>News</span></a>
+            </nav>
+        </div>
+    </aside>
+
+    <main class="epic-main">
+        <header class="epic-topbar">
+            <nav class="epic-top-links">
+                <a th:href="@{/}">Discover</a>
+                <a th:href="@{/games}">Browse</a>
+                <a th:href="@{/news}" class="active-link">News</a>
+            </nav>
+        </header>
+
+        <article class="news-article-shell">
+            <div class="news-article-banner">
+                <img th:src="${article.imageUrl}" th:alt="${article.title}">
+            </div>
+
+            <div class="news-article-content">
+                <span class="news-badge" th:text="${article.category}">Update</span>
+                <h1 th:text="${article.title}">Title</h1>
+
+                <div class="news-meta-row">
+                    <span th:text="${article.publishedDate}">2026-04-05</span>
+                    <span th:text="${article.readTime}">5 min read</span>
+                </div>
+
+                <p class="news-article-summary" th:text="${article.summary}">Summary</p>
+
+                <div class="news-article-text"
+                     th:text="${article.content != null && !#strings.isEmpty(article.content) ? article.content : article.summary}">
+                    Full content
+                </div>
+
+                <a th:href="@{/news}" class="news-secondary-btn">Back to News</a>
+            </div>
+        </article>
+
+        <section class="news-section">
+            <div class="section-head">
+                <h2>More Stories</h2>
+            </div>
+
+            <div class="news-grid">
+                <article class="news-card" th:each="item : ${latestNews}">
+                    <a th:href="@{'/news/' + ${item.id}}" class="news-card-image-wrap">
+                        <img th:src="${item.imageUrl}" th:alt="${item.title}">
+                    </a>
+
+                    <div class="news-card-body">
+                        <div class="news-card-top">
+                            <span class="news-card-category" th:text="${item.category}">Update</span>
+                            <span class="news-card-time" th:text="${item.readTime}">5 min read</span>
+                        </div>
+
+                        <h3>
+                            <a th:href="@{'/news/' + ${item.id}}" th:text="${item.title}">Title</a>
+                        </h3>
+
+                        <p th:text="${item.summary}">Summary</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <div th:replace="fragments/footer :: body"></div>
+    </main>
+</div>
+
+</body>
+</html>

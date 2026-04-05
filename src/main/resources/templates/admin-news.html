@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin News - GameHub Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="epic-page">
+
+<div class="epic-shell">
+
+    <aside class="epic-sidebar">
+        <div>
+            <div class="epic-logo-wrap">
+                <a th:href="@{/}" class="epic-logo">GH</a>
+            </div>
+
+            <nav class="epic-menu">
+                <a th:href="@{/}">
+                    <i class="bi bi-bag"></i>
+                    <span>Store</span>
+                </a>
+                <a th:href="@{/games}">
+                    <i class="bi bi-grid"></i>
+                    <span>Browse</span>
+                </a>
+                <a th:href="@{/news}">
+                    <i class="bi bi-newspaper"></i>
+                    <span>News</span>
+                </a>
+                <a th:href="@{/admin}" >
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Admin</span>
+                </a>
+                <a th:href="@{/admin/news}" class="active">
+                    <i class="bi bi-megaphone"></i>
+                    <span>Manage News</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="epic-sidebar-bottom">
+            <form th:action="@{/logout}" method="post" style="margin:0;">
+                <button type="submit" class="epic-side-btn logout-btn-reset">Logout</button>
+            </form>
+        </div>
+    </aside>
+
+    <main class="epic-main">
+        <div class="profile-head">
+            <div class="profile-label">ADMIN</div>
+            <h1>News Management</h1>
+            <p>Add, review, and remove GameHub news posts.</p>
+        </div>
+
+        <div class="admin-topbar">
+            <a th:href="@{/admin/news/add}" class="epic-side-btn" style="width:auto;">
+                <i class="bi bi-plus-lg"></i>&nbsp;Add News
+            </a>
+        </div>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Read Time</th>
+                        <th>Featured</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${newsList}">
+                        <td th:text="${item.id}">1</td>
+                        <td>
+                            <img th:src="${item.imageUrl}" th:alt="${item.title}" class="admin-thumb">
+                        </td>
+                        <td th:text="${item.title}">News Title</td>
+                        <td th:text="${item.category}">Update</td>
+                        <td th:text="${item.readTime}">5 min read</td>
+                        <td th:text="${item.featured ? 'Yes' : 'No'}">Yes</td>
+                        <td th:text="${item.publishedDate}">2026-04-05</td>
+                        <td>
+                            <div class="admin-actions">
+                                <form th:action="@{'/admin/news/delete/' + ${item.id}}" method="post">
+                                    <button type="submit" class="browse-card-btn secondary">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

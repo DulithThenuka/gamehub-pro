@@ -27,16 +27,18 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/",
-                    "/games",
-                    "/games/**",
-                    "/register",
-                    "/login",
-                    "/css/**",
-                    "/js/**",
-                    "/images/**",
-                    "/uploads/**"
-                ).permitAll()
+                "/",
+    "/games",
+    "/games/**",
+    "/news",
+    "/news/**",
+    "/register",
+    "/login",
+    "/css/**",
+    "/js/**",
+    "/images/**",
+    "/uploads/**"
+).permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .requestMatchers(
                     "/profile/**",

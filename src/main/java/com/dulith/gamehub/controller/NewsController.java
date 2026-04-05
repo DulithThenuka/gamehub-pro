@@ -6,49 +6,54 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import com.dulith.gamehub.entity.Game;
 import com.dulith.gamehub.entity.News;
 import com.dulith.gamehub.entity.User;
-import com.dulith.gamehub.service.GameService;
 import com.dulith.gamehub.service.NewsService;
 import com.dulith.gamehub.service.UserService;
 
 @Controller
-public class HomeController {
+public class NewsController {
 
-    private final GameService gameService;
     private final NewsService newsService;
     private final UserService userService;
 
-    public HomeController(GameService gameService, NewsService newsService, UserService userService) {
-        this.gameService = gameService;
+    public NewsController(NewsService newsService, UserService userService) {
         this.newsService = newsService;
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public String home(Authentication authentication, Model model) {
+    @GetMapping("/news")
+    public String news(Model model, Authentication authentication) {
         User loggedUser = getLoggedUser(authentication);
 
-        List<Game> allGames = gameService.getAllGames();
-        List<Game> featuredGames = allGames.stream().limit(5).toList();
-        List<Game> newReleases = allGames.stream().skip(1).limit(5).toList();
-        List<Game> topSellers = allGames.stream().skip(2).limit(5).toList();
-        List<Game> freeToPlay = allGames.stream().filter(game -> game.getPrice() != null && game.getPrice() == 0).limit(5).toList();
-
-        List<News> latestNews = newsService.getLatestNews();
         News featuredNews = newsService.getFeaturedNews();
+        List<News> latestNews = newsService.getLatestNews();
+        List<News> popularNews = newsService.getPopularNews();
 
         model.addAttribute("loggedUser", loggedUser);
-        model.addAttribute("featuredGames", featuredGames);
-        model.addAttribute("newReleases", newReleases);
-        model.addAttribute("topSellers", topSellers);
-        model.addAttribute("freeToPlay", freeToPlay);
-        model.addAttribute("latestNews", latestNews);
         model.addAttribute("featuredNews", featuredNews);
+        model.addAttribute("latestNews", latestNews);
+        model.addAttribute("popularNews", popularNews);
 
-        return "home";
+        return "news";
+    }
+
+    @GetMapping("/news/{id}")
+    public String newsDetails(@PathVariable Long id, Model model, Authentication authentication) {
+        User loggedUser = getLoggedUser(authentication);
+        News article = newsService.getNewsById(id);
+
+        if (article == null) {
+            return "redirect:/news";
+        }
+
+        model.addAttribute("loggedUser", loggedUser);
+        model.addAttribute("article", article);
+        model.addAttribute("latestNews", newsService.getLatestNews());
+
+        return "news-details";
     }
 
     private User getLoggedUser(Authentication authentication) {
